@@ -4,10 +4,7 @@ import "./lib/configs/db.js";
 const app = express();
 
 app.get("/",
-    (
-        _req,
-        res
-    ) => {
+    (_req, res) => {
         return res
             .status(200)
             .json({
