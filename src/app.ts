@@ -3,7 +3,7 @@ import "./lib/configs/db.js";
 
 const app = express();
 
-app.get("/",
+app.get("/api",
     (_req, res) => {
         return res
             .status(200)
