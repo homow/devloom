@@ -42,7 +42,6 @@ Desktop.ini
 $RECYCLE.BIN/
 
 # npm
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
