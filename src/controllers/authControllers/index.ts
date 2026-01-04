@@ -1,1 +1,1 @@
-export * from "./signUpContorller.js";
+export * from "./signUpController.js";
