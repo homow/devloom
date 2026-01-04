@@ -13,3 +13,5 @@ authRouter
 authRouter
     .route("/login")
     .post();
+
+export default authRouter;

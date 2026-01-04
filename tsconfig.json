@@ -54,6 +54,12 @@
       ],
       "@utils/*": [
         "src/lib/utils/*"
+      ],
+      "@validators/*": [
+        "src/validators/*"
+      ],
+      "@models/*": [
+        "src/models/*"
       ]
     }
   },
