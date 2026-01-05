@@ -7,6 +7,8 @@ export async function signupService(
     body: InputUser
 ): Promise<ServiceResponse> {
     const {email, password, name} = body;
+
+    // check if user exist
     const userExist = await checkUserDB(
         {email}
     );
@@ -21,8 +23,10 @@ export async function signupService(
         };
     }
 
+    // hashed password
     const hashedPassword: string = await hashSecret(password);
 
+    // check user count for create admin
     const countUser: number = await UserModel.countDocuments();
 
     const newUser = await UserModel
