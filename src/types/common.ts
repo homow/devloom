@@ -5,6 +5,7 @@ interface ServiceResponseData {
 }
 
 export interface ServiceResponse {
+    [key: string]: unknown;
     status: number;
     data: ServiceResponseData;
 }

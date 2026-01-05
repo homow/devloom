@@ -3,7 +3,7 @@ import {
     signUpController
 } from "@controllers/v1/index.js";
 import express from 'express';
-import {UserSchema} from "@validators/user.js";
+import {LoginSchema, UserSchema} from "@validators/user.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
 
 const authRouter = express.Router();
@@ -22,7 +22,7 @@ authRouter
 authRouter
     .route("/login")
     .post(
-        validateRequestBody(UserSchema.omit({name: true})),
+        validateRequestBody(LoginSchema),
         loginController
     );
 

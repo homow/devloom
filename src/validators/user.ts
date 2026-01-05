@@ -17,3 +17,12 @@ export const UserSchema = z.object({
 });
 
 export type InputUser = z.infer<typeof UserSchema>;
+
+export const LoginSchema = UserSchema.pick({
+    email: true,
+    password: true,
+}).extend({
+    remember: z.boolean().optional().default(false),
+});
+
+export type InputLogin = z.infer<typeof LoginSchema>;

@@ -7,7 +7,7 @@ interface BaseParms {
 
 interface TokenParamsRefresh extends BaseParms {
     tokenType: "refresh";
-    remember: boolean;
+    remember?: boolean;
 }
 
 interface TokenParamsAccess extends BaseParms {
@@ -47,9 +47,6 @@ export function createToken(params: TokenParams) {
         sameSite: "lax",
         signed: isRefresh,
         maxAge,
-        expires: remember
-            ? new Date(Date.now() + 1000 * 60 * 60 * 24 * 7)
-            : new Date(Date.now() + 1000 * 60 * 60 * 24),
     };
 
     return {token, options};

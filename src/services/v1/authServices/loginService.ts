@@ -1,7 +1,11 @@
+import {
+    checkBannedUser,
+    compareSecret,
+    getSafeUser
+} from "@src/lib/index.js";
 import {UserModel} from "@models/User.model.js";
+import type {InputLogin} from "@validators/user.js";
 import type {ServiceResponse} from "@src/types/index.js";
-import type {InputUserLogin} from "@controllers/v1/index.js";
-import {checkBannedUser, compareSecret} from "@src/lib/index.js";
 
 // Chek
 
@@ -14,7 +18,7 @@ import {checkBannedUser, compareSecret} from "@src/lib/index.js";
 // 7. return response
 
 export async function loginService(
-    data: InputUserLogin
+    data: InputLogin
 ): Promise<ServiceResponse> {
     const {email, password} = data;
     const bannedUser = await checkBannedUser(
@@ -46,7 +50,8 @@ export async function loginService(
         data: {
             ok: true,
             message: "login successfully",
-            data
-        }
+            user: getSafeUser(userExist),
+        },
+        userDB: userExist
     };
 }
