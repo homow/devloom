@@ -1,0 +1,13 @@
+import type {BaseDB} from "./common.js";
+
+export enum UserRole {
+    ADMIN = "ADMIN",
+    USER = "USER",
+}
+
+export interface UserDB extends BaseDB {
+    name?: string;
+    email: string;
+    role: UserRole;
+    password: string;
+}
