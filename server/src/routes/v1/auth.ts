@@ -26,4 +26,4 @@ authRouter
         loginController
     );
 
-export default authRouter;
+export {authRouter};

@@ -3,7 +3,7 @@ import "./lib/configs/db.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import {createPath} from "@lib/index.js";
-import authRouter from "@routes/v1/auth.js";
+import {authRouter} from "@routes/v1/auth.js";
 import notFoundHandler from "@middleware/notFoundHandler.js";
 import internalServerError from "@middleware/internalServerError.js";
 import {validateGlobalBody} from "@middleware/validateGlobalBody.js";
