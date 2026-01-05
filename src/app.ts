@@ -1,18 +1,25 @@
-import "./lib/configs/db.js";
 import cors from "cors";
+import "./lib/configs/db.js";
+import express from "express";
 import {createPath} from "@lib/index.js";
-import authRouter from "./routes/auth.js";
-import express, {type Request, type Response} from "express";
+import authRouter from "@routes/v1/auth.js";
+import notFoundHandler from "@middleware/notFoundHandler.js";
+import internalServerError from "@middleware/internalServerError.js";
 import {validateGlobalBody} from "@middleware/validateGlobalBody.js";
 
+const BASE_URL: string = process.env.BASE_URL || "/api/v1";
 const app = express();
+
+const allowedOrigins: string[] = [
+    `http://localhost:${process.env.PORT}`,
+    "http://localhost:4173",
+    "http://127.0.0.1:5173",
+];
 
 // --- Global-cors security ---
 app.use(cors({
-    origin: process.env.NODE_ENV === "production"
-        ? "example.com" :
-        `http://localhost:${process.env.PORT}`,
-    credentials: true
+    origin: allowedOrigins,
+    credentials: true,
 }));
 
 // --- Global parsers ---
@@ -23,23 +30,19 @@ app.use(express.urlencoded({
     extended: true
 }));
 
+// --- Global error handler (JSON Syntax) ---
+app.use(validateGlobalBody);
+
 // Static files (CSS, images, JS)
 app.use(express.static(createPath("public")));
 
-app.use("/api/auth", authRouter);
+// --- Routes ---
+app.use(BASE_URL, authRouter);
 
 // --- 404 handler ---
-app.use((_req: Request, res: Response) => {
-    return res.status(404).json({
-        ok: false,
-        message: "Not Found",
-    });
-});
+app.use(notFoundHandler);
 
 // internal server error handler
 app.use(internalServerError);
-
-// --- Global error handler (JSON Syntax) ---
-app.use(validateGlobalBody);
 
 export default app;
