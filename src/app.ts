@@ -1,6 +1,7 @@
 import cors from "cors";
 import "./lib/configs/db.js";
 import express from "express";
+import cookieParser from "cookie-parser";
 import {createPath} from "@lib/index.js";
 import authRouter from "@routes/v1/auth.js";
 import notFoundHandler from "@middleware/notFoundHandler.js";
@@ -29,6 +30,7 @@ app.use(express.json({
 app.use(express.urlencoded({
     extended: true
 }));
+app.use(cookieParser(process.env.JWT_SECRET));
 
 // Static files (CSS, images, JS)
 app.use(express.static(createPath("public")));
