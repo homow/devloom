@@ -1,14 +1,8 @@
 import z from "zod";
+import {formatZodError} from "@src/lib/index.js";
 import type {Request, Response, NextFunction} from "express";
 
-export function formatZodError(error: z.ZodError) {
-    return error?.issues?.map(i => ({
-        fields: i.path.join(", "),
-        message: i.message,
-    }));
-}
-
-export function validateBody<T extends z.ZodTypeAny>(schema: T) {
+export function validateRequestBody<T extends z.ZodTypeAny>(schema: T) {
     return (req: Request, res: Response, next: NextFunction) => {
         const result = schema.safeParse(req.body);
 
