@@ -13,7 +13,7 @@ async function compareSecret(
     value: string,
     hashed: string
 ): Promise<boolean> {
-    return compare(value, hashed);
+    return await compare(value, hashed);
 }
 
 function generateToken(
