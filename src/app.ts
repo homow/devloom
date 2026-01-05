@@ -30,17 +30,17 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-// --- Global error handler (JSON Syntax) ---
-app.use(validateGlobalBody);
-
 // Static files (CSS, images, JS)
 app.use(express.static(createPath("public")));
 
 // --- Routes ---
-app.use(BASE_URL, authRouter);
+app.use(`${BASE_URL}/auth`, authRouter);
 
 // --- 404 handler ---
 app.use(notFoundHandler);
+
+// --- Global error handler (JSON Syntax) ---
+app.use(validateGlobalBody);
 
 // internal server error handler
 app.use(internalServerError);

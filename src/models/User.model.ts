@@ -6,11 +6,6 @@ const UserModelShema: Schema<UserDB> = new mongoose.Schema({
         type: String,
         trim: true,
     },
-    username: {
-        type: String,
-        trim: true,
-        required: true,
-    },
     email: {
         type: String,
         required: true,

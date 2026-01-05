@@ -1,11 +1,11 @@
 import type {Request, Response} from "express";
+import type {InputUser} from "@validators/user.js";
+import {signupService} from "@services/v1/index.js";
 
 export async function signUpController(
-    _req: Request,
+    req: Request<{}, {}, InputUser>,
     res: Response
 ) {
-    return res.status(200).json({
-        ok: true,
-        message: "Sign Up successfully"
-    });
+    const result = await signupService(req.body);
+    return res.status(result.status).json(result.data);
 }

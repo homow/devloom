@@ -5,7 +5,6 @@ import type {Request, Response, NextFunction} from "express";
 export function validateRequestBody<T extends z.ZodTypeAny>(schema: T) {
     return (req: Request, res: Response, next: NextFunction) => {
         const result = schema.safeParse(req.body);
-
         if (!result.success) {
             return res.status(422).json({
                 ok: false,

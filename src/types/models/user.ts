@@ -10,6 +10,5 @@ export interface UserDB extends BaseDB {
     name?: string;
     email: string;
     role: UserRole;
-    username: string;
     password: string;
 }

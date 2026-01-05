@@ -6,12 +6,13 @@ export const UserSchema = z.object({
         .min(3, {message: "name must be at least 3 characters"})
         .max(10, {message: "name must be less than 10 characters"})
         .optional(),
-    username: z
-        .string()
-        .min(3, {message: ""}),
     password: z
         .string()
-        .min(6),
+        .min(6, {message: "password must be at least 6 characters"})
+        .regex(
+            /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
+            {message: "password must contain at least one letter and one number"}
+        ),
     email: z.email(),
 });
 
