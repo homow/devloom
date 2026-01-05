@@ -1,16 +1,44 @@
+import {UserModel} from "@models/User.model.js";
 import type {InputUser} from "@validators/user.js";
-import type {ServiceResponse} from "@src/types/index.js";
+import {type ServiceResponse, UserRole} from "@src/types/index.js";
+import {checkUserDB, getSafeUser, hashSecret} from "@src/lib/index.js";
 
 export async function signupService(
     body: InputUser
 ): Promise<ServiceResponse> {
-    void body;
+    const {email, password, name} = body;
+    const userExist = await checkUserDB(
+        {email}
+    );
+
+    if (userExist) {
+        return {
+            status: 409,
+            data: {
+                ok: false,
+                message: "email already exist",
+            }
+        };
+    }
+
+    const hashedPassword: string = await hashSecret(password);
+
+    const countUser: number = await UserModel.countDocuments();
+
+    const newUser = await UserModel
+        .create({
+            name,
+            email,
+            password: hashedPassword,
+            role: countUser === 0 ? UserRole.ADMIN : UserRole.USER,
+        });
+
     return {
-        status: 200,
+        status: 201,
         data: {
             ok: true,
             message: "Sign up successfully",
-            body
+            user: getSafeUser(newUser),
         }
     };
 }

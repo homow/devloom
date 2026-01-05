@@ -27,7 +27,6 @@ const UserModelShema: Schema<UserDB> = new mongoose.Schema({
 });
 
 UserModelShema.index({email: 1}, {unique: true});
-UserModelShema.index({username: 1}, {unique: true});
 
 const UserModel: Model<UserDB> =
     mongoose.models.User
