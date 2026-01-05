@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 # Logs
+=======
+# =========================
+# Logs (client + server)
+# =========================
+>>>>>>> 28b86ca34368be9dd3f6388142152162fee4e94a
 logs
 *.log
 npm-debug.log*
@@ -7,6 +13,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+<<<<<<< HEAD
 node_modules
 dist
 dist-ssr
@@ -22,3 +29,92 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+=======
+# =========================
+# Node Modules
+# =========================
+client/node_modules/
+server/node_modules/
+node_modules/
+
+# =========================
+# Build Outputs
+# =========================
+client/dist/
+client/dist-ssr/
+client/build/
+server/dist/
+server/build/
+dist/
+dist-ssr/
+build/
+
+# =========================
+# Local Files
+# =========================
+*.local
+
+# =========================
+# TypeScript
+# =========================
+*.tsbuildinfo
+
+# =========================
+# Environment Files
+# =========================
+.env
+.env.local
+.env.*.local
+
+# =========================
+# Process / PID
+# =========================
+pids
+*.pid
+*.seed
+
+# =========================
+# Editor / IDE
+# =========================
+.vscode/
+!.vscode/extensions.json
+.idea/
+.history/
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# =========================
+# Mac
+# =========================
+.AppleDouble
+.LSOverride
+
+# =========================
+# Linux
+# =========================
+*~
+
+# =========================
+# npm / yarn / pnpm locks
+# =========================
+yarn.lock
+pnpm-lock.yaml
+
+# =========================
+# Misc
+# =========================
+*.tgz
+*.gz
+*.zip
+*.tar
+*.rar
+*.bak
+*.sw?
+*.swp
+>>>>>>> 28b86ca34368be9dd3f6388142152162fee4e94a

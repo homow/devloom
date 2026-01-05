@@ -1,7 +1,11 @@
-/**import { useState } from 'react'
+/**import React from 'react'
+import Navbar from './components/Navbar'
+import Home from './pages/Home'
+import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -22,7 +26,7 @@ function App() {
           count is {count}
         </button>
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          Edit <code>src/App.jsx</code> and save to test HMR
         </p>
       </div>
       <p className="read-the-docs">
@@ -34,16 +38,17 @@ function App() {
 
 export default App
  */
+
 import React from "react";
-import Hello from "./components/Navbar";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <div>
-      <Hello name="World" />
-      <Hello name="universe" />
+      <Navbar />
+      <Home />
     </div>
-
   );
 }
 
