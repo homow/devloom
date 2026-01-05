@@ -1,12 +1,22 @@
+import {
+    checkBannedUser,
+    checkUserDB,
+    getSafeUser,
+    hashSecret
+} from "@src/lib/index.js";
 import {UserModel} from "@models/User.model.js";
 import type {InputUser} from "@validators/user.js";
 import {type ServiceResponse, UserRole} from "@src/types/index.js";
-import {checkUserDB, getSafeUser, hashSecret} from "@src/lib/index.js";
 
 export async function signupService(
     body: InputUser
 ): Promise<ServiceResponse> {
     const {email, password, name} = body;
+
+    const userBanned = await checkBannedUser(
+        email
+    );
+    if (userBanned) return userBanned;
 
     // check if user exist
     const userExist = await checkUserDB(

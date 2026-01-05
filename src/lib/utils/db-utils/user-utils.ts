@@ -21,3 +21,22 @@ export async function checkUserDB(
 
     return user[0] || null;
 }
+
+import {BanUserModel} from "@models/BanUser.model.js";
+
+export async function checkBannedUser(email: string) {
+    const userBanned = await BanUserModel
+        .findOne({email})
+        .lean();
+
+    if (!userBanned) return null;
+
+    return {
+        status: 401,
+        data: {
+            ok: false,
+            message: "This user is banned. Please contact support if you think this is a mistake.",
+            email
+        },
+    };
+}
