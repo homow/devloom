@@ -1,7 +1,7 @@
 import {
+    UserRole,
     RolePriority,
     type ServiceResponse,
-    UserRole
 } from "@src/types/index.js";
 import {UserModel} from "@models/User.model.js";
 import {createQueryPattern, getSafeUser} from "@src/lib/index.js";
@@ -54,8 +54,6 @@ export async function deleteUserService(
             }
         };
     } else {
-        console.log(userExist);
-        console.log(role);
         return {
             status: 403,
             data: {
