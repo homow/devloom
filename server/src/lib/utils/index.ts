@@ -1,4 +1,4 @@
-export * from "./auth.js";
+export * from "./crypto.js";
 export * from "./tokens.js";
 export * from "./validate.js";
 export * from "./db-utils/index.js";

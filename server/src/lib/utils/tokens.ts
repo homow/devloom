@@ -1,5 +1,5 @@
 import type {CookieOptions} from "express";
-import {generateToken} from "@utils/auth.js";
+import {generateToken} from "@utils/crypto.js";
 
 interface BaseParms {
     payload: Record<string, unknown>;

@@ -2,7 +2,7 @@ import {
     createRefreshTokenService,
     loginService
 } from "@services/v1/index.js";
-import {hashSecret} from "@utils/auth.js";
+import {hashSecret} from "@utils/crypto.js";
 import type {Request, Response} from "express";
 import type {UserDB} from "@src/types/index.js";
 import type {InputLogin} from "@validators/user.js";

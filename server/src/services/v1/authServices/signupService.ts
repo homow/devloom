@@ -38,7 +38,7 @@ export async function signupService(
             name,
             email,
             password: hashedPassword,
-            role: countUser === 0 ? UserRole.ADMIN : UserRole.USER,
+            role: countUser === 0 ? UserRole.SUPER_ADMIN : UserRole.USER,
         });
 
     return {

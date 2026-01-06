@@ -1,4 +1,4 @@
-import {verifyToken} from "@utils/auth.js";
+import {verifyToken} from "@utils/crypto.js";
 import type {AuthRequest} from "@src/types/index.js";
 import type {NextFunction, Response} from "express";
 
