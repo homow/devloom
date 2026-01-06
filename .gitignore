@@ -1,6 +1,10 @@
+<<<<<<< HEAD
+# Logs
+=======
 # =========================
 # Logs (client + server)
 # =========================
+>>>>>>> 28b86ca34368be9dd3f6388142152162fee4e94a
 logs
 *.log
 npm-debug.log*
@@ -9,6 +13,23 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+<<<<<<< HEAD
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+=======
 # =========================
 # Node Modules
 # =========================
@@ -96,3 +117,4 @@ pnpm-lock.yaml
 *.bak
 *.sw?
 *.swp
+>>>>>>> 28b86ca34368be9dd3f6388142152162fee4e94a
