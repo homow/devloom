@@ -23,24 +23,20 @@ export function userAggregate(
 ) {
     const stages: PipelineStage[] = [userProjectStage];
 
-    if (!filter) return stages;
+    if (filter) {
+        const conditions: Record<string, unknown>[] = [];
 
-    const conditions: Record<string, unknown>[] = [];
+        if (filter.id) conditions.push({_id: new mongoose.Types.ObjectId(filter.id)});
+        if (filter.email) conditions.push({email: filter.email});
 
-    if (filter.id) conditions.push({_id: new mongoose.Types.ObjectId(filter.id)});
-    if (filter.email) conditions.push({email: filter.email});
+        if (conditions.length > 0) {
+            const matchStage = useAnd
+                ? {$and: conditions}
+                : {$or: conditions};
 
-    if (conditions.length === 0) return stages;
-
-    let matchStage: Record<string, unknown>;
-
-    if (useAnd) {
-        matchStage = Object.assign({}, ...conditions);
-    } else {
-        matchStage = {$or: conditions};
+            stages.unshift({$match: matchStage} as PipelineStage);
+        }
     }
-
-    stages.unshift({$match: matchStage} as PipelineStage);
 
     return stages;
 }
