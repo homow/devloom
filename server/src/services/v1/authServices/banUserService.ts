@@ -6,7 +6,7 @@ import {revokeAllUserTokens} from "@services/v1/index.js";
 export async function banUserService(
     email: string
 ): Promise<ServiceResponse> {
-    const banUser = await BanUserModel
+    await BanUserModel
         .create({email});
 
     const userExist = await checkUserDB({
@@ -20,7 +20,7 @@ export async function banUserService(
         data: {
             ok: true,
             message: "user banned successfully",
-            email: banUser.email
+            user: userExist ?? "user not exist in database",
         }
     };
 }

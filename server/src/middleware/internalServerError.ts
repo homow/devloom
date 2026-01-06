@@ -10,6 +10,7 @@ export default function internalServerError(
     res: Response,
     _next: NextFunction
 ) {
+    console.log(err);
     return res.status(err.status || 500).json({
         ok: false,
         message: err.message || "Internal Server Error",
