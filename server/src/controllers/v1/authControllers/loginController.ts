@@ -42,17 +42,15 @@ export async function loginController(
         );
 
         const hashedToken: string = await hashSecret(refreshToken.token);
-        const expiresAt = remember
+        const expiresAt: Date = remember
             ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7d
             : new Date(Date.now() + 24 * 60 * 60 * 1000);    // 1d
 
-        const newRefreshModel = await createRefreshTokenService(
+        await createRefreshTokenService(
             (result.userDB as UserDB)._id,
             hashedToken,
             expiresAt
         );
-
-        console.log(newRefreshModel);
     }
 
     return res.status(result.status).send(result.data);

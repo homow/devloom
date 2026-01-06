@@ -17,7 +17,7 @@ export async function createRefreshTokenService(
         }
     };
 
-    const newRefreshTokenModel = RefreshTokenModel.create({
+    const newRefreshTokenModel = await RefreshTokenModel.create({
         user: userId,
         token,
         expiresAt,
