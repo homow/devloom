@@ -1,6 +1,6 @@
 import {verifyToken} from "@utils/crypto.js";
-import type {AuthRequest} from "@src/types/index.js";
 import type {NextFunction, Response} from "express";
+import type {AuthPayload, AuthRequest} from "@src/types/index.js";
 
 export default function checkAccessToken(
     req: AuthRequest,
@@ -17,7 +17,7 @@ export default function checkAccessToken(
     });
 
     try {
-        req.userPayload = verifyToken(token);
+        req.userPayload = verifyToken(token) as AuthPayload;
         return next();
     } catch (e) {
         return res.status(401).json({

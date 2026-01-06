@@ -6,7 +6,8 @@ export async function getUsersController(
     req: Request<{}, {}, BaseUserInput>,
     res: Response
 ) {
-    const {id, email} = req.body;
+    const id = req?.body?.id;
+    const email = req?.body?.email;
     const result = await getUsersService(id, email);
     return res.status(result.status).json(result.data);
 }

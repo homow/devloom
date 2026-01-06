@@ -2,11 +2,11 @@ import {banUserController, deleteUserController, getUsersController, loginContro
 
 import {BanUserSchema, BaseUserSchema, LoginSchema, UserSchema} from "@validators/user.js";
 import express from 'express';
+import {UserRole} from "@src/types/index.js";
 import checkRole from "@middleware/checkRole.js";
 import checkBanned from "@middleware/checkBanned.js";
 import checkAccessToken from "@middleware/checkAccessToken.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
-import {UserRole} from "@src/types/index.js";
 
 const authRouter = express.Router();
 
