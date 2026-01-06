@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import type {NextFunction, Request, Response} from "express";
 
-export default function isValidId() {
+export default function isValidId(objId?: string) {
     return (
         req: Request<{
             id?: string;
@@ -9,7 +9,7 @@ export default function isValidId() {
         res: Response,
         next: NextFunction
     ) => {
-        const {id} = req.params;
+        const id: string | undefined = req.params.id || objId;
 
         if (id) {
             const isValidId: boolean = mongoose
