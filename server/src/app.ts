@@ -30,6 +30,11 @@ app.use(express.json({
 app.use(express.urlencoded({
     extended: true
 }));
+
+if (!process.env.JWT_SECRET) {
+    throw new Error("Missing JWT_SECRET");
+}
+
 app.use(cookieParser(process.env.JWT_SECRET));
 
 // Static files (CSS, images, JS)

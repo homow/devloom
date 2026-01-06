@@ -12,14 +12,14 @@ export async function loginController(
 
     if (result.data.ok) {
         const {remember} = req.body;
-
+        console.log(remember);
         const refreshToken = createToken({
             payload: {
                 id: (result.userDB as UserDB)._id,
-                remember
+                remember: remember ?? false
             },
             tokenType: "refresh",
-            remember
+            remember: remember ?? false,
         });
         const accessToken = createToken({
             payload: {
