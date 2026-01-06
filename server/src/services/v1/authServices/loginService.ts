@@ -7,16 +7,6 @@ import {UserModel} from "@models/User.model.js";
 import type {InputLogin} from "@validators/user.js";
 import type {ServiceResponse} from "@src/types/index.js";
 
-// Chek
-
-// 1. ban ✅
-// 2. find user ✅
-// 3. password ✅
-// 4. refreshToken
-// 5. accessToken
-// 6. set Tokens
-// 7. return response
-
 export async function loginService(
     data: InputLogin
 ): Promise<ServiceResponse> {

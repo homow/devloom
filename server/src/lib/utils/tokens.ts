@@ -17,7 +17,7 @@ interface TokenParamsAccess extends BaseParms {
 
 type TokenParams = TokenParamsRefresh | TokenParamsAccess;
 
-export function createToken(params: TokenParams) {
+export function createTokenAndOptions(params: TokenParams) {
     const {tokenType, payload} = params;
 
     const isRefresh: boolean = tokenType === "refresh";
@@ -46,6 +46,7 @@ export function createToken(params: TokenParams) {
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
         signed: isRefresh,
+        path: "/",
         maxAge,
     };
 

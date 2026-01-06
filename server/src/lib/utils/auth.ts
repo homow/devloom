@@ -35,7 +35,7 @@ function generateToken(
 
 function verifyToken(
     token: string
-): string | JwtPayload {
+): JwtPayload {
     const secret: string | undefined = process.env.JWT_SECRET;
 
     if (!secret) {
@@ -44,7 +44,7 @@ function verifyToken(
         );
     } else {
         try {
-            return jwt.verify(token, secret);
+            return jwt.verify(token, secret) as JwtPayload;
         } catch (_) {
             throw new Error("Invalid or expired token");
         }

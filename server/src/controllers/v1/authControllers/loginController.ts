@@ -1,8 +1,8 @@
-import {createToken} from "@utils/tokens.js";
 import type {Request, Response} from "express";
 import type {UserDB} from "@src/types/index.js";
 import {loginService} from "@services/v1/index.js";
 import type {InputLogin} from "@validators/user.js";
+import {createTokenAndOptions} from "@utils/tokens.js";
 
 export async function loginController(
     req: Request<{}, {}, InputLogin>,
@@ -13,7 +13,7 @@ export async function loginController(
     if (result.data.ok) {
         const {remember} = req.body;
 
-        const refreshToken = createToken({
+        const refreshToken = createTokenAndOptions({
             payload: {
                 id: (result.userDB as UserDB)._id,
                 remember
@@ -21,7 +21,7 @@ export async function loginController(
             tokenType: "refresh",
             remember,
         });
-        const accessToken = createToken({
+        const accessToken = createTokenAndOptions({
             payload: {
                 id: (result.userDB as UserDB)._id
             },
