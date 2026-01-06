@@ -1,7 +1,7 @@
 import type {RefreshToken} from "@src/types/index.js";
-import {type Model, model, models, Schema, Types} from "mongoose";
+import mongoose, {type Model, type Schema, Types} from "mongoose";
 
-const RefreshTokenModelSchema: Schema = new Schema({
+const RefreshTokenModelSchema: Schema = new mongoose.Schema({
     token: {
         type: String,
         required: true,
@@ -20,6 +20,7 @@ const RefreshTokenModelSchema: Schema = new Schema({
     expiresAt: {
         type: Date,
         required: true,
+        default: false,
     }
 }, {timestamps: true});
 
@@ -27,7 +28,7 @@ RefreshTokenModelSchema.index({userId: 1});
 RefreshTokenModelSchema.index({expiresAt: 1}, {expireAfterSeconds: 0});
 
 const RefreshTokenModel: Model<RefreshToken> =
-    models.RefreshToken
-    || model("RefreshToken", RefreshTokenModelSchema, "refresh-tokens");
+    mongoose.models.RefreshToken
+    || mongoose.model("RefreshToken", RefreshTokenModelSchema, "refresh-tokens");
 
 export default RefreshTokenModel;
