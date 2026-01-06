@@ -4,6 +4,8 @@ import RefreshTokenModel from "@models/RefreshToken.model.js";
 
 export async function createRefreshTokenService(
     userId: Types.ObjectId | string,
+    token: string,
+    expiresAt: Date,
 ): Promise<ServiceResponse> {
     const isValidId: boolean = mongoose.isValidObjectId(userId);
 
@@ -12,6 +14,21 @@ export async function createRefreshTokenService(
         data: {
             ok: false,
             message: "Invalid id"
+        }
+    };
+
+    const newRefreshTokenModel = RefreshTokenModel.create({
+        user: userId,
+        token,
+        expiresAt,
+    });
+
+    return {
+        status: 201,
+        data: {
+            ok: true,
+            message: "Successfully created refresh token model",
+            refreshTokenModel: newRefreshTokenModel
         }
     };
 }
