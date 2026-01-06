@@ -20,6 +20,7 @@ export async function loginController(
         const refreshToken = createTokenAndOptions({
             payload: {
                 id: (result.userDB as UserDB)._id,
+                role: (result.userDB as UserDB).role,
                 remember
             },
             tokenType: "refresh",
@@ -27,7 +28,8 @@ export async function loginController(
         });
         const accessToken = createTokenAndOptions({
             payload: {
-                id: (result.userDB as UserDB)._id
+                id: (result.userDB as UserDB)._id,
+                role: (result.userDB as UserDB).role,
             },
             tokenType: "access"
         });

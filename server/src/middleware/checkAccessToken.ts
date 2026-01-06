@@ -12,7 +12,8 @@ export default function checkAccessToken(
 
     if (!token) return res.status(401).json({
         ok: false,
-        message: 'accessToken missing',
+        message: 'Access token is required',
+        code: "ACCESS_TOKEN_MISSING",
     });
 
     try {
@@ -21,7 +22,9 @@ export default function checkAccessToken(
     } catch (e) {
         return res.status(401).json({
             ok: false,
-            message: (e as Error).message || "Invalid token",
+            message: (e as Error).message
+                || "Access token is invalid or expired",
+            code: "INVALID_ACCESS_TOKEN",
         });
     }
 };

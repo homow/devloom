@@ -1,5 +1,6 @@
 import type {Request} from "express";
 import type {JwtPayload} from "jsonwebtoken";
+import {UserRole} from "@src/types/models/index.js";
 
 interface ServiceResponseData {
     [key: string]: unknown;
@@ -16,5 +17,8 @@ export interface ServiceResponse {
 }
 
 export interface AuthRequest extends Request {
-    userPayload?: JwtPayload;
+    userPayload?: JwtPayload & {
+        id: string;
+        role: UserRole;
+    };
 }
