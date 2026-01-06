@@ -32,7 +32,7 @@ export async function checkBannedUser(email: string) {
     if (!userBanned) return null;
 
     return {
-        status: 401,
+        status: 403,
         data: {
             ok: false,
             message: "This user is banned. Please contact support if you think this is a mistake.",

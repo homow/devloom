@@ -1,5 +1,4 @@
 import {
-    checkBannedUser,
     compareSecret,
     getSafeUser
 } from "@src/lib/index.js";
@@ -11,10 +10,6 @@ export async function loginService(
     data: InputLogin
 ): Promise<ServiceResponse> {
     const {email, password} = data;
-    const bannedUser = await checkBannedUser(
-        email,
-    );
-    if (bannedUser) return bannedUser;
 
     const userExist = await UserModel.findOne({
         email

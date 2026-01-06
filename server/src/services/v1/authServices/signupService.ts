@@ -1,5 +1,4 @@
 import {
-    checkBannedUser,
     checkUserDB,
     getSafeUser,
     hashSecret
@@ -12,11 +11,6 @@ export async function signupService(
     body: InputUser
 ): Promise<ServiceResponse> {
     const {email, password, name} = body;
-
-    const userBanned = await checkBannedUser(
-        email
-    );
-    if (userBanned) return userBanned;
 
     // check if user exist
     const userExist = await checkUserDB(
