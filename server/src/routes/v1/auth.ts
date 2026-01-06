@@ -1,10 +1,11 @@
 import {
-    banUserController,
+    banUserController, getUsersController,
     loginController,
     signUpController
 } from "@controllers/v1/index.js";
 import express from 'express';
 import isAdmin from "@middleware/isAdmin.js";
+import isValidId from "@middleware/isValidId.js";
 import checkBanned from "@middleware/checkBanned.js";
 import checkAccessToken from "@middleware/checkAccessToken.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
@@ -36,6 +37,23 @@ authRouter
         validateRequestBody(BanUserSchema),
         checkBanned("The user is currently banned."),
         banUserController
+    );
+
+authRouter
+    .route("/getUsers")
+    .get(
+        checkAccessToken,
+        isAdmin,
+        getUsersController
+    );
+
+authRouter
+    .route("/getUser/:id")
+    .get(
+        checkAccessToken,
+        isAdmin,
+        isValidId(),
+        getUsersController
     );
 
 export {authRouter};
