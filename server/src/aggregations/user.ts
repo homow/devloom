@@ -37,6 +37,5 @@ export function userAggregate(
             stages.unshift({$match: matchStage} as PipelineStage);
         }
     }
-
     return stages;
 }

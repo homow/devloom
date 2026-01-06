@@ -8,8 +8,6 @@ export async function getUsersController(
     res: Response
 ) {
     const {id} = req.params;
-
     const result = await getUsersService(id);
-
     return res.status(result.status).json(result.data);
 }

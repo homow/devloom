@@ -1,5 +1,5 @@
-import type {NextFunction, Request, Response} from "express";
 import mongoose from "mongoose";
+import type {NextFunction, Request, Response} from "express";
 
 export default function isValidId() {
     return (
@@ -11,13 +11,9 @@ export default function isValidId() {
     ) => {
         const {id} = req.params;
 
-        console.log(id);
-
         if (id) {
             const isValidId: boolean = mongoose
                 .isValidObjectId(id);
-
-            console.log(isValidId);
 
             if (!isValidId) {
                 return res.status(401).json({
