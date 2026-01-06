@@ -1,6 +1,7 @@
 import {UserModel} from "@src/models/User.model.js";
 import {BanUserModel} from "@models/BanUser.model.js";
 import {userAggregate} from "@src/aggregations/user.js";
+import mongoose from "mongoose";
 
 interface CheckUserDBParams {
     id?: string;
@@ -17,9 +18,15 @@ export async function checkUserDB(
 ) {
     if (!email && !id) return null;
 
-    const user = await UserModel
-        .aggregate(userAggregate({id, email}, useAnd));
+    const aggregate = userAggregate([
+        {
+            _id: id && new mongoose.Types.ObjectId(id)
+        },
+        {email}
+    ], useAnd);
 
+    const user = await UserModel
+        .aggregate(aggregate);
     return user[0] || null;
 }
 

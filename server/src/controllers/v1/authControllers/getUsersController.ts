@@ -1,13 +1,12 @@
 import type {Request, Response} from "express";
+import type {BaseUserInput} from "@validators/user.js";
 import {getUsersService} from "@services/v1/authServices/getUsersService.js";
 
 export async function getUsersController(
-    req: Request<{
-        id?: string;
-    }>,
+    req: Request<{}, {}, BaseUserInput>,
     res: Response
 ) {
-    const {id} = req.params;
-    const result = await getUsersService(id);
+    const {id, email} = req.body;
+    const result = await getUsersService(id, email);
     return res.status(result.status).json(result.data);
 }

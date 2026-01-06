@@ -5,9 +5,10 @@ import {userAggregate} from "@src/aggregations/user.js";
 
 export async function getUsersService(
     id?: string,
+    email?: string
 ): Promise<ServiceResponse> {
-    if (id) {
-        const user = await checkUserDB({id});
+    if (id || email) {
+        const user = await checkUserDB({id, email, useAnd: true});
 
         if (!user) {
             return {

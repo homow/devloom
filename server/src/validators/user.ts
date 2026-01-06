@@ -42,7 +42,7 @@ export type BanUserInput = z.infer<typeof BanUserSchema>;
 
 // <=== DeleteUser Schema ===>
 
-export const DeleteUserSchema = z.object({
+export const BaseUserSchema = z.object({
     email: z.email().optional(),
     id: checkZodObjectId().optional()
 }).refine(
@@ -53,4 +53,4 @@ export const DeleteUserSchema = z.object({
     }
 );
 
-export type DeleteUserInput = z.infer<typeof DeleteUserSchema>;
+export type BaseUserInput = z.infer<typeof BaseUserSchema>;

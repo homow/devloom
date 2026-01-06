@@ -1,9 +1,9 @@
 import type {Request, Response} from "express";
-import type {DeleteUserInput} from "@validators/user.js";
+import type {BaseUserInput} from "@validators/user.js";
 import {deleteUserService} from "@services/v1/index.js";
 
 export async function deleteUserController(
-    req: Request<{}, {}, DeleteUserInput>,
+    req: Request<{}, {}, BaseUserInput>,
     res: Response
 ) {
     const {email, id} = req.body;

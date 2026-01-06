@@ -5,13 +5,18 @@ import {
     loginController,
     signUpController
 } from "@controllers/v1/index.js";
+
+import {
+    BanUserSchema,
+    BaseUserSchema,
+    LoginSchema,
+    UserSchema
+} from "@validators/user.js";
 import express from 'express';
 import isAdmin from "@middleware/isAdmin.js";
-import isValidId from "@middleware/isValidId.js";
 import checkBanned from "@middleware/checkBanned.js";
 import checkAccessToken from "@middleware/checkAccessToken.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
-import {BanUserSchema, DeleteUserSchema, LoginSchema, UserSchema} from "@validators/user.js";
 
 const authRouter = express.Router();
 
@@ -47,21 +52,21 @@ authRouter
         checkAccessToken,
         isAdmin,
         getUsersController
+    );
+
+authRouter
+    .route("/user")
+    .get(
+        checkAccessToken,
+        isAdmin,
+        validateRequestBody(BaseUserSchema),
+        getUsersController
     )
     .delete(
         checkAccessToken,
         isAdmin,
-        validateRequestBody(DeleteUserSchema),
+        validateRequestBody(BaseUserSchema),
         deleteUserController
-    );
-
-authRouter
-    .route("/users/:id")
-    .get(
-        checkAccessToken,
-        isAdmin,
-        isValidId(),
-        getUsersController
     );
 
 export {authRouter};
