@@ -49,7 +49,7 @@ export async function revokeAllUserTokens(
     userId: Types.ObjectId | string
 ) {
     const isValidId: boolean = mongoose.isValidObjectId(userId);
-    if (isValidId) return null;
+    if (!isValidId) return null;
     return RefreshTokenModel
-        .updateMany({userId}, {isRevoked: true}).lean();
+        .updateMany({user: userId}, {isRevoked: true}).lean();
 }

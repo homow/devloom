@@ -1,18 +1,21 @@
 import {checkBannedUser} from "@src/lib/index.js";
 import type {NextFunction, Request, Response} from "express";
 
-export default async function checkBanned(
-    req: Request,
-    res: Response,
-    next: NextFunction
-) {
-    const bannedUser = await checkBannedUser(
-        req.body.email
-    );
+export default function checkBanned(message?: string) {
+    return async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        const bannedUser = await checkBannedUser(
+            req.body.email,
+            message
+        );
 
-    if (bannedUser) return res
-        .status(bannedUser.status)
-        .json(bannedUser.data);
+        if (bannedUser) return res
+            .status(bannedUser.status)
+            .json(bannedUser.data);
 
-    return next();
+        return next();
+    };
 }

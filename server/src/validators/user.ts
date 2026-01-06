@@ -1,5 +1,7 @@
 import z from "zod";
 
+// <==== Signup Schema ===>
+
 export const UserSchema = z.object({
     name: z
         .string()
@@ -18,6 +20,8 @@ export const UserSchema = z.object({
 
 export type InputUser = z.infer<typeof UserSchema>;
 
+// <=== Login Schema ===>
+
 export const LoginSchema = UserSchema.pick({
     email: true,
     password: true,
@@ -26,3 +30,11 @@ export const LoginSchema = UserSchema.pick({
 });
 
 export type InputLogin = z.infer<typeof LoginSchema>;
+
+// <=== BanUser Schema ===>
+
+export const BanUserSchema = UserSchema.pick({
+    email: true,
+});
+
+export type BanUserInput = z.infer<typeof BanUserSchema>;

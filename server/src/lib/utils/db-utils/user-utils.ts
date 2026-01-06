@@ -1,4 +1,5 @@
 import {UserModel} from "@src/models/User.model.js";
+import {BanUserModel} from "@models/BanUser.model.js";
 import {userAggregate} from "@src/aggregations/user.js";
 
 interface CheckUserDBParams {
@@ -22,9 +23,7 @@ export async function checkUserDB(
     return user[0] || null;
 }
 
-import {BanUserModel} from "@models/BanUser.model.js";
-
-export async function checkBannedUser(email: string) {
+export async function checkBannedUser(email: string, message?: string) {
     const userBanned = await BanUserModel
         .findOne({email})
         .lean();
@@ -35,7 +34,8 @@ export async function checkBannedUser(email: string) {
         status: 403,
         data: {
             ok: false,
-            message: "This user is banned. Please contact support if you think this is a mistake.",
+            message: message ||
+                "This user is banned. Please contact support if you think this is a mistake.",
             email
         },
     };
