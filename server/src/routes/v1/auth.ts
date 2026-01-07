@@ -1,5 +1,5 @@
 import {
-    banUserController,
+    banUserController, changeRoleController,
     deleteUserController,
     getUsersController,
     loginController,
@@ -9,9 +9,10 @@ import express from 'express';
 import {UserRole} from "@src/types/index.js";
 import checkRole from "@middleware/checkRole.js";
 import checkBanned from "@middleware/checkBanned.js";
+import isValidParamId from "@middleware/isValidParamId.js";
 import checkAccessToken from "@middleware/checkAccessToken.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
-import {BaseUserSchema, LoginSchema, UserSchema} from "@validators/user.js";
+import {BaseUserSchema, ChangeRoleSchema, LoginSchema, UserSchema} from "@validators/user.js";
 
 const authRouter = express.Router();
 
@@ -62,6 +63,16 @@ authRouter
         checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(BaseUserSchema),
         deleteUserController
+    );
+
+authRouter
+    .route("/user/:id/role")
+    .patch(
+        checkAccessToken,
+        checkRole({requiredRole: UserRole.ADMIN, comparison: "higher"}),
+        isValidParamId,
+        validateRequestBody(ChangeRoleSchema),
+        changeRoleController
     );
 
 export {authRouter};
