@@ -1,26 +1,29 @@
 import {
-    banUserController, changeRoleController,
+    banUserController,
+    changeRoleController,
     deleteUserController,
     getUsersController,
     loginController,
+    refreshController,
     signUpController
 } from "@controllers/v1/index.js";
 import express from 'express';
 import {UserRole} from "@src/types/index.js";
 import checkRole from "@middleware/checkRole.js";
-import checkBanned from "@middleware/checkBanned.js";
 import isValidParamId from "@middleware/isValidParamId.js";
 import checkAccessToken from "@middleware/checkAccessToken.js";
+import checkBannedInBody from "@middleware/checkBannedInBody.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
 import {BaseUserSchema, ChangeRoleSchema, LoginSchema, UserSchema} from "@validators/user.js";
 
 const authRouter = express.Router();
+authRouter.use(checkAccessToken);
 
 authRouter
     .route("/signup")
     .post(
         validateRequestBody(UserSchema),
-        checkBanned(),
+        checkBannedInBody(),
         signUpController
     );
 
@@ -28,24 +31,28 @@ authRouter
     .route("/login")
     .post(
         validateRequestBody(LoginSchema),
-        checkBanned(),
+        checkBannedInBody(),
         loginController
+    );
+
+authRouter
+    .route("/refresh")
+    .post(
+        refreshController
     );
 
 authRouter
     .route("/banUser")
     .post(
-        checkAccessToken,
         checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(BaseUserSchema),
-        checkBanned("The user is currently banned."),
+        checkBannedInBody("The user is currently banned."),
         banUserController
     );
 
 authRouter
     .route("/users")
     .get(
-        checkAccessToken,
         checkRole({requiredRole: UserRole.ADMIN}),
         getUsersController
     );
@@ -53,13 +60,11 @@ authRouter
 authRouter
     .route("/user")
     .get(
-        checkAccessToken,
         checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(BaseUserSchema),
         getUsersController
     )
     .delete(
-        checkAccessToken,
         checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(BaseUserSchema),
         deleteUserController
@@ -68,7 +73,6 @@ authRouter
 authRouter
     .route("/user/:id/role")
     .patch(
-        checkAccessToken,
         checkRole({requiredRole: UserRole.ADMIN, comparison: "higher"}),
         isValidParamId,
         validateRequestBody(ChangeRoleSchema),

@@ -31,9 +31,7 @@ export async function checkUserDB(
 }
 
 export async function checkBannedUser(email: string, message?: string) {
-    const userBanned = await BanUserModel
-        .findOne({email})
-        .lean();
+    const userBanned = await BanUserModel.findOne({email}).lean();
 
     if (!userBanned) return null;
 

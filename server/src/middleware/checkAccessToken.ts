@@ -1,12 +1,19 @@
 import {verifyToken} from "@utils/crypto.js";
 import type {NextFunction, Response} from "express";
 import type {AuthPayload, AuthRequest} from "@src/types/index.js";
+import {checkIgnoredRoute} from "@utils/route.js";
 
 export default function checkAccessToken(
     req: AuthRequest,
     res: Response,
     next: NextFunction
 ) {
+    const isIgnored: boolean = checkIgnoredRoute(req.path);
+
+    if (isIgnored) {
+        return next();
+    }
+
     const token = req.cookies.accessToken || req.headers.authorization?.split(" ")[1];
 
     if (!token) return res.status(401).json({

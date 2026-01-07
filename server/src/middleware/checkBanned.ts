@@ -1,20 +1,22 @@
-import {checkBannedUser} from "@src/lib/index.js";
-import type {NextFunction, Request, Response} from "express";
+import {checkBannedUser, checkUserDB} from "@src/lib/index.js";
+import type {NextFunction, Response} from "express";
+import type {AuthRequest} from "@src/types/index.js";
 
 export default function checkBanned(message?: string) {
     return async (
-        req: Request,
+        req: AuthRequest,
         res: Response,
         next: NextFunction
     ) => {
+        const id = req.userPayload?.id;
+        const user = await checkUserDB({id});
+
         const bannedUser = await checkBannedUser(
-            req.body.email,
+            user.email,
             message
         );
 
-        if (bannedUser) return res
-            .status(bannedUser.status)
-            .json(bannedUser.data);
+        if (bannedUser) return res.status(bannedUser.status).json(bannedUser.data);
 
         return next();
     };
