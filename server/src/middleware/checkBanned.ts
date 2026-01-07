@@ -8,9 +8,8 @@ export default function checkBanned(message?: string) {
         res: Response,
         next: NextFunction
     ) => {
-        const isIgnoredRoute: boolean = checkIgnoredRoute(req.path);
-
-        if (isIgnoredRoute) {
+        const isIgnored: boolean = checkIgnoredRoute(req.path);
+        if (isIgnored) {
             return next();
         }
 
@@ -25,11 +24,7 @@ export default function checkBanned(message?: string) {
             });
         }
 
-        const bannedUser = await checkBannedUser(
-            user.email,
-            message
-        );
-
+        const bannedUser = await checkBannedUser(user.email, message);
         if (bannedUser) return res.status(bannedUser.status).json(bannedUser.data);
 
         return next();

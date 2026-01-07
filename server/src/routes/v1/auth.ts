@@ -18,13 +18,13 @@ import {validateRequestBody} from "@middleware/validateRequestBody.js";
 import {BaseUserSchema, ChangeRoleSchema, LoginSchema, UserSchema} from "@validators/user.js";
 
 const authRouter = express.Router();
-authRouter.use(checkAccessToken, checkBanned);
+authRouter.use(checkAccessToken, checkBanned());
 
 authRouter
     .route("/signup")
     .post(
         validateRequestBody(UserSchema),
-        checkBannedInBody(),
+        checkBannedInBody("You cannot sign up because this email is banned. Please contact support if you believe this is an error."),
         signUpController
     );
 
@@ -32,7 +32,7 @@ authRouter
     .route("/login")
     .post(
         validateRequestBody(LoginSchema),
-        checkBannedInBody(),
+        checkBannedInBody("This account is banned. Login is not allowed. Please contact support if you think this is a mistake."),
         loginController
     );
 

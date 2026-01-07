@@ -1,7 +1,7 @@
+import mongoose from "mongoose";
 import {UserModel} from "@src/models/User.model.js";
 import {BanUserModel} from "@models/BanUser.model.js";
 import {userAggregate} from "@src/aggregations/user.js";
-import mongoose from "mongoose";
 
 interface CheckUserDBParams {
     id?: string;
@@ -41,7 +41,8 @@ export async function checkBannedUser(email: string, message?: string) {
             ok: false,
             message: message ||
                 "This user is banned. Please contact support if you think this is a mistake.",
-            email
+            email,
+            code: "BANNED_EMAIL"
         },
     };
 }
