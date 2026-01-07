@@ -8,10 +8,12 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
-    "build": "tsc && tsc-alias",
+    "build:scripts": "tsc -p tsconfig.scripts.json",
+    "build": "npm run build:scripts && tsc && tsc-alias",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "seed:superadmin": "npx tsx scripts/create-super-admin.ts"
   },
   "type": "module",
   "dependencies": {
@@ -23,6 +25,7 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.1",
     "multer": "^2.0.2",
+    "prompt-sync": "^4.2.0",
     "zod": "^4.3.4"
   },
   "devDependencies": {
@@ -35,6 +38,7 @@
     "@types/mongoose": "^5.11.96",
     "@types/multer": "^2.0.0",
     "@types/node": "^25.0.3",
+    "@types/prompt-sync": "^4.2.3",
     "@typescript-eslint/eslint-plugin": "^8.51.0",
     "@typescript-eslint/parser": "^8.51.0",
     "eslint": "^9.39.2",

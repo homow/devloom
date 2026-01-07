@@ -30,15 +30,12 @@ export async function signupService(
     // hashed password
     const hashedPassword: string = await hashSecret(password);
 
-    // check user count for create admin
-    const countUser: number = await UserModel.countDocuments();
-
     const newUser = await UserModel
         .create({
             name,
             email,
             password: hashedPassword,
-            role: countUser === 0 ? UserRole.SUPER_ADMIN : UserRole.USER,
+            role: UserRole.USER,
         });
 
     return {
