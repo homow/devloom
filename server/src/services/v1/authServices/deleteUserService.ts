@@ -1,6 +1,6 @@
 import {UserModel} from "@models/User.model.js";
-import {createQueryPattern, getSafeUser} from "@src/lib/index.js";
-import {UserRole, RolePriority, type ServiceResponse} from "@src/types/index.js";
+import {UserRole, type ServiceResponse} from "@src/types/index.js";
+import {createQueryPattern, getSafeUser, isAllowedToAction} from "@src/lib/index.js";
 
 interface Params {
     id?: string;
@@ -30,8 +30,11 @@ export async function deleteUserService(
         };
     }
 
-    const userExistRole = RolePriority[userExist.role];
-    const isAllowedToDelete: boolean = userExistRole < RolePriority[role];
+    const isAllowedToDelete: boolean = isAllowedToAction({
+        actionRole: role,
+        targetRole: userExist.role,
+        roleComparison: "higher"
+    });
 
     if (isAllowedToDelete) {
         const userDeleted = await UserModel.findOneAndDelete(pattern);
