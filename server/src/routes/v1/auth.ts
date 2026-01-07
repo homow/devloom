@@ -10,6 +10,7 @@ import {
 import express from 'express';
 import {UserRole} from "@src/types/index.js";
 import checkRole from "@middleware/checkRole.js";
+import checkBanned from "@middleware/checkBanned.js";
 import isValidParamId from "@middleware/isValidParamId.js";
 import checkAccessToken from "@middleware/checkAccessToken.js";
 import checkBannedInBody from "@middleware/checkBannedInBody.js";
@@ -17,7 +18,7 @@ import {validateRequestBody} from "@middleware/validateRequestBody.js";
 import {BaseUserSchema, ChangeRoleSchema, LoginSchema, UserSchema} from "@validators/user.js";
 
 const authRouter = express.Router();
-authRouter.use(checkAccessToken);
+authRouter.use(checkAccessToken, checkBanned);
 
 authRouter
     .route("/signup")
