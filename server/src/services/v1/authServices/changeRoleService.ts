@@ -15,6 +15,17 @@ export async function changeRoleService(
         userPayload
     }: Params
 ): Promise<ServiceResponse> {
+    if (targetID === userPayload.id) {
+        return {
+            status: 403,
+            data: {
+                ok: false,
+                code: "CANNOT_CHANGE_OWN_ROLE",
+                message: "You are not allowed to change your own role."
+            }
+        };
+    }
+
     const userTarget = await UserModel.findById(targetID).lean();
 
     if (!userTarget) {
