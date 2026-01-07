@@ -4,3 +4,4 @@ export * from "./createRefreshTokenService.js";
 export * from "./banUserService.js";
 export * from "./deleteUserService.js";
 export * from "./changeRoleService.js";
+export * from "./refreshService.js";
