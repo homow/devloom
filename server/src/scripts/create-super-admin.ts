@@ -6,7 +6,7 @@ import promptSync from "prompt-sync";
 import {UserRole} from "@src/types/models/auth.js";
 import {UserModel} from "@models/User.model.js";
 
-dotenv.config({path: "../.env", quiet: true});
+console.log(dotenv.config({path: "../.env", quiet: true}));
 const prompt = promptSync();
 
 async function main() {
@@ -15,8 +15,7 @@ async function main() {
             console.error("MONGODB_URI is not defined in the environment");
             process.exit(1);
         }
-
-        await mongoose.connect(process.env.MONGODB_URI!);
+        await mongoose.connect(process.env.MONGODB_URI);
         console.log(`Connected to DB ${process.env.MONGODB_URI}`);
 
         const existing = await UserModel.findOne({
