@@ -1,8 +1,12 @@
-import {createToken} from "@utils/tokens.js";
+import {
+    createRefreshTokenService,
+    loginService
+} from "@services/v1/index.js";
+import {hashSecret} from "@utils/crypto.js";
 import type {Request, Response} from "express";
 import type {UserDB} from "@src/types/index.js";
-import {loginService} from "@services/v1/index.js";
 import type {InputLogin} from "@validators/user.js";
+import {createTokenAndOptions} from "@utils/tokens.js";
 
 export async function loginController(
     req: Request<{}, {}, InputLogin>,
@@ -13,17 +17,19 @@ export async function loginController(
     if (result.data.ok) {
         const {remember} = req.body;
 
-        const refreshToken = createToken({
+        const refreshToken = createTokenAndOptions({
             payload: {
                 id: (result.userDB as UserDB)._id,
+                role: (result.userDB as UserDB).role,
                 remember
             },
             tokenType: "refresh",
-            remember
+            remember,
         });
-        const accessToken = createToken({
+        const accessToken = createTokenAndOptions({
             payload: {
-                id: (result.userDB as UserDB)._id
+                id: (result.userDB as UserDB)._id,
+                role: (result.userDB as UserDB).role,
             },
             tokenType: "access"
         });
@@ -35,6 +41,17 @@ export async function loginController(
         res.cookie("accessToken",
             accessToken.token,
             accessToken.options
+        );
+
+        const hashedToken: string = await hashSecret(refreshToken.token);
+        const expiresAt: Date = remember
+            ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7d
+            : new Date(Date.now() + 24 * 60 * 60 * 1000);    // 1d
+
+        await createRefreshTokenService(
+            (result.userDB as UserDB)._id,
+            hashedToken,
+            expiresAt
         );
     }
 

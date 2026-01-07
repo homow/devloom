@@ -1,4 +1,5 @@
-import mongoose, {type PipelineStage} from "mongoose";
+import {type PipelineStage} from "mongoose";
+import {createQueryPattern} from "@src/lib/index.js";
 
 export const userProjectStage = {
     $project: {
@@ -12,35 +13,18 @@ export const userProjectStage = {
     }
 };
 
-interface UserFilter {
-    id?: string;
-    email?: string;
-}
-
 export function userAggregate(
-    filter?: UserFilter,
+    filter?: Record<string, unknown>[],
     useAnd: boolean = false
 ) {
     const stages: PipelineStage[] = [userProjectStage];
 
-    if (!filter) return stages;
-
-    const conditions: Record<string, unknown>[] = [];
-
-    if (filter.id) conditions.push({_id: new mongoose.Types.ObjectId(filter.id)});
-    if (filter.email) conditions.push({email: filter.email});
-
-    if (conditions.length === 0) return stages;
-
-    let matchStage: Record<string, unknown>;
-
-    if (useAnd) {
-        matchStage = Object.assign({}, ...conditions);
-    } else {
-        matchStage = {$or: conditions};
+    if (filter && filter.length > 0) {
+        const matchStage = createQueryPattern(
+            filter,
+            useAnd
+        );
+        stages.unshift({$match: matchStage} as PipelineStage);
     }
-
-    stages.unshift({$match: matchStage} as PipelineStage);
-
     return stages;
 }

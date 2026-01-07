@@ -5,8 +5,8 @@ export function checkZodObjectId(
     message: string = ""
 ) {
     return z.string().refine(
-        (value) => Types.ObjectId.isValid(value),
-        {message: `Invalid ${message} id`}
+        value => Types.ObjectId.isValid(value),
+        {error: `Invalid ${message} id`}
     );
 }
 

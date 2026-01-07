@@ -12,12 +12,9 @@
     "lib": [
       "ES2020"
     ],
+    "baseUrl": ".",
     "rootDir": "src",
     "outDir": "dist",
-    "baseUrl": ".",
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

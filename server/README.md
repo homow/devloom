@@ -51,9 +51,11 @@ Built with **TypeScript + Express + MongoDB + Zod**, focusing on clarity, struct
 3. Create `.env` file:
 
    ```env
-   MONGO_URI=mongodb://localhost:27017/devloom
-   PORT=3000
-   JWT_SECRET=your_secret_key
+   BASE_URL="/api/v1"
+   MONGODB_NAME="devloom"
+   MONGO_URI="mongodb://localhost:27017/devloom"
+   PORT="3000
+   JWT_SECRET="your_secret_key"
    ```
 
 4. Run the project:

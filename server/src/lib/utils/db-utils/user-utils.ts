@@ -1,5 +1,7 @@
 import {UserModel} from "@src/models/User.model.js";
+import {BanUserModel} from "@models/BanUser.model.js";
 import {userAggregate} from "@src/aggregations/user.js";
+import mongoose from "mongoose";
 
 interface CheckUserDBParams {
     id?: string;
@@ -16,15 +18,19 @@ export async function checkUserDB(
 ) {
     if (!email && !id) return null;
 
-    const user = await UserModel
-        .aggregate(userAggregate({id, email}, useAnd));
+    const aggregate = userAggregate([
+        {
+            _id: id && new mongoose.Types.ObjectId(id)
+        },
+        {email}
+    ], useAnd);
 
+    const user = await UserModel
+        .aggregate(aggregate);
     return user[0] || null;
 }
 
-import {BanUserModel} from "@models/BanUser.model.js";
-
-export async function checkBannedUser(email: string) {
+export async function checkBannedUser(email: string, message?: string) {
     const userBanned = await BanUserModel
         .findOne({email})
         .lean();
@@ -32,10 +38,11 @@ export async function checkBannedUser(email: string) {
     if (!userBanned) return null;
 
     return {
-        status: 401,
+        status: 403,
         data: {
             ok: false,
-            message: "This user is banned. Please contact support if you think this is a mistake.",
+            message: message ||
+                "This user is banned. Please contact support if you think this is a mistake.",
             email
         },
     };

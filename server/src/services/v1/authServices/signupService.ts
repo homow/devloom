@@ -1,5 +1,4 @@
 import {
-    checkBannedUser,
     checkUserDB,
     getSafeUser,
     hashSecret
@@ -12,11 +11,6 @@ export async function signupService(
     body: InputUser
 ): Promise<ServiceResponse> {
     const {email, password, name} = body;
-
-    const userBanned = await checkBannedUser(
-        email
-    );
-    if (userBanned) return userBanned;
 
     // check if user exist
     const userExist = await checkUserDB(
@@ -36,15 +30,12 @@ export async function signupService(
     // hashed password
     const hashedPassword: string = await hashSecret(password);
 
-    // check user count for create admin
-    const countUser: number = await UserModel.countDocuments();
-
     const newUser = await UserModel
         .create({
             name,
             email,
             password: hashedPassword,
-            role: countUser === 0 ? UserRole.ADMIN : UserRole.USER,
+            role: UserRole.USER,
         });
 
     return {
