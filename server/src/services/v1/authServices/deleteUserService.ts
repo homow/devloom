@@ -1,19 +1,13 @@
 import {UserModel} from "@models/User.model.js";
-import {UserRole, type ServiceResponse} from "@src/types/index.js";
+import {type ServiceResponse, type AuthRouteParams} from "@src/types/index.js";
 import {createQueryPattern, getSafeUser, isAllowedToAction} from "@src/lib/index.js";
-
-interface Params {
-    id?: string;
-    email?: string;
-    role: UserRole;
-}
 
 export async function deleteUserService(
     {
         id,
         role,
         email,
-    }: Params
+    }: AuthRouteParams
 ): Promise<ServiceResponse> {
     const pattern = createQueryPattern([{_id: id}, {email}], true);
 

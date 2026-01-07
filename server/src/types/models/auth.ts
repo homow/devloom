@@ -26,3 +26,9 @@ export interface RefreshToken extends BaseDB {
     isRevoked: boolean;
     expiresAt: Date;
 }
+
+export interface AuthRouteParams {
+    id?: string;
+    email?: string;
+    role: UserRole;
+}
