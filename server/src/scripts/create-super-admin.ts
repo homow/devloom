@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import promptSync from "prompt-sync";
 import {UserRole} from "@src/types/models/auth.js";
-import {UserModel} from "@src/models/User.model.js";
+import {UserModel} from "@models/User.model.js";
 
 dotenv.config({path: "../.env", quiet: true});
 const prompt = promptSync();

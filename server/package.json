@@ -8,12 +8,11 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
-    "build:scripts": "tsc -p tsconfig.scripts.json",
-    "build": "npm run build:scripts && tsc && tsc-alias",
+    "build": "tsc && tsc-alias",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --write .",
-    "seed:superadmin": "npx tsx scripts/create-super-admin.ts"
+    "seed:superadmin": "npx tsx src/scripts/create-super-admin.ts"
   },
   "type": "module",
   "dependencies": {
