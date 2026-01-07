@@ -1,12 +1,17 @@
-import {banUserController, deleteUserController, getUsersController, loginController, signUpController} from "@controllers/v1/index.js";
-
-import {BanUserSchema, BaseUserSchema, LoginSchema, UserSchema} from "@validators/user.js";
+import {
+    banUserController,
+    deleteUserController,
+    getUsersController,
+    loginController,
+    signUpController
+} from "@controllers/v1/index.js";
 import express from 'express';
 import {UserRole} from "@src/types/index.js";
 import checkRole from "@middleware/checkRole.js";
 import checkBanned from "@middleware/checkBanned.js";
 import checkAccessToken from "@middleware/checkAccessToken.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
+import {BaseUserSchema, LoginSchema, UserSchema} from "@validators/user.js";
 
 const authRouter = express.Router();
 
@@ -31,7 +36,7 @@ authRouter
     .post(
         checkAccessToken,
         checkRole([UserRole.ADMIN, UserRole.SUPER_ADMIN]),
-        validateRequestBody(BanUserSchema),
+        validateRequestBody(BaseUserSchema),
         checkBanned("The user is currently banned."),
         banUserController
     );

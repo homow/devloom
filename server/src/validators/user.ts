@@ -32,14 +32,6 @@ export const LoginSchema = UserSchema.pick({
 
 export type InputLogin = z.infer<typeof LoginSchema>;
 
-// <=== BanUser Schema ===>
-
-export const BanUserSchema = UserSchema.pick({
-    email: true,
-});
-
-export type BanUserInput = z.infer<typeof BanUserSchema>;
-
 // <=== DeleteUser Schema ===>
 
 export const BaseUserSchema = z.object({
