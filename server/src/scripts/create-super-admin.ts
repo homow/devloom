@@ -3,11 +3,26 @@ import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import promptSync from "prompt-sync";
-import {UserRole} from "@src/types/models/auth.js";
+import {UserSchema} from "@validators/user.js";
 import {UserModel} from "@models/User.model.js";
+import {UserRole} from "@src/types/models/auth.js";
 
-console.log(dotenv.config({path: "../.env", quiet: true}));
+console.log(dotenv.config({path: "../../../.env", quiet: true}));
 const prompt = promptSync();
+
+async function askValidated<T extends keyof typeof UserSchema.shape>(
+    field: T,
+    message: string,
+    hidden = false
+): Promise<string> {
+    while (true) {
+        const input: string = hidden ? prompt(message, {echo: "*"}) : prompt(message);
+        const parsed = UserSchema.shape[field].safeParse(input);
+        if (parsed.success) return input;
+        console.error("❌ Invalid", field, "-", parsed.error.issues[0]?.message);
+        console.log("↺ Please try again.");
+    }
+}
 
 async function main() {
     try {
@@ -29,8 +44,8 @@ async function main() {
 
         console.log(`creating super admin...`);
 
-        const email: string = prompt("Enter email address: ");
-        const password: string = prompt("Enter password: ", {echo: "*"});
+        const email: string = await askValidated("email", "Enter email address: ");
+        const password: string = await askValidated("password", "Enter password: ", true);
 
         const hashed: string = await bcrypt.hash(password, 12);
 
