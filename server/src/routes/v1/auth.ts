@@ -1,4 +1,10 @@
-import {banUserController, deleteUserController, getUsersController, loginController, signUpController} from "@controllers/v1/index.js";
+import {
+    banUserController,
+    deleteUserController,
+    getUsersController,
+    loginController,
+    signUpController
+} from "@controllers/v1/index.js";
 import express from 'express';
 import {UserRole} from "@src/types/index.js";
 import checkRole from "@middleware/checkRole.js";

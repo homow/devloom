@@ -34,15 +34,11 @@ export async function createRefreshTokenService(
 }
 
 export async function findRefreshToken(token: string) {
-    return RefreshTokenModel
-        .findOne({token, isRevoked: false})
-        .lean();
+    return RefreshTokenModel.findOne({token, isRevoked: false}).lean();
 }
 
 export async function updateRefreshToken(token: string) {
-    return RefreshTokenModel
-        .findOneAndUpdate({token, isRevoked: true})
-        .lean();
+    return RefreshTokenModel.findOneAndUpdate({token, isRevoked: true}).lean();
 }
 
 export async function revokeAllUserTokens(
@@ -50,6 +46,5 @@ export async function revokeAllUserTokens(
 ) {
     const isValidId: boolean = mongoose.isValidObjectId(userId);
     if (!isValidId) return null;
-    return RefreshTokenModel
-        .updateMany({user: userId}, {isRevoked: true}).lean();
+    return RefreshTokenModel.updateMany({user: userId}, {isRevoked: true}).lean();
 }

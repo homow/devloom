@@ -1,26 +1,66 @@
-import {checkUserDB} from "@src/lib/index.js";
+import {UserModel} from "@models/User.model.js";
 import {BanUserModel} from "@models/BanUser.model.js";
-import type {ServiceResponse} from "@src/types/index.js";
 import {revokeAllUserTokens} from "@services/v1/index.js";
+import {type ServiceResponse, UserRole} from "@src/types/index.js";
+import {createQueryPattern, getSafeUser, isAllowedToAction} from "@src/lib/index.js";
+
+interface Params {
+    id?: string;
+    email?: string;
+    role: UserRole;
+}
 
 export async function banUserService(
-    email: string
-): Promise<ServiceResponse> {
-    await BanUserModel
-        .create({email});
-
-    const userExist = await checkUserDB({
+    {
+        id,
+        role,
         email
-    });
+    }: Params
+): Promise<ServiceResponse> {
+    const pattern = createQueryPattern([{_id: id}, {email}], true);
 
-    if (userExist) await revokeAllUserTokens(userExist.id);
+    const userExist = await UserModel.findOne(pattern);
 
-    return {
-        status: 200,
-        data: {
-            ok: true,
-            message: "user banned successfully",
-            user: userExist ?? "user not exist in database",
+    if (userExist) {
+        const isAllowedToBan: boolean = isAllowedToAction({
+            actionRole: role,
+            targetRole: userExist.role,
+            roleComparison: "higher"
+        });
+
+        if (isAllowedToBan) {
+            await revokeAllUserTokens(userExist.id);
+            await BanUserModel.create({email});
+
+            return {
+                status: 200,
+                data: {
+                    ok: true,
+                    message: "user banned successfully",
+                    user: getSafeUser(userExist),
+                }
+            };
+
+        } else {
+            return {
+                status: 403,
+                data: {
+                    ok: false,
+                    message: "you cannot ban a user with equal or higher role",
+                    code: "ROLE_NOT_ALLOWED"
+                }
+            };
         }
-    };
+    } else {
+        await BanUserModel.create({email});
+
+        return {
+            status: 200,
+            data: {
+                ok: true,
+                message: "user banned successfully",
+                user: "user not exist in database",
+            }
+        };
+    }
 }
