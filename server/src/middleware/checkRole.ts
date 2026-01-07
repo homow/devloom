@@ -1,11 +1,20 @@
-import {
-    type AuthRequest,
-    RolePriority,
-    UserRole
-} from "@src/types/index.js";
+import {isAllowedToAction} from "@utils/auth.js";
 import type {NextFunction, Response} from "express";
+import {type AuthRequest, UserRole} from "@src/types/index.js";
 
-export default function checkRole(roles: UserRole[]) {
+interface Params {
+    requiredRole: UserRole;
+    comparison?: "equal" | "higher";
+    message?: string;
+}
+
+export default function checkRole(
+    {
+        requiredRole,
+        comparison = "equal",
+        message
+    }: Params
+) {
     return (
         req: AuthRequest,
         res: Response,
@@ -19,25 +28,23 @@ export default function checkRole(roles: UserRole[]) {
             });
         }
 
-        const userRole = req.userPayload.role as UserRole;  // ADMIN
-        const userPriority = RolePriority[userRole]; // 2
+        const userRole = req.userPayload.role as UserRole;
 
-        const allowedPriorities = roles.map(r =>
-            RolePriority[r]
-        );
+        const isAllowed: boolean = isAllowedToAction({
+            actionRole: userRole,
+            targetRole: requiredRole,
+            roleComparison: "equal"
+        });
 
-        const isAllowed: boolean = allowedPriorities.some(p =>
-            userPriority >= p
-        );
-
-        if (isAllowed) {
-            return next();
+        if (!isAllowed) {
+            return res.status(403).json({
+                ok: false,
+                code: "ACCESS_DENIED",
+                message: message ||
+                    `Your role (${userRole}) is not allowed to access a route requiring ${requiredRole} (${comparison}).`,
+            });
         }
 
-        return res.status(403).json({
-            ok: false,
-            message: "You are not authorized to access this route.",
-            code: "ACCESS_DENIED"
-        });
+        return next();
     };
 };
