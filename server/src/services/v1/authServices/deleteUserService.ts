@@ -1,10 +1,6 @@
-import {
-    UserRole,
-    RolePriority,
-    type ServiceResponse,
-} from "@src/types/index.js";
 import {UserModel} from "@models/User.model.js";
 import {createQueryPattern, getSafeUser} from "@src/lib/index.js";
+import {UserRole, RolePriority, type ServiceResponse} from "@src/types/index.js";
 
 interface Params {
     id?: string;
@@ -19,13 +15,9 @@ export async function deleteUserService(
         email,
     }: Params
 ): Promise<ServiceResponse> {
-    const pattern = createQueryPattern([
-        {_id: id},
-        {email},
-    ], true);
+    const pattern = createQueryPattern([{_id: id}, {email}], true);
 
-    const userExist = await UserModel
-        .findOne(pattern);
+    const userExist = await UserModel.findOne(pattern);
 
     if (!userExist) {
         return {
@@ -42,8 +34,7 @@ export async function deleteUserService(
     const isAllowedToDelete: boolean = userExistRole < RolePriority[role];
 
     if (isAllowedToDelete) {
-        const userDeleted = await UserModel
-            .findOneAndDelete(pattern);
+        const userDeleted = await UserModel.findOneAndDelete(pattern);
 
         return {
             status: 200,
@@ -58,8 +49,8 @@ export async function deleteUserService(
             status: 403,
             data: {
                 ok: false,
-                message: "You are not authorized to access this route.",
-                code: "ACCESS_DENIED"
+                message: "you cannot ban a user with equal or higher role",
+                code: "ROLE_NOT_ALLOWED"
             }
         };
     }
