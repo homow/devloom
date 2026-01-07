@@ -33,7 +33,7 @@ export default function checkRole(
         const isAllowed: boolean = isAllowedToAction({
             actionRole: userRole,
             targetRole: requiredRole,
-            roleComparison: "equal"
+            roleComparison: comparison
         });
 
         if (!isAllowed) {

@@ -1,5 +1,6 @@
 import z from "zod";
 import {checkZodObjectId} from "@src/lib/index.js";
+import {UserRole} from "@src/types/index.js";
 
 // <==== Signup Schema ===>
 
@@ -46,3 +47,11 @@ export const BaseUserSchema = z.object({
 );
 
 export type BaseUserInput = z.infer<typeof BaseUserSchema>;
+
+// <=== ChangeRole Schema ===>
+
+export const ChangeRoleSchema = z.object({
+    role: z.enum([UserRole.ADMIN, UserRole.USER] as const),
+});
+
+export type ChangeRoleInput = z.infer<typeof ChangeRoleSchema>;
