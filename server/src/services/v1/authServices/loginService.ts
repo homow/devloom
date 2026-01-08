@@ -19,7 +19,8 @@ export async function loginService(
             ok: false,
             message: "Invalid Credentials"
         }
-    };
+    } as const;
+
     if (!userExist) return invalidCredentials;
 
     const checkPassword: boolean = await compareSecret(

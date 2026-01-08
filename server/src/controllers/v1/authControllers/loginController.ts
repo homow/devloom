@@ -16,6 +16,6 @@ export async function loginController(
             refreshToken.options
         );
     }
-
+    console.log(result);
     return res.status(result.status).send(result.data);
 }
