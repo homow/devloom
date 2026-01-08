@@ -40,7 +40,7 @@ export async function checkBannedUser(email: string, message?: string) {
         data: {
             ok: false,
             message: message ||
-                "This user is banned. Please contact support if you think this is a mistake.",
+                "Access denied: Your account is banned. Contact support for assistance.",
             email,
             code: "BANNED_EMAIL"
         },

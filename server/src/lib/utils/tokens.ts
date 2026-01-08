@@ -17,7 +17,9 @@ interface TokenParamsAccess extends BaseParms {
 
 type TokenParams = TokenParamsRefresh | TokenParamsAccess;
 
-export function createTokenAndOptions(params: TokenParams) {
+export function createTokenAndOptions(
+    params: TokenParams
+) {
     const {tokenType, payload} = params;
 
     const isRefresh: boolean = tokenType === "refresh";
@@ -42,10 +44,10 @@ export function createTokenAndOptions(params: TokenParams) {
     const token: string = generateToken(payload, expiresIn);
 
     const options: CookieOptions = {
-        httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        httpOnly: isRefresh,
         signed: isRefresh,
+        sameSite: "lax",
         path: "/",
         maxAge,
     };
