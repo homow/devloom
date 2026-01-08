@@ -1,8 +1,8 @@
-import {verifyToken} from "@utils/crypto.js";
+import {checkUserDB} from "@src/lib/index.js";
 import {createTokenAndOptions} from "@utils/tokens.js";
-import {checkUserDB, compareSecretToken} from "@src/lib/index.js";
-import type {RefreshToken, ServiceResponse} from "@src/types/index.js";
-import {createRefreshTokenService, findRefreshTokens, updateRefreshToken} from "./index.js";
+import type {ServiceResponse} from "@src/types/index.js";
+import {hashSecretToken, verifyToken} from "@utils/crypto.js";
+import {createRefreshTokenService, findRefreshToken, updateRefreshToken} from "./index.js";
 
 export async function refreshService(
     oldToken: string
@@ -20,20 +20,10 @@ export async function refreshService(
 
     try {
         const userPayload = verifyToken(oldToken);
-        const allSessions = await findRefreshTokens(userPayload.id);
+        const hashedOldToken: string = hashSecretToken(oldToken);
+        const session = await findRefreshToken(hashedOldToken, userPayload.id);
 
-        let findSession: null | RefreshToken = null;
-
-        for (const session of allSessions) {
-            const isValidToken: boolean = compareSecretToken(oldToken, session.token);
-
-            if (isValidToken) {
-                findSession = session;
-                break;
-            }
-        }
-
-        if (!findSession || findSession.isRevoked) {
+        if (!session || session.isRevoked) {
             return {
                 status: 401,
                 data: {
@@ -44,7 +34,7 @@ export async function refreshService(
             };
         }
 
-        await updateRefreshToken(findSession._id);
+        await updateRefreshToken(session._id);
 
         const refreshToken = createTokenAndOptions({
             payload: {

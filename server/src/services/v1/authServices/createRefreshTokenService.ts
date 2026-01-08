@@ -35,8 +35,8 @@ export async function createRefreshTokenService(
     };
 }
 
-export async function findRefreshTokens(id: string) {
-    return RefreshTokenModel.find({user: id, isRevoked: false}).lean();
+export async function findRefreshToken(token: string, id: string) {
+    return RefreshTokenModel.findOne({user: id, token, isRevoked: false}).lean();
 }
 
 export async function updateRefreshToken(id: string) {
