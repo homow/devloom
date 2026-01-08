@@ -2,7 +2,7 @@ import z from "zod";
 import {checkZodObjectId} from "@src/lib/index.js";
 import {UserRole} from "@src/types/index.js";
 
-// <==== Signup Schema ===>
+// <=== Signup Schema ===>
 
 export const UserSchema = z.object({
     name: z
@@ -55,3 +55,18 @@ export const ChangeRoleSchema = z.object({
 });
 
 export type ChangeRoleInput = z.infer<typeof ChangeRoleSchema>;
+
+// <=== UpdateUser Schema ===>
+
+export const UpdateUserSchema = z.object({
+    name: UserSchema.shape.name.optional(),
+    password: UserSchema.shape.password.optional()
+}).refine(
+    data => data.name || data.password,
+    {
+        error: "At least one of 'name' or 'password' must be provided",
+        path: ["name", "password"],
+    }
+);
+
+export type UpdateUserInput = z.infer<typeof UpdateUserSchema>;
