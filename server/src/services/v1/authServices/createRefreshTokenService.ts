@@ -33,8 +33,8 @@ export async function createRefreshTokenService(
     };
 }
 
-export async function findRefreshToken(token: string) {
-    return RefreshTokenModel.findOne({token, isRevoked: false}).lean();
+export async function findRefreshTokens(id: string) {
+    return RefreshTokenModel.find({user: id}).lean();
 }
 
 export async function updateRefreshToken(token: string) {
