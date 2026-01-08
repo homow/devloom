@@ -5,3 +5,4 @@ export * from "./getUsersController.js";
 export * from "./deleteUserController.js";
 export * from "./changeRoleController.js";
 export * from "./refreshController.js";
+export * from "./updateUserController.js";

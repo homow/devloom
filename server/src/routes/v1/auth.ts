@@ -5,7 +5,8 @@ import {
     getUsersController,
     loginController,
     refreshController,
-    signUpController
+    signUpController,
+    updateUserController
 } from "@controllers/v1/index.js";
 import express from 'express';
 import {UserRole} from "@src/types/index.js";
@@ -15,7 +16,7 @@ import isValidParamId from "@middleware/isValidParamId.js";
 import checkAccessToken from "@middleware/checkAccessToken.js";
 import checkBannedInBody from "@middleware/checkBannedInBody.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
-import {BaseUserSchema, ChangeRoleSchema, LoginSchema, UserSchema} from "@validators/user.js";
+import {BaseUserSchema, ChangeRoleSchema, LoginSchema, UpdateUserSchema, UserSchema} from "@validators/user.js";
 
 const authRouter = express.Router();
 authRouter.use(checkAccessToken, checkBanned());
@@ -38,9 +39,7 @@ authRouter
 
 authRouter
     .route("/refresh")
-    .post(
-        refreshController
-    );
+    .post(refreshController);
 
 authRouter
     .route("/banUser")
@@ -69,6 +68,10 @@ authRouter
         checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(BaseUserSchema),
         deleteUserController
+    )
+    .patch(
+        validateRequestBody(UpdateUserSchema),
+        updateUserController
     );
 
 authRouter
