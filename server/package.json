@@ -11,7 +11,6 @@
     "build": "tsc && tsc-alias",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "format": "prettier --write .",
     "seed:superadmin": "npx tsx src/scripts/create-super-admin.ts"
   },
   "type": "module",

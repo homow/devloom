@@ -58,7 +58,7 @@ async function main() {
         console.log("✅ Super admin created:", user.email);
         process.exit(0);
     } catch (e) {
-        console.log("Error: ", e);
+        console.log("❌ Error: ", e);
         process.exit(1);
     }
 }
