@@ -11,7 +11,6 @@ export async function refreshController(
     const result = await refreshService(refreshToken);
     if (result.data.ok) {
         const newRefresh = result.refreshToken as ReturnType<typeof createTokenAndOptions>;
-        console.log(newRefresh.token);
         res.cookie("refreshToken", newRefresh.token, newRefresh.options);
     }
 
