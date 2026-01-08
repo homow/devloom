@@ -1,8 +1,8 @@
-import {findRefreshTokens} from "./index.js";
-import {compareSecret, verifyToken} from "@utils/crypto.js";
-import type {RefreshToken, ServiceResponse} from "@src/types/index.js";
-import RefreshTokenModel from "@models/RefreshToken.model.js";
+import {verifyToken} from "@utils/crypto.js";
 import {createTokenAndOptions} from "@utils/tokens.js";
+import {checkUserDB, compareSecretToken} from "@src/lib/index.js";
+import type {RefreshToken, ServiceResponse} from "@src/types/index.js";
+import {createRefreshTokenService, findRefreshTokens, updateRefreshToken} from "./index.js";
 
 export async function refreshService(
     oldToken: string
@@ -20,15 +20,17 @@ export async function refreshService(
 
     try {
         const userPayload = verifyToken(oldToken);
-
         const allSessions = await findRefreshTokens(userPayload.id);
 
         let findSession: null | RefreshToken = null;
 
         for (const session of allSessions) {
-            const isValidToken: boolean = await compareSecret(oldToken, session.token);
+            const isValidToken: boolean = compareSecretToken(oldToken, session.token);
 
-            if (isValidToken) findSession = session;
+            if (isValidToken) {
+                findSession = session;
+                break;
+            }
         }
 
         if (!findSession || findSession.isRevoked) {
@@ -42,7 +44,7 @@ export async function refreshService(
             };
         }
 
-        await RefreshTokenModel.updateOne({_id: findSession._id}, {$set: {isRevoked: true}});
+        await updateRefreshToken(findSession._id);
 
         const refreshToken = createTokenAndOptions({
             payload: {
@@ -61,12 +63,21 @@ export async function refreshService(
             tokenType: "access"
         });
 
+        const expiresAt: Date = userPayload.remember
+            ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7d
+            : new Date(Date.now() + 24 * 60 * 60 * 1000);    // 1d
+
+        await createRefreshTokenService(userPayload.id, refreshToken.token, expiresAt);
+
+        const user = await checkUserDB({id: userPayload.id});
+
         return {
             status: 200,
             data: {
                 ok: true,
                 message: "success",
                 accessToken: accessToken.token,
+                user
             },
             refreshToken,
         };

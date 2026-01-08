@@ -41,7 +41,7 @@ export function createTokenAndOptions(
             : 1000 * 60 * 60 * 24
         : 1000 * 60 * 60;
 
-    const token: string = generateToken(payload, expiresIn);
+    const token: string = generateToken({...payload, timeStamp: Date.now()}, expiresIn);
 
     const options: CookieOptions = {
         secure: process.env.NODE_ENV === "production",

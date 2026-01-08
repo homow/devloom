@@ -1,8 +1,8 @@
 import {UserModel} from "@models/User.model.js";
 import type {InputLogin} from "@validators/user.js";
 import type {ServiceResponse} from "@src/types/index.js";
-import {compareSecret, createTokenAndOptions, getSafeUser, hashSecret} from "@src/lib/index.js";
 import {createRefreshTokenService} from "@services/v1/index.js";
+import {compareSecret, createTokenAndOptions, getSafeUser} from "@src/lib/index.js";
 
 export async function loginService(
     data: InputLogin
@@ -46,16 +46,14 @@ export async function loginService(
         tokenType: "access"
     });
 
-    const hashedToken: string = await hashSecret(refreshToken.token);
-
     const expiresAt: Date = remember
         ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7d
         : new Date(Date.now() + 24 * 60 * 60 * 1000);    // 1d
 
     await createRefreshTokenService(
         userExist._id,
-        hashedToken,
-        expiresAt
+        refreshToken.token,
+        expiresAt,
     );
 
     return {

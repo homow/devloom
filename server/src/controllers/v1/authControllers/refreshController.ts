@@ -9,10 +9,10 @@ export async function refreshController(
 ) {
     const refreshToken = req.cookies.refreshToken || req.signedCookies.refreshToken;
     const result = await refreshService(refreshToken);
-
     if (result.data.ok) {
-        const refreshToken = result.refreshToken as ReturnType<typeof createTokenAndOptions>;
-        res.cookie("refreshToken", refreshToken.token, refreshToken.options);
+        const newRefresh = result.refreshToken as ReturnType<typeof createTokenAndOptions>;
+        console.log(newRefresh.token);
+        res.cookie("refreshToken", newRefresh.token, newRefresh.options);
     }
 
     return res.status(result.status).json(result.data);

@@ -1,4 +1,5 @@
 import mongoose, {Types} from "mongoose";
+import {hashSecretToken} from "@utils/crypto.js";
 import type {ServiceResponse} from "@src/types/index.js";
 import RefreshTokenModel from "@models/RefreshToken.model.js";
 
@@ -16,10 +17,11 @@ export async function createRefreshTokenService(
             message: "Invalid id"
         }
     };
+    const hashedToken: string = hashSecretToken(token);
 
     const newRefreshTokenModel = await RefreshTokenModel.create({
         user: userId,
-        token,
+        token: hashedToken,
         expiresAt,
     });
 
@@ -34,11 +36,15 @@ export async function createRefreshTokenService(
 }
 
 export async function findRefreshTokens(id: string) {
-    return RefreshTokenModel.find({user: id}).lean();
+    return RefreshTokenModel.find({user: id, isRevoked: false}).lean();
 }
 
-export async function updateRefreshToken(token: string) {
-    return RefreshTokenModel.findOneAndUpdate({token, isRevoked: true}).lean();
+export async function updateRefreshToken(id: string) {
+    return RefreshTokenModel.findOneAndUpdate(
+        {_id: id, isRevoked: false},
+        {isRevoked: true},
+        {new: true}
+    ).lean();
 }
 
 export async function revokeAllUserTokens(
