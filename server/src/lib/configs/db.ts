@@ -21,7 +21,7 @@ async function connectToDB(): Promise<void> {
         await mongoose.connect(MONGODB_URI, {dbName: MONGODB_NAME});
         console.log(`MongoDB Connected on ${MONGODB_NAME}`);
     } catch (e) {
-        console.error(`ERROR while Created and Connected in MongoDB(old-next-db)`, e);
+        console.error(`ERROR while Created and Connected in MongoDB ${MONGODB_NAME || MONGODB_URI}`, e);
     }
 }
 

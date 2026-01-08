@@ -7,7 +7,7 @@ import {UserSchema} from "@validators/user.js";
 import {UserModel} from "@models/User.model.js";
 import {UserRole} from "@src/types/models/auth.js";
 
-console.log(dotenv.config({path: "../../../.env", quiet: true}));
+dotenv.config({path: "../.env", quiet: true});
 const prompt = promptSync();
 
 async function askValidated<T extends keyof typeof UserSchema.shape>(
