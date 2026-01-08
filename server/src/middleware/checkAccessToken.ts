@@ -1,7 +1,7 @@
 import {verifyToken} from "@utils/crypto.js";
+import {checkIgnoredRoute} from "@utils/route.js";
 import type {NextFunction, Response} from "express";
 import type {AuthPayload, AuthRequest} from "@src/types/index.js";
-import {checkIgnoredRoute} from "@utils/route.js";
 
 export default function checkAccessToken(
     req: AuthRequest,
