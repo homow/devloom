@@ -8,7 +8,6 @@ export async function refreshService(
     oldToken: string
 ): Promise<ServiceResponse> {
     const checkRefreshToken = await refreshTokenProvider(oldToken);
-
     if (checkRefreshToken.status !== 200) return checkRefreshToken;
 
     const session = checkRefreshToken.refreshTokenSession as RefreshToken;
