@@ -6,3 +6,4 @@ export * from "./deleteUserService.js";
 export * from "./changeRoleService.js";
 export * from "./refreshService.js";
 export * from "./updateUserService.js";
+export * from "./logoutService.js";
