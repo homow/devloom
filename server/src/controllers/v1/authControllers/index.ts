@@ -6,3 +6,4 @@ export * from "./deleteUserController.js";
 export * from "./changeRoleController.js";
 export * from "./refreshController.js";
 export * from "./updateUserController.js";
+export * from "./logoutController.js";
