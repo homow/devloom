@@ -1,4 +1,11 @@
 import {
+    BaseUserSchema,
+    ChangeRoleSchema,
+    LoginSchema,
+    UpdateUserSchema,
+    UserSchema
+} from "@validators/user.js";
+import {
     banUserController,
     changeRoleController,
     deleteUserController,
@@ -16,7 +23,6 @@ import isValidParamId from "@middleware/isValidParamId.js";
 import checkAccessToken from "@middleware/checkAccessToken.js";
 import checkBannedInBody from "@middleware/checkBannedInBody.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
-import {BaseUserSchema, ChangeRoleSchema, LoginSchema, UpdateUserSchema, UserSchema} from "@validators/user.js";
 
 const authRouter = express.Router();
 authRouter.use(checkAccessToken, checkBanned());
