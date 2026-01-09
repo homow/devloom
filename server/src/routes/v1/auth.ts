@@ -11,6 +11,7 @@ import {
     deleteUserController,
     getUsersController,
     loginController,
+    logoutController,
     refreshController,
     signUpController,
     updateUserController
@@ -42,6 +43,10 @@ authRouter
         checkBannedInBody("This account is banned. Login is not allowed. Please contact support if you think this is a mistake."),
         loginController
     );
+
+authRouter
+    .route("/logout")
+    .post(logoutController);
 
 authRouter
     .route("/refresh")
