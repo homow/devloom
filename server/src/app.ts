@@ -21,7 +21,7 @@ const allowedOrigins: string[] = [
 
 // --- Global-cors security ---
 app.use(cors({
-    origin: allowedOrigins,
+    origin: process.env.NODE_ENV === "production" ? allowedOrigins : "*",
     credentials: true,
 }));
 
