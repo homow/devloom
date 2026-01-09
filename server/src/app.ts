@@ -14,14 +14,15 @@ const app = express();
 const allowedOrigins: string[] = [
     `http://localhost:${process.env.PORT}`,
     "http://localhost:4173",
-    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
     "http://127.0.0.1:3000",
+    "http://localhost:5174",
     "http://localhost:3000",
 ];
 
 // --- Global-cors security ---
 app.use(cors({
-    origin: process.env.NODE_ENV === "production" ? allowedOrigins : "*",
+    origin: allowedOrigins,
     credentials: true,
 }));
 
