@@ -12,6 +12,7 @@ export async function loginController(
     if (result.data.ok) {
         const refreshToken = result.refreshToken as ReturnType<typeof createTokenAndOptions>;
         res.cookie("refreshToken", refreshToken.token, refreshToken.options);
+        console.log(refreshToken);
     }
     return res.status(result.status).send(result.data);
 }
