@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
+import {hashSecret} from "@utils/crypto.js";
+import {getSafeUser} from "@src/lib/index.js";
+import {UserModel} from "@models/User.model.js";
 import type {UpdateUserInput} from "@validators/user.js";
 import type {ServiceResponse} from "@src/types/index.js";
-import {hashSecret} from "@utils/crypto.js";
-import {UserModel} from "@models/User.model.js";
-import {getSafeUser} from "@src/lib/index.js";
 
 export async function updateUserService(
     data: UpdateUserInput,
