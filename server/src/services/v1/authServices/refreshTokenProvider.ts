@@ -37,9 +37,9 @@ export async function refreshTokenProvider(
             data: {
                 ok: true,
                 message: "refresh token found",
-                refreshTokenSession: session,
                 userPayload
-            }
+            },
+            refreshTokenSession: session,
         };
     } catch (e) {
         return {
