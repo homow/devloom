@@ -3,7 +3,7 @@ import type {RefreshToken, ServiceResponse} from "@src/types/index.js";
 import {refreshTokenProvider} from "@services/v1/authServices/refreshTokenProvider.js";
 
 export async function logoutService(
-    token: string,
+    token: string
 ): Promise<ServiceResponse> {
     const checkRefreshToken = await refreshTokenProvider(token);
     if (checkRefreshToken.status !== 200) return checkRefreshToken;
