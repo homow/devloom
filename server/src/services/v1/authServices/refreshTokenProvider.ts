@@ -38,6 +38,7 @@ export async function refreshTokenProvider(
                 ok: true,
                 message: "refresh token found",
                 refreshTokenSession: session,
+                userPayload
             }
         };
     } catch (e) {
