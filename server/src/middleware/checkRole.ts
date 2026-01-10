@@ -1,10 +1,10 @@
-import {isAllowedToAction} from "@utils/auth.js";
 import type {NextFunction, Response} from "express";
 import {type AuthRequest, UserRole} from "@src/types/index.js";
+import {type Comparison, isAllowedToAction} from "@utils/auth.js";
 
 interface Params {
     requiredRole: UserRole;
-    comparison?: "equal" | "higher";
+    comparison?: Comparison;
     message?: string;
 }
 
@@ -40,8 +40,7 @@ export default function checkRole(
             return res.status(403).json({
                 ok: false,
                 code: "ACCESS_DENIED",
-                message: message ||
-                    `Your role (${userRole}) is not allowed to access a route requiring ${requiredRole} (${comparison}).`,
+                message: message || `Your role (${userRole}) is not allowed to access a route requiring ${requiredRole} (${comparison}).`,
             });
         }
 
