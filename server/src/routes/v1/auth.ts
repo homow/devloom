@@ -9,6 +9,7 @@ import {
     banUserController,
     changeRoleController,
     deleteUserController,
+    getMeController,
     getUsersController,
     loginController,
     logoutController,
