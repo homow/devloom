@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {checkUserDB, getSafeUser} from "@src/lib/index.js";
+import {checkUserDB} from "@src/lib/index.js";
 import type {AuthPayload, ServiceResponse} from "@src/types/index.js";
 
 export async function getMeService(
@@ -30,13 +30,12 @@ export async function getMeService(
             }
         };
     }
-
     return {
         status: 200,
         data: {
             ok: true,
             message: "user successfully found",
-            user: getSafeUser(userExist)
+            user: userExist
         }
     };
 }
