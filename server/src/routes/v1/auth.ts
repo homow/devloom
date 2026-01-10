@@ -5,22 +5,11 @@ import {
     UpdateUserSchema,
     UserSchema
 } from "@validators/user.js";
-import {
-    banUserController,
-    changeRoleController,
-    deleteUserController,
-    getMeController,
-    getUsersController,
-    loginController,
-    logoutController,
-    refreshController,
-    signUpController,
-    updateUserController
-} from "@controllers/v1/index.js";
 import express from 'express';
 import {UserRole} from "@src/types/index.js";
 import checkRole from "@middleware/checkRole.js";
 import checkBanned from "@middleware/checkBanned.js";
+import * as authController from "@controllers/v1/index.js";
 import isValidParamId from "@middleware/isValidParamId.js";
 import checkAccessToken from "@middleware/checkAccessToken.js";
 import checkBannedInBody from "@middleware/checkBannedInBody.js";
@@ -34,7 +23,7 @@ authRouter
     .post(
         validateRequestBody(UserSchema),
         checkBannedInBody("You cannot sign up because this email is banned. Please contact support if you believe this is an error."),
-        signUpController
+        authController.signUpController
     );
 
 authRouter
@@ -42,20 +31,20 @@ authRouter
     .post(
         validateRequestBody(LoginSchema),
         checkBannedInBody("This account is banned. Login is not allowed. Please contact support if you think this is a mistake."),
-        loginController
+        authController.loginController
     );
 
 authRouter
     .route("/getMe")
-    .get(getMeController);
+    .get(authController.getMeController);
 
 authRouter
     .route("/logout")
-    .post(logoutController);
+    .post(authController.logoutController);
 
 authRouter
     .route("/refresh")
-    .post(refreshController);
+    .post(authController.refreshController);
 
 authRouter
     .route("/banUser")
@@ -63,14 +52,14 @@ authRouter
         checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(BaseUserSchema),
         checkBannedInBody("The user is currently banned."),
-        banUserController
+        authController.banUserController
     );
 
 authRouter
     .route("/users")
     .get(
         checkRole({requiredRole: UserRole.ADMIN}),
-        getUsersController
+        authController.getUsersController
     );
 
 authRouter
@@ -78,16 +67,16 @@ authRouter
     .get(
         checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(BaseUserSchema),
-        getUsersController
+        authController.getUsersController
     )
     .delete(
         checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(BaseUserSchema),
-        deleteUserController
+        authController.deleteUserController
     )
     .patch(
         validateRequestBody(UpdateUserSchema),
-        updateUserController
+        authController.updateUserController
     );
 
 authRouter
@@ -96,7 +85,7 @@ authRouter
         checkRole({requiredRole: UserRole.ADMIN, comparison: "higher"}),
         isValidParamId,
         validateRequestBody(ChangeRoleSchema),
-        changeRoleController
+        authController.changeRoleController
     );
 
 export {authRouter};
