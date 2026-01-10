@@ -13,6 +13,7 @@ const app = express();
 
 const allowedOrigins: string[] = [
     `http://127.0.0.1:${process.env.PORT}`,
+    "http://127.0.0.1:4173",
     "http://127.0.0.1:5173",
     "http://127.0.0.1:5174",
     `http://localhost:${process.env.PORT}`,
