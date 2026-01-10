@@ -45,6 +45,10 @@ authRouter
     );
 
 authRouter
+    .route("/getMe")
+    .get(getMeController);
+
+authRouter
     .route("/logout")
     .post(logoutController);
 
