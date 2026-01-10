@@ -5,17 +5,6 @@ import type {AuthPayload, ServiceResponse} from "@src/types/index.js";
 export async function getMeService(
     userPayload: AuthPayload
 ): Promise<ServiceResponse> {
-    if (!userPayload) {
-        return {
-            status: 401,
-            data: {
-                ok: false,
-                message: "Unauthorized",
-                code: "UNAUTHORIZED",
-            }
-        };
-    }
-
     const isValidID: boolean = mongoose.isValidObjectId(userPayload.id);
 
     if (!isValidID) {
