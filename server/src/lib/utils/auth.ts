@@ -1,9 +1,11 @@
 import {RolePriority, UserRole} from "@src/types/index.js";
 
+export type Comparison = "equal" | "higher";
+
 interface Params {
     actionRole: UserRole;
     targetRole: UserRole;
-    roleComparison: "equal" | "higher";
+    roleComparison: Comparison;
 }
 
 export function isAllowedToAction(
