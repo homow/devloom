@@ -1,6 +1,6 @@
-import type {AuthRequest} from "@src/types/index.js";
 import type {Response} from "express";
 import {getMeService} from "@services/v1/index.js";
+import type {AuthRequest} from "@src/types/index.js";
 
 export async function getMeController(
     req: AuthRequest,

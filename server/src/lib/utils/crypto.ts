@@ -21,10 +21,6 @@ function hashSecretToken(value: string): string {
     return createHash('sha256').update(value).digest('hex');
 }
 
-function compareSecretToken(value: string, hashed: string) {
-    return hashSecretToken(value) === hashed;
-}
-
 function generateToken(
     payload: Record<string, unknown>,
     expiresIn: number | StringValue = "24h"
@@ -60,18 +56,10 @@ function verifyToken(
     }
 }
 
-function decodeToken(
-    token: string
-): string | JwtPayload | null {
-    return jwt.decode(token);
-}
-
 export {
     generateToken,
     hashSecret,
     compareSecret,
     verifyToken,
-    decodeToken,
     hashSecretToken,
-    compareSecretToken
 };
