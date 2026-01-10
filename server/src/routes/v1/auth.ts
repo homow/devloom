@@ -1,13 +1,7 @@
-import {
-    BaseUserSchema,
-    ChangeRoleSchema,
-    LoginSchema,
-    UpdateUserSchema,
-    UserSchema
-} from "@validators/user.js";
 import express from 'express';
 import {UserRole} from "@src/types/index.js";
 import checkRole from "@middleware/checkRole.js";
+import * as validator from "@validators/user.js";
 import checkBanned from "@middleware/checkBanned.js";
 import * as authController from "@controllers/v1/index.js";
 import isValidParamId from "@middleware/isValidParamId.js";
@@ -21,7 +15,7 @@ authRouter.use(checkAccessToken, checkBanned());
 authRouter
     .route("/signup")
     .post(
-        validateRequestBody(UserSchema),
+        validateRequestBody(validator.UserSchema),
         checkBannedInBody("You cannot sign up because this email is banned. Please contact support if you believe this is an error."),
         authController.signUpController
     );
@@ -29,7 +23,7 @@ authRouter
 authRouter
     .route("/login")
     .post(
-        validateRequestBody(LoginSchema),
+        validateRequestBody(validator.LoginSchema),
         checkBannedInBody("This account is banned. Login is not allowed. Please contact support if you think this is a mistake."),
         authController.loginController
     );
@@ -50,7 +44,7 @@ authRouter
     .route("/banUser")
     .post(
         checkRole({requiredRole: UserRole.ADMIN}),
-        validateRequestBody(BaseUserSchema),
+        validateRequestBody(validator.BaseUserSchema),
         checkBannedInBody("The user is currently banned."),
         authController.banUserController
     );
@@ -66,16 +60,16 @@ authRouter
     .route("/user")
     .get(
         checkRole({requiredRole: UserRole.ADMIN}),
-        validateRequestBody(BaseUserSchema),
+        validateRequestBody(validator.BaseUserSchema),
         authController.getUsersController
     )
     .delete(
         checkRole({requiredRole: UserRole.ADMIN}),
-        validateRequestBody(BaseUserSchema),
+        validateRequestBody(validator.BaseUserSchema),
         authController.deleteUserController
     )
     .patch(
-        validateRequestBody(UpdateUserSchema),
+        validateRequestBody(validator.UpdateUserSchema),
         authController.updateUserController
     );
 
@@ -84,7 +78,7 @@ authRouter
     .patch(
         checkRole({requiredRole: UserRole.ADMIN, comparison: "higher"}),
         isValidParamId,
-        validateRequestBody(ChangeRoleSchema),
+        validateRequestBody(validator.ChangeRoleSchema),
         authController.changeRoleController
     );
 
