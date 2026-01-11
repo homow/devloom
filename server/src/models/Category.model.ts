@@ -6,13 +6,18 @@ const CategoryModelShema: Schema<CategoryDB> = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 2,
-        maxlength: 20
+        maxlength: 20,
     },
     href: {
         type: String,
         required: true,
+        minlength: 2,
+        maxlength: 20,
     }
 });
+
+CategoryModelShema.index({title: 1}, {unique: true});
+CategoryModelShema.index({href: 1}, {unique: true});
 
 const CategoryModel: Model<CategoryDB> = mongoose.models.Category || mongoose.model<CategoryDB>("Category", CategoryModelShema, "category");
 
