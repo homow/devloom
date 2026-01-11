@@ -27,8 +27,6 @@ const UserModelShema: Schema<UserDB> = new mongoose.Schema({
 
 UserModelShema.index({email: 1}, {unique: true});
 
-const UserModel: Model<UserDB> =
-    mongoose.models.User
-    || mongoose.model<UserDB>("User", UserModelShema, "users");
+const UserModel: Model<UserDB> = mongoose.models.User || mongoose.model<UserDB>("User", UserModelShema, "users");
 
 export {UserModelShema, UserModel};

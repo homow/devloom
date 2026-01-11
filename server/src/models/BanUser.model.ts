@@ -20,6 +20,4 @@ export const BanUserModelShema: Schema<BanUserDB> = new mongoose.Schema({
 
 BanUserModelShema.index({email: 1}, {unique: true});
 
-export const BanUserModel: Model<BanUserDB> =
-    mongoose.models.BanUser
-    || mongoose.model<BanUserDB>("BanUser", BanUserModelShema, "banned_users");
+export const BanUserModel: Model<BanUserDB> = mongoose.models.BanUser || mongoose.model<BanUserDB>("BanUser", BanUserModelShema, "banned_users");
