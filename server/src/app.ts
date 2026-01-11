@@ -3,7 +3,7 @@ import "./lib/configs/db.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import {createPath} from "@lib/index.js";
-import {authRouter} from "@routes/v1/auth.js";
+import * as routes from "@routes/v1/index.js";
 import * as middleware from "./middleware/index.js";
 import {validateGlobalBody} from "@middleware/validateGlobalBody.js";
 
@@ -45,7 +45,8 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.static(createPath("public")));
 
 // --- Routes ---
-app.use(`${BASE_URL}/auth`, authRouter);
+app.use(`${BASE_URL}/auth`, routes.authRouter);
+app.use(`${BASE_URL}/category`, routes.categoryRoute);
 
 // --- 404 handler ---
 app.use(middleware.notFoundHandler);
