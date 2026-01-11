@@ -15,4 +15,4 @@ export function internalServerError(
         ok: false,
         message: err.message || "Internal Server Error",
     });
-};
+}

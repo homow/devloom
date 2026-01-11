@@ -8,4 +8,4 @@ export function notFoundHandler(
         ok: false,
         message: "Not Found",
     });
-};
+}

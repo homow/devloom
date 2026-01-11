@@ -46,4 +46,4 @@ export function checkRole(
 
         return next();
     };
-};
+}

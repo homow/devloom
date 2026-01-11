@@ -25,4 +25,4 @@ export function isValidParamId(
         });
     }
     return next();
-};
+}

@@ -32,4 +32,4 @@ export function checkAccessToken(
             code: "INVALID_ACCESS_TOKEN",
         });
     }
-};
+}
