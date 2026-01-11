@@ -2,11 +2,11 @@ import express from 'express';
 import {UserRole} from "@src/types/index.js";
 import * as validator from "@validators/user.js";
 import * as middleware from "@middleware/index.js";
-import * as authController from "@controllers/v1/index.js";
+import * as authController from "@controllers/v1/auth/index.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
 
 const authRouter = express.Router();
-authRouter.use(middleware.checkAccessToken, middleware.checkBanned());
+authRouter.use(middleware.checkAccessToken(), middleware.checkBanned());
 
 authRouter
     .route("/signup")
