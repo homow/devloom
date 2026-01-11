@@ -1,10 +1,25 @@
-export const ignoreRoutes: string[] = [
-    "/login",
-    "/signup",
-    "/refresh",
-    "/logout",
-];
+export interface IgnoredRoutes {
+    path: string;
+    method: string;
+}
 
-export function checkIgnoredRoute(path: string): boolean {
-    return ignoreRoutes.some(r => path.toLowerCase().startsWith(r.toLowerCase()));
+interface Params {
+    path: string;
+    method: string;
+}
+
+const ignoreRoutes: Readonly<IgnoredRoutes[]> = [
+    {method: "POST", path: "refresh"},
+    {method: "POST", path: "login"},
+    {method: "POST", path: "logout"},
+    {method: "POST", path: "signup"},
+] as const;
+
+export function checkIgnoredRoute(
+    {
+        method,
+        path,
+    }: Params,
+) {
+    return ignoreRoutes.some(r => path.includes(r.path) && method === r.method);
 }
