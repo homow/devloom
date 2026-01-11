@@ -13,7 +13,7 @@ const ignoreRoutes: Readonly<IgnoredRoutes[]> = [
     {method: "POST", path: "/auth/login"},
     {method: "POST", path: "/auth/logout"},
     {method: "POST", path: "/auth/signup"},
-    {method: "POST", path: "/category"}
+    {method: "GET", path: "/category"},
 ] as const;
 
 export function checkIgnoredRoute(
@@ -21,6 +21,6 @@ export function checkIgnoredRoute(
         method,
         path,
     }: Params,
-) {
+): boolean {
     return ignoreRoutes.some(r => path.includes(r.path) && method === r.method);
 }

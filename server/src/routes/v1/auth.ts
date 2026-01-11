@@ -6,7 +6,7 @@ import * as authController from "@controllers/v1/auth/index.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
 
 const authRouter = express.Router();
-authRouter.use(middleware.checkAccessToken(), middleware.checkBanned());
+authRouter.use(middleware.checkAccessToken, middleware.checkBanned());
 
 authRouter
     .route("/signup")
