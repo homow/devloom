@@ -8,7 +8,8 @@ export function checkBanned(message?: string) {
         res: Response,
         next: NextFunction
     ) => {
-        const isIgnored: boolean = checkIgnoredRoute(req.path);
+        const isIgnored: boolean = checkIgnoredRoute({path: req.originalUrl, method: req.method});
+
         if (isIgnored) {
             return next();
         }

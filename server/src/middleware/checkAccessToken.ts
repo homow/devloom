@@ -3,33 +3,36 @@ import {checkIgnoredRoute} from "@utils/route.js";
 import type {NextFunction, Response} from "express";
 import type {AuthPayload, AuthRequest} from "@src/types/index.js";
 
-export function checkAccessToken(
-    req: AuthRequest,
-    res: Response,
-    next: NextFunction
-) {
-    const isIgnored: boolean = checkIgnoredRoute(req.path);
+export function checkAccessToken() {
+    return (
+        req: AuthRequest,
+        res: Response,
+        next: NextFunction
+    ) => {
 
-    if (isIgnored) {
-        return next();
-    }
+        const isIgnored: boolean = checkIgnoredRoute({method: req.method, path: req.originalUrl});
 
-    const token = req.cookies.accessToken || req.headers.authorization?.split(" ")[1];
+        if (isIgnored) {
+            return next();
+        }
 
-    if (!token) return res.status(401).json({
-        ok: false,
-        message: 'Access token is required',
-        code: "ACCESS_TOKEN_MISSING",
-    });
+        const token = req.cookies.accessToken || req.headers.authorization?.split(" ")[1];
 
-    try {
-        req.userPayload = verifyToken(token) as AuthPayload;
-        return next();
-    } catch (e) {
-        return res.status(401).json({
+        if (!token) return res.status(401).json({
             ok: false,
-            message: (e as Error).message || "Access token is invalid or expired",
-            code: "INVALID_ACCESS_TOKEN",
+            message: 'Access token is required',
+            code: "ACCESS_TOKEN_MISSING",
         });
-    }
+
+        try {
+            req.userPayload = verifyToken(token) as AuthPayload;
+            return next();
+        } catch (e) {
+            return res.status(401).json({
+                ok: false,
+                message: (e as Error).message || "Access token is invalid or expired",
+                code: "INVALID_ACCESS_TOKEN",
+            });
+        }
+    };
 }
