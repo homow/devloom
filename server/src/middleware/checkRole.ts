@@ -20,7 +20,9 @@ export function checkRole(
         res: Response,
         next: NextFunction
     ) => {
-        if (!req.userPayload) {
+        const userPayload = req.userPayload;
+
+        if (!userPayload) {
             return res.status(401).json({
                 ok: false,
                 code: "UNAUTHORIZED",
@@ -28,7 +30,7 @@ export function checkRole(
             });
         }
 
-        const userRole = req.userPayload.role as UserRole;
+        const userRole = userPayload.role;
 
         const isAllowed: boolean = isAllowedToAction({
             actionRole: userRole,
