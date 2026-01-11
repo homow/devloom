@@ -1,7 +1,7 @@
 import type {Response} from "express";
-import {banUserService} from "@services/v1/index.js";
 import type {BaseUserInput} from "@validators/user.js";
 import {type AuthRequest, UserRole} from "@src/types/index.js";
+import {banUserService} from "@services/v1/authServices/index.js";
 
 export async function banUser(
     req: AuthRequest<{}, {}, BaseUserInput>,

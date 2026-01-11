@@ -1,7 +1,7 @@
 import type {Request, Response} from "express";
-import {loginService} from "@services/v1/index.js";
 import type {InputLogin} from "@validators/user.js";
 import {createTokenAndOptions} from "@utils/tokens.js";
+import {loginService} from "@services/v1/authServices/index.js";
 
 export async function login(
     req: Request<{}, {}, InputLogin>,

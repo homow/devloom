@@ -1,6 +1,6 @@
 import type {Response} from "express";
-import {logoutService} from "@services/v1/index.js";
 import type {AuthRequest} from "@src/types/index.js";
+import {logoutService} from "@services/v1/authServices/index.js";
 
 export async function logout(
     req: AuthRequest,

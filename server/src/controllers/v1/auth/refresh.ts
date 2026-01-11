@@ -1,7 +1,7 @@
 import type {Response} from "express";
 import type {AuthRequest} from "@src/types/index.js";
-import {refreshService} from "@services/v1/index.js";
 import {createTokenAndOptions} from "@utils/tokens.js";
+import {refreshService} from "@services/v1/authServices/index.js";
 
 export async function refresh(
     req: AuthRequest,

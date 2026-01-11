@@ -1,7 +1,7 @@
 import type {Response} from "express";
 import type {BaseUserInput} from "@validators/user.js";
-import {deleteUserService} from "@services/v1/index.js";
 import {type AuthRequest, UserRole} from "@src/types/index.js";
+import {deleteUserService} from "@services/v1/authServices/index.js";
 
 export async function deleteUser(
     req: AuthRequest<{}, {}, BaseUserInput>,
