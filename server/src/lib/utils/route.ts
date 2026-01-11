@@ -9,10 +9,11 @@ interface Params {
 }
 
 const ignoreRoutes: Readonly<IgnoredRoutes[]> = [
-    {method: "POST", path: "refresh"},
-    {method: "POST", path: "login"},
-    {method: "POST", path: "logout"},
-    {method: "POST", path: "signup"},
+    {method: "POST", path: "/auth/refresh"},
+    {method: "POST", path: "/auth/login"},
+    {method: "POST", path: "/auth/logout"},
+    {method: "POST", path: "/auth/signup"},
+    {method: "POST", path: "/category"}
 ] as const;
 
 export function checkIgnoredRoute(
