@@ -1,6 +1,6 @@
 import type {Request, Response} from "express";
 
-export default function notFoundHandler(
+export function notFoundHandler(
     _req: Request,
     res: Response,
 ) {

@@ -3,7 +3,7 @@ import {checkIgnoredRoute} from "@utils/route.js";
 import type {NextFunction, Response} from "express";
 import type {AuthPayload, AuthRequest} from "@src/types/index.js";
 
-export default function checkAccessToken(
+export function checkAccessToken(
     req: AuthRequest,
     res: Response,
     next: NextFunction

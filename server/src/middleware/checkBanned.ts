@@ -2,7 +2,7 @@ import type {NextFunction, Response} from "express";
 import type {AuthRequest} from "@src/types/index.js";
 import {checkBannedUser, checkIgnoredRoute, checkUserDB} from "@src/lib/index.js";
 
-export default function checkBanned(message?: string) {
+export function checkBanned(message?: string) {
     return async (
         req: AuthRequest,
         res: Response,

@@ -8,7 +8,7 @@ interface Params {
     message?: string;
 }
 
-export default function checkRole(
+export function checkRole(
     {
         requiredRole,
         comparison = "equal",

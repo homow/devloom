@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import type {NextFunction, Request, Response} from "express";
 
-export default function isValidParamId(
+export function isValidParamId(
     req: Request<{
         id?: string;
     }>,
