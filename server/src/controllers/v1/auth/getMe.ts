@@ -9,14 +9,14 @@ export async function getMe(
     const userPayload = req.userPayload;
 
     if (!userPayload) {
-        return {
+        return res.status(401).json({
             status: 401,
             data: {
                 ok: false,
-                message: "Unauthorized",
+                message: "Unauthorized. access token missing",
                 code: "UNAUTHORIZED",
             }
-        };
+        });
     }
 
     const result = await getMeService(userPayload);
