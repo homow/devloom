@@ -4,8 +4,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import {createPath} from "@lib/index.js";
 import {authRouter} from "@routes/v1/auth.js";
-import notFoundHandler from "@middleware/notFoundHandler.js";
-import internalServerError from "@middleware/internalServerError.js";
+import * as middleware from "./middleware/index.js";
 import {validateGlobalBody} from "@middleware/validateGlobalBody.js";
 
 const BASE_URL: string = process.env.BASE_URL || "/api/v1";
@@ -49,12 +48,12 @@ app.use(express.static(createPath("public")));
 app.use(`${BASE_URL}/auth`, authRouter);
 
 // --- 404 handler ---
-app.use(notFoundHandler);
+app.use(middleware.notFoundHandler);
 
 // --- Global error handler (JSON Syntax) ---
 app.use(validateGlobalBody);
 
 // internal server error handler
-app.use(internalServerError);
+app.use(middleware.internalServerError);
 
 export default app;
