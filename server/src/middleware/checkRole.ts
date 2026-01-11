@@ -40,7 +40,7 @@ export function checkRole(
             return res.status(403).json({
                 ok: false,
                 code: "ACCESS_DENIED",
-                message: message || `Your role (${userRole}) is not allowed to access a route requiring ${requiredRole} (${comparison}).`,
+                message: message || `Your role (${userRole}) is not allowed to access a route requiring ${requiredRole} (${comparison === "equal" ? "equal or higher" : comparison}).`,
             });
         }
 
