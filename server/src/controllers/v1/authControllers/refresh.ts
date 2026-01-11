@@ -3,7 +3,7 @@ import type {AuthRequest} from "@src/types/index.js";
 import {refreshService} from "@services/v1/index.js";
 import {createTokenAndOptions} from "@utils/tokens.js";
 
-export async function refreshController(
+export async function refresh(
     req: AuthRequest,
     res: Response
 ) {

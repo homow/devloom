@@ -3,7 +3,7 @@ import type {UpdateUserInput} from "@validators/user.js";
 import type {Response} from "express";
 import {updateUserService} from "@services/v1/index.js";
 
-export async function updateUserController(
+export async function updateUser(
     req: AuthRequest<{}, {}, UpdateUserInput>,
     res: Response
 ) {

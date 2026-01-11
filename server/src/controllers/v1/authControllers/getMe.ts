@@ -2,7 +2,7 @@ import type {Response} from "express";
 import {getMeService} from "@services/v1/index.js";
 import type {AuthRequest} from "@src/types/index.js";
 
-export async function getMeController(
+export async function getMe(
     req: AuthRequest,
     res: Response
 ) {

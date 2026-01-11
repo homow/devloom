@@ -13,7 +13,7 @@ authRouter
     .post(
         validateRequestBody(validator.UserSchema),
         middleware.checkBannedInBody("You cannot sign up because this email is banned. Please contact support if you believe this is an error."),
-        authController.signUpController
+        authController.signUp
     );
 
 authRouter
@@ -21,20 +21,20 @@ authRouter
     .post(
         validateRequestBody(validator.LoginSchema),
         middleware.checkBannedInBody("This account is banned. Login is not allowed. Please contact support if you think this is a mistake."),
-        authController.loginController
+        authController.login
     );
 
 authRouter
     .route("/getMe")
-    .get(authController.getMeController);
+    .get(authController.getMe);
 
 authRouter
     .route("/logout")
-    .post(authController.logoutController);
+    .post(authController.logout);
 
 authRouter
     .route("/refresh")
-    .post(authController.refreshController);
+    .post(authController.refresh);
 
 authRouter
     .route("/banUser")
@@ -42,14 +42,14 @@ authRouter
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(validator.BaseUserSchema),
         middleware.checkBannedInBody("The user is currently banned."),
-        authController.banUserController
+        authController.banUser
     );
 
 authRouter
     .route("/users")
     .get(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
-        authController.getUsersController
+        authController.getUsers
     );
 
 authRouter
@@ -57,16 +57,16 @@ authRouter
     .get(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(validator.BaseUserSchema),
-        authController.getUsersController
+        authController.getUsers
     )
     .delete(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(validator.BaseUserSchema),
-        authController.deleteUserController
+        authController.deleteUser
     )
     .patch(
         validateRequestBody(validator.UpdateUserSchema),
-        authController.updateUserController
+        authController.updateUser
     );
 
 authRouter
@@ -75,7 +75,7 @@ authRouter
         middleware.checkRole({requiredRole: UserRole.ADMIN, comparison: "higher"}),
         middleware.isValidParamId,
         validateRequestBody(validator.ChangeRoleSchema),
-        authController.changeRoleController
+        authController.changeRole
     );
 
 export {authRouter};

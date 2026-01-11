@@ -3,7 +3,7 @@ import {loginService} from "@services/v1/index.js";
 import type {InputLogin} from "@validators/user.js";
 import {createTokenAndOptions} from "@utils/tokens.js";
 
-export async function loginController(
+export async function login(
     req: Request<{}, {}, InputLogin>,
     res: Response
 ) {

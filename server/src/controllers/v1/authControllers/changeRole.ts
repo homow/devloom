@@ -3,7 +3,7 @@ import type {AuthRequest} from "@src/types/index.js";
 import type {ChangeRoleInput} from "@validators/user.js";
 import {changeRoleService} from "@services/v1/index.js";
 
-export async function changeRoleController(
+export async function changeRole(
     req: AuthRequest<
         { id: string },
         {},

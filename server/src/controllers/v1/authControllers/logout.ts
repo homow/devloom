@@ -2,7 +2,7 @@ import type {Response} from "express";
 import {logoutService} from "@services/v1/index.js";
 import type {AuthRequest} from "@src/types/index.js";
 
-export async function logoutController(
+export async function logout(
     req: AuthRequest,
     res: Response
 ) {

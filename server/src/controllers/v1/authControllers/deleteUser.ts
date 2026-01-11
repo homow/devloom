@@ -3,7 +3,7 @@ import type {BaseUserInput} from "@validators/user.js";
 import {deleteUserService} from "@services/v1/index.js";
 import {type AuthRequest, UserRole} from "@src/types/index.js";
 
-export async function deleteUserController(
+export async function deleteUser(
     req: AuthRequest<{}, {}, BaseUserInput>,
     res: Response
 ) {

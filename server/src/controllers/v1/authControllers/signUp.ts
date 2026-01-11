@@ -2,7 +2,7 @@ import type {Request, Response} from "express";
 import type {InputUser} from "@validators/user.js";
 import {signupService} from "@services/v1/index.js";
 
-export async function signUpController(
+export async function signUp(
     req: Request<{}, {}, InputUser>,
     res: Response
 ) {
