@@ -19,6 +19,7 @@ export interface ServiceResponse {
 export interface AuthPayload extends JwtPayload {
     id: string;
     role: UserRole;
+    remember?: boolean;
 }
 
 export interface AuthRequest<
