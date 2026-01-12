@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
-import {type CategoryInputCustom} from "./common.js";
+import {getSafeCategory} from "@src/lib/index.js";
 import CategoryModel from "@models/Category.model.js";
 import type {ServiceResponse} from "@src/types/index.js";
-import {getSafeCategory} from "@src/lib/index.js";
+import type {EditCategoryInput} from "@validators/category.js";
 
 export async function editService(
     id: string,
-    data: CategoryInputCustom
+    data: EditCategoryInput
 ): Promise<ServiceResponse> {
     const isValidID: boolean = mongoose.isValidObjectId(id);
     if (!isValidID) return {
@@ -29,10 +29,10 @@ export async function editService(
         }
     };
 
-    const newData: CategoryInputCustom = {};
+    const newData: EditCategoryInput = {};
 
-    if (typeof data.href !== "undefined") newData.href = data.href;
-    if (typeof data.title !== "undefined") newData.title = data.title;
+    if (data.href !== undefined) newData.href = data.href;
+    if (data.title !== undefined) newData.title = data.title;
 
     if (data.href === categoryExist.href || data.title === categoryExist.title) return {
         status: 409,
