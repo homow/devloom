@@ -1,3 +1,4 @@
+import {getSafeCategory} from "@src/lib/index.js";
 import CategoryModel from "@models/Category.model.js";
 import type {ServiceResponse} from "@src/types/index.js";
 import type {CategoryInput} from "@validators/category.js";
@@ -20,13 +21,7 @@ export async function createService(
         data: {
             ok: true,
             message: "Successfully created",
-            category: {
-                id: newCategory.id.toString(),
-                title: newCategory.title,
-                href: newCategory.href,
-                createdAt: newCategory.createdAt.toISOString(),
-                updatedAt: newCategory.updatedAt.toISOString(),
-            },
+            category: getSafeCategory(newCategory),
         }
     };
 }

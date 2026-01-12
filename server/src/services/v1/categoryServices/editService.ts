@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import {type CategoryInputCustom} from "./common.js";
 import CategoryModel from "@models/Category.model.js";
 import type {ServiceResponse} from "@src/types/index.js";
+import {getSafeCategory} from "@src/lib/index.js";
 
 export async function editService(
     id: string,
@@ -51,13 +52,7 @@ export async function editService(
         data: {
             ok: true,
             message: "Successfully created",
-            category: {
-                id: updateCategory?.id.toString(),
-                title: updateCategory?.title,
-                href: updateCategory?.href,
-                createdAt: updateCategory?.createdAt.toISOString(),
-                updatedAt: updateCategory?.updatedAt.toISOString(),
-            },
+            category: updateCategory && getSafeCategory(updateCategory),
         }
     };
 }
