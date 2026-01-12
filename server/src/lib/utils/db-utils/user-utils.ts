@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import {UserModel} from "@src/models/User.model.js";
 import {BanUserModel} from "@models/BanUser.model.js";
-import {createAggregateStage, userProjectStage} from "@src/aggregations/index.js";
+import {createPipelineStage, userProjectStage} from "@src/aggregations/index.js";
 
 interface CheckUserDBParams {
     id?: string;
@@ -18,7 +18,7 @@ export async function checkUserDB(
 ) {
     if (!email && !id) return null;
 
-    const aggregate = createAggregateStage({filter: [
+    const aggregate = createPipelineStage({filter: [
         {
             _id: id && new mongoose.Types.ObjectId(id)
         },

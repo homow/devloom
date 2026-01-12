@@ -14,7 +14,7 @@ interface AggregateStageParams {
     stage: PipelineStage;
 }
 
-export function createAggregateStage(
+export function createPipelineStage(
     {
         filter,
         stage,

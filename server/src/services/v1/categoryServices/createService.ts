@@ -1,12 +1,12 @@
 import CategoryModel from "@models/Category.model.js";
 import type {ServiceResponse} from "@src/types/index.js";
 import type {CategoryInput} from "@validators/category.js";
-import {categoryProjectStage, createAggregateStage} from "@src/aggregations/index.js";
+import {categoryProjectStage, createPipelineStage} from "@src/aggregations/index.js";
 
 export async function createService(
     data: CategoryInput
 ): Promise<ServiceResponse> {
-    const stage = createAggregateStage({
+    const stage = createPipelineStage({
         stage: categoryProjectStage,
         filter: [{title: data.title}, {href: data.href}]
     });
