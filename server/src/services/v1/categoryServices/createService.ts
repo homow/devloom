@@ -1,46 +1,56 @@
 import CategoryModel from "@models/Category.model.js";
-import type {ServiceResponse} from "@src/types/index.js";
+import type {CategoryDB, ServiceResponse} from "@src/types/index.js";
 import type {CategoryInput} from "@validators/category.js";
-
-interface CustomError extends Error {
-    code: number;
-}
+import {categoryProjectStage, createAggregateStage} from "@src/aggregations/index.js";
 
 export async function createService(
     data: CategoryInput
 ): Promise<ServiceResponse> {
-    try {
-        const newCategory = await CategoryModel.create({
-            title: data.title,
-            href: data.href,
-        });
+    const stage = createAggregateStage({
+        stage: categoryProjectStage,
+        filter: [{title: data.title}, {href: data.href}]
+    });
+    const categoryExist = await CategoryModel.aggregate(stage);
+
+    console.log(categoryExist);
+
+    if (categoryExist) {
+        const ctg =  categoryExist[0] as CategoryDB;
+
+        const messages = [];
+
+        if (data.href === ctg.href) messages.push("href");
+        if (data.title === ctg.title) messages.push("title");
+
+        const msg = `${messages[0] !== undefined ? messages[0] : ""} ${messages.length > 1 ? "and" : ""} ${messages[1] !== undefined ? messages[1] : ""}`;
 
         return {
-            status: 201,
+            status: 409,
             data: {
-                ok: true,
-                message: "Successfully created",
-                category: {
-                    id: newCategory.id.toString(),
-                    title: newCategory.title,
-                    href: newCategory.href,
-                    createdAt: newCategory.createdAt.toISOString(),
-                    updatedAt: newCategory.updatedAt.toISOString(),
-                },
+                message: `Category Already exist: (${msg.trim()})`,
+                ok: false,
+                category: ctg
             }
         };
-    } catch (e) {
-        if ((e as CustomError).code === 11000) {
-            return {
-                status: 409,
-                data: {
-                    ok: false,
-                    message: "Category already exists",
-                    code: "CATEGORY_EXIST",
-                }
-            };
-        } else {
-            throw e;
-        }
     }
+
+    const newCategory = await CategoryModel.create({
+        title: data.title,
+        href: data.href,
+    });
+
+    return {
+        status: 201,
+        data: {
+            ok: true,
+            message: "Successfully created",
+            category: {
+                id: newCategory.id.toString(),
+                title: newCategory.title,
+                href: newCategory.href,
+                createdAt: newCategory.createdAt.toISOString(),
+                updatedAt: newCategory.updatedAt.toISOString(),
+            },
+        }
+    };
 }
