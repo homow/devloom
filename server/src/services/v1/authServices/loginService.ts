@@ -2,7 +2,7 @@ import {UserModel} from "@models/User.model.js";
 import type {InputLogin} from "@validators/user.js";
 import type {ServiceResponse} from "@src/types/index.js";
 import {createRefreshTokenService} from "@services/v1/authServices/index.js";
-import {compareSecret, createTokenAndOptions, getSafeUser} from "@src/lib/index.js";
+import {compareSecret, createTokenAndOptions, generateTokenTime, getSafeUser} from "@src/lib/index.js";
 
 export async function loginService(
     data: InputLogin
@@ -46,9 +46,7 @@ export async function loginService(
         tokenType: "access"
     });
 
-    const expiresAt: Date = remember
-        ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7d
-        : new Date(Date.now() + 24 * 60 * 60 * 1000);    // 1d
+    const expiresAt: Date = generateTokenTime(remember);
 
     await createRefreshTokenService(
         userExist._id,
