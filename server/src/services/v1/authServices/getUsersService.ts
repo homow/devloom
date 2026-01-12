@@ -1,7 +1,7 @@
-import type {ServiceResponse} from "@src/types/index.js";
 import {checkUserDB} from "@src/lib/index.js";
 import {UserModel} from "@models/User.model.js";
-import {userAggregate} from "@src/aggregations/user.js";
+import type {ServiceResponse} from "@src/types/index.js";
+import {createAggregateStage, userProjectStage} from "@src/aggregations/index.js";
 
 export async function getUsersService(
     id?: string,
@@ -31,7 +31,8 @@ export async function getUsersService(
         };
     }
 
-    const users = await UserModel.aggregate(userAggregate());
+    const userStage = createAggregateStage({stage: userProjectStage});
+    const users = await UserModel.aggregate(userStage);
 
     return {
         status: 200,
