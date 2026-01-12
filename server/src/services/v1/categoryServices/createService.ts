@@ -1,5 +1,5 @@
 import CategoryModel from "@models/Category.model.js";
-import type {CategoryDB, ServiceResponse} from "@src/types/index.js";
+import type {ServiceResponse} from "@src/types/index.js";
 import type {CategoryInput} from "@validators/category.js";
 import {categoryProjectStage, createAggregateStage} from "@src/aggregations/index.js";
 
@@ -13,12 +13,10 @@ export async function createService(
     const [categoryExist] = await CategoryModel.aggregate(stage);
 
     if (categoryExist) {
-        const ctg =  categoryExist as CategoryDB;
-
         const messages = [];
 
-        if (data.href === ctg.href) messages.push("href");
-        if (data.title === ctg.title) messages.push("title");
+        if (data.href === categoryExist.href) messages.push("href");
+        if (data.title === categoryExist.title) messages.push("title");
 
         const msg = `${messages[0] !== undefined ? messages[0] : ""} ${messages.length > 1 ? "and" : ""} ${messages[1] !== undefined ? messages[1] : ""}`;
 
@@ -27,7 +25,7 @@ export async function createService(
             data: {
                 message: `Category Already exist: (${msg.trim()})`,
                 ok: false,
-                category: ctg
+                category: categoryExist
             }
         };
     }
