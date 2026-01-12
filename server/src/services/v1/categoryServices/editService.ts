@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
+import {type CategoryInputCustom} from "./common.js";
 import CategoryModel from "@models/Category.model.js";
 import type {ServiceResponse} from "@src/types/index.js";
-import {checkCategoryConflict, type CategoryInputCustom} from "./common.js";
 
 export async function editService(
     id: string,
@@ -17,7 +17,7 @@ export async function editService(
         }
     };
 
-    const categoryExist = await checkCategoryConflict(data);
+    const categoryExist = await CategoryModel.findById(id).lean();
 
     if (!categoryExist) return {
         status: 404,
@@ -33,11 +33,31 @@ export async function editService(
     if (typeof data.href !== "undefined") newData.href = data.href;
     if (typeof data.title !== "undefined") newData.title = data.title;
 
-    if (data.href === categoryExist.)
+    if (data.href === categoryExist.href || data.title === categoryExist.title) return {
+        status: 409,
+        data: {
+            ok: false,
+            message: "new data must be different with this category data",
+            code: "CONFLICT_DATA",
+        }
+    };
 
     const updateCategory = await CategoryModel.findByIdAndUpdate(id, {
         $set: newData
     }, {new: true});
 
-
+    return {
+        status: 200,
+        data: {
+            ok: true,
+            message: "Successfully created",
+            category: {
+                id: updateCategory?.id.toString(),
+                title: updateCategory?.title,
+                href: updateCategory?.href,
+                createdAt: updateCategory?.createdAt.toISOString(),
+                updatedAt: updateCategory?.updatedAt.toISOString(),
+            },
+        }
+    };
 }
