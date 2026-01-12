@@ -1,7 +1,7 @@
 import CategoryModel from "@models/Category.model.js";
 import type {ServiceResponse} from "@src/types/index.js";
 import type {CategoryInput} from "@validators/category.js";
-import {checkCategoryConflict} from "@controllers/v1/category/common.js";
+import {checkCategoryConflict} from "@services/v1/categoryServices/common.js";
 
 export async function createService(
     data: CategoryInput

@@ -1,9 +1,13 @@
-import type {CategoryInput} from "@validators/category.js";
-import {categoryProjectStage, createPipelineStage} from "@src/aggregations/index.js";
 import CategoryModel from "@models/Category.model.js";
 import type {ServiceResponse} from "@src/types/index.js";
+import {categoryProjectStage, createPipelineStage} from "@src/aggregations/index.js";
 
-export async function checkCategoryConflict(data: CategoryInput): Promise<ServiceResponse | null> {
+export type CategoryInputCustom = {
+    title?: string;
+    href?: string;
+};
+
+export async function checkCategoryConflict(data: CategoryInputCustom): Promise<ServiceResponse | null> {
     const stage = createPipelineStage({
         stage: categoryProjectStage,
         filter: [{title: data.title}, {href: data.href}]
