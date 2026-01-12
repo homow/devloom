@@ -10,12 +10,10 @@ export async function createService(
         stage: categoryProjectStage,
         filter: [{title: data.title}, {href: data.href}]
     });
-    const categoryExist = await CategoryModel.aggregate(stage);
-
-    console.log(categoryExist);
+    const [categoryExist] = await CategoryModel.aggregate(stage);
 
     if (categoryExist) {
-        const ctg =  categoryExist[0] as CategoryDB;
+        const ctg =  categoryExist as CategoryDB;
 
         const messages = [];
 
