@@ -1,4 +1,4 @@
-import {checkUserDB} from "@src/lib/index.js";
+import {checkUserDB, generateTokenTime} from "@src/lib/index.js";
 import {createTokenAndOptions} from "@utils/tokens.js";
 import {createRefreshTokenService, updateRefreshToken} from "./index.js";
 import type {AuthPayload, RefreshToken, ServiceResponse} from "@src/types/index.js";
@@ -32,9 +32,7 @@ export async function refreshService(
         tokenType: "access"
     });
 
-    const expiresAt: Date = userPayload.remember
-        ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7d
-        : new Date(Date.now() + 24 * 60 * 60 * 1000);    // 1d
+    const expiresAt: Date = generateTokenTime(userPayload.remember);
 
     await createRefreshTokenService(userPayload.id, refreshToken.token, expiresAt);
 
