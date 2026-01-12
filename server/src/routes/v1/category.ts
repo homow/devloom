@@ -14,6 +14,7 @@ categoryRoute
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
         middleware.validateRequestBody(validator.CategorySchema),
         categoryController.create
-    );
+    )
+    .get(categoryController.getAll);
 
 export {categoryRoute};
