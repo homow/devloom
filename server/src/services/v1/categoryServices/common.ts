@@ -1,27 +1,25 @@
+import {checkObjectID} from "@src/lib/index.js";
 import CategoryModel from "@models/Category.model.js";
-import type {ServiceResponse} from "@src/types/index.js";
 import type {CategoryInput} from "@validators/category.js";
 import {categoryProjectStage, createPipelineStage} from "@src/aggregations/index.js";
 
-export async function checkCategoryConflict(data: CategoryInput): Promise<ServiceResponse | null> {
+export async function checkCategoryConflict(data: CategoryInput, id?: string) {
+    if (id) {
+        const checkInvalidID = checkObjectID(id);
+        if (checkInvalidID) return checkInvalidID;
+    }
+
     const stage = createPipelineStage({
         stage: categoryProjectStage,
-        filter: [{title: data.title}, {href: data.href}]
+        filter: [{title: data.title}, {href: data.href}, {_id: id}]
     });
     const [categoryExist] = await CategoryModel.aggregate(stage);
 
     if (categoryExist) {
-        const messages = [];
-
-        if (data.href === categoryExist.href) messages.push("href");
-        if (data.title === categoryExist.title) messages.push("title");
-
-        const msg = `${messages[0] !== undefined ? messages[0] : ""} ${messages.length > 1 ? "and" : ""} ${messages[1] !== undefined ? messages[1] : ""}`;
-
         return {
             status: 409,
             data: {
-                message: `Category Already exist: (${msg.trim()})`,
+                message: "",
                 ok: false,
                 category: categoryExist
             }
