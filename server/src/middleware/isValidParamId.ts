@@ -1,28 +1,26 @@
-import mongoose from "mongoose";
+import {checkObjectID} from "@src/lib/index.js";
 import type {NextFunction, Request, Response} from "express";
 
-export function isValidParamId(
-    req: Request<{
-        id?: string;
-    }>,
-    res: Response,
-    next: NextFunction
-) {
-    const id: string | undefined = req.params.id;
+export function isValidParamId(key?: string) {
+    return (
+        req: Request<{
+            id?: string;
+        }>,
+        res: Response,
+        next: NextFunction
+    ) => {
+        const id: string | undefined = req.params.id;
 
-    if (!id) {
-        return res.status(400).json({
-            code: "MISSING_ID",
-            message: "ID parameter is required",
-        });
-    }
+        if (!id) {
+            return res.status(400).json({
+                code: "MISSING_ID",
+                message: "ID parameter is required",
+            });
+        }
 
-    if (!mongoose.isValidObjectId(id)) {
-        return res.status(400).json({
-            ok: false,
-            message: 'Invalid format ObjectId',
-            code: "INVALID_ID"
-        });
-    }
-    return next();
+        const invalidID = checkObjectID(id, key);
+        if (invalidID) return invalidID;
+
+        return next();
+    };
 }
