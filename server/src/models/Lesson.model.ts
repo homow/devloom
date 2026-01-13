@@ -5,7 +5,7 @@ const LessonModelShema: Schema<LessonDB> = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        minlength: 3,
+        minLength: 3,
     },
     free: {
         type: Boolean,
@@ -15,7 +15,7 @@ const LessonModelShema: Schema<LessonDB> = new mongoose.Schema({
     time: {
         type: String,
         required: true,
-        minlength: 1
+        minLength: 1
     },
     video: {
         type: String,

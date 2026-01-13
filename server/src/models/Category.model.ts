@@ -5,14 +5,14 @@ const CategoryModelShema: Schema<CategoryDB> = new mongoose.Schema({
         title: {
             type: String,
             required: true,
-            minlength: 2,
-            maxlength: 20,
+            minLength: 2,
+            maxLength: 20,
         },
         href: {
             type: String,
             required: true,
-            minlength: 2,
-            maxlength: 20,
+            minLength: 2,
+            maxLength: 20,
         }
     }, {timestamps: true}
 );
