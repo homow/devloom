@@ -7,10 +7,10 @@ const LessonModelShema: Schema<LessonDB> = new mongoose.Schema({
         required: true,
         minlength: 3,
     },
-    price: {
-        type: Number,
+    free: {
+        type: Boolean,
         required: true,
-        min: 0
+        default: false,
     },
     time: {
         type: String,

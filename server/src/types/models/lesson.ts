@@ -5,6 +5,6 @@ export interface LessonDB extends BaseDB {
     title: string;
     time: string;
     video: string;
-    price: number;
+    free: boolean;
     course: Types.ObjectId;
 }
