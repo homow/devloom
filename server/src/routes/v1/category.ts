@@ -15,7 +15,7 @@ categoryRoute
         middleware.validateRequestBody(validator.CategorySchema),
         categoryController.create
     )
-    .get(categoryController.getAll);
+    .get(categoryController.get);
 
 categoryRoute
     .route("/:id")
@@ -29,6 +29,10 @@ categoryRoute
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
         middleware.isValidParamId("category"),
         categoryController.deleteCategory
+    )
+    .get(
+        middleware.isValidParamId("category"),
+        categoryController.get
     );
 
 export {categoryRoute};
