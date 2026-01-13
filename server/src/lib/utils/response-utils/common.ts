@@ -39,14 +39,15 @@ export function getSafeCategory(data: CategoryDB): SafeCategoryDB {
 export function checkObjectID(id: string | Types.ObjectId, key?: string): ServiceResponse | null {
     const isValidID: boolean = mongoose.isValidObjectId(id);
 
-    const msg = `${key !== undefined ? key : ""} ID is invalid.`;
+    const msg: string = `${key !== undefined ? key : ""} ID is invalid.`;
+    const cd: string = `${key ? key.toUpperCase() + "_" : ""}ID_OBJECT_INVALID`;
 
     if (!isValidID) return {
         status: 403,
         data: {
             ok: false,
             message: msg.trim(),
-            code: "INVALID_OBJECT_ID",
+            code: cd.trim(),
         }
     };
 
