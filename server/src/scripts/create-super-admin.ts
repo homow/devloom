@@ -38,7 +38,7 @@ async function main() {
         });
 
         if (existing) {
-            console.error("super admin already exists", existing.email);
+            console.error(`super admin already exists\nemail: ${existing.email}\nid: ${existing._id}\nrole: ${existing.role}`);
             process.exit(0);
         }
 
@@ -55,7 +55,7 @@ async function main() {
             role: UserRole.SUPER_ADMIN,
             name: "super admin"
         });
-        console.log("✅ Super admin created:", user.email);
+        console.log(`✅ Super admin created:\nemail: ${user.email}\nid: ${user._id}\nrole: ${user.role}`);
         process.exit(0);
     } catch (e) {
         console.log("❌ Error: ", e);
