@@ -5,4 +5,4 @@ export interface CategoryDB extends BaseDB {
     href: string;
 }
 
-export type SafeCategory = Pick<CategoryDB, "href" | "title"> & SafeBaseDB;
+export type SafeCategoryDB = Pick<CategoryDB, "href" | "title"> & SafeBaseDB;
