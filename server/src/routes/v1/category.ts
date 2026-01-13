@@ -3,7 +3,6 @@ import {UserRole} from "@src/types/index.js";
 import * as validator from "@validators/index.js";
 import * as middleware from "@middleware/index.js";
 import * as categoryController from "@controllers/v1/category/index.js";
-import {checkRole} from "@middleware/index.js";
 
 const categoryRoute = express.Router();
 
@@ -21,10 +20,15 @@ categoryRoute
 categoryRoute
     .route("/:id")
     .put(
-        checkRole({requiredRole: UserRole.ADMIN}),
+        middleware.checkRole({requiredRole: UserRole.ADMIN}),
         middleware.isValidParamId("category"),
         middleware.validateRequestBody(validator.EditCategorySchema),
         categoryController.edit
+    )
+    .delete(
+        middleware.checkRole({requiredRole: UserRole.ADMIN}),
+        middleware.isValidParamId("category"),
+        categoryController.deleteCategory
     );
 
 export {categoryRoute};
