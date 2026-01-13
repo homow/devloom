@@ -1,4 +1,5 @@
-import type {BaseDB, CategoryDB, UserDB} from "@src/types/index.js";
+import mongoose, {Types} from "mongoose";
+import type {BaseDB, CategoryDB, ServiceResponse, UserDB} from "@src/types/index.js";
 
 function base<T extends BaseDB>(data: T) {
     return {
@@ -25,4 +26,21 @@ export function getSafeCategory(data: CategoryDB) {
         title: data.title,
         href: data.href,
     };
+}
+
+export function checkObjectID(id: string | Types.ObjectId, key?: string): ServiceResponse | null {
+    const isValidID: boolean = mongoose.isValidObjectId(id);
+
+    const msg = `${key !== undefined ? key : ""} ID is invalid.`;
+
+    if (!isValidID) return {
+        status: 403,
+        data: {
+            ok: false,
+            message: msg.trim(),
+            code: "INVALID_OBJECT_ID",
+        }
+    };
+
+    return null;
 }
