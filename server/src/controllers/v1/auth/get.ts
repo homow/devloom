@@ -2,7 +2,7 @@ import type {Request, Response} from "express";
 import type {BaseUserInput} from "@validators/user.js";
 import {getUsersService} from "@services/v1/authServices/getUsersService.js";
 
-export async function getUsers(
+export async function get(
     req: Request<{}, {}, BaseUserInput>,
     res: Response
 ) {

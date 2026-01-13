@@ -3,7 +3,7 @@ import type {BaseUserInput} from "@validators/user.js";
 import {type AuthRequest, UserRole} from "@src/types/index.js";
 import {banUserService} from "@services/v1/authServices/index.js";
 
-export async function banUser(
+export async function ban(
     req: AuthRequest<{}, {}, BaseUserInput>,
     res: Response
 ) {

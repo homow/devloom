@@ -37,19 +37,19 @@ authRouter
     .post(authController.refresh);
 
 authRouter
-    .route("/banUser")
+    .route("/ban")
     .post(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(validator.BaseUserSchema),
         middleware.checkBannedInBody("The user is currently banned."),
-        authController.banUser
+        authController.ban
     );
 
 authRouter
     .route("/users")
     .get(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
-        authController.getUsers
+        authController.get
     );
 
 authRouter
@@ -57,7 +57,7 @@ authRouter
     .get(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
         validateRequestBody(validator.BaseUserSchema),
-        authController.getUsers
+        authController.get
     )
     .delete(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
@@ -66,7 +66,7 @@ authRouter
     )
     .patch(
         validateRequestBody(validator.UpdateUserSchema),
-        authController.updateUser
+        authController.update
     );
 
 authRouter

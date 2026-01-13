@@ -7,7 +7,7 @@ Built with **TypeScript + Express + MongoDB + Zod**, focusing on clarity, struct
 
 ## 🚀 Features
 
-- Course management (create, update, list, delete)
+- Course management (create, update, list, deleteUser)
 - User system ready for authentication (JWT-ready)
 - Modular folder structure for clean architecture
 - Type-safe development with TypeScript

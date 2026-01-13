@@ -3,7 +3,7 @@ import type {AuthRequest} from "@src/types/index.js";
 import type {UpdateUserInput} from "@validators/user.js";
 import {updateUserService} from "@services/v1/authServices/index.js";
 
-export async function updateUser(
+export async function update(
     req: AuthRequest<{}, {}, UpdateUserInput>,
     res: Response
 ) {
