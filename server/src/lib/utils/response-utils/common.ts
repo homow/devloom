@@ -1,5 +1,5 @@
 import mongoose, {Types} from "mongoose";
-import type {BaseDB, CategoryDB, ServiceResponse, UserDB} from "@src/types/index.js";
+import type {BaseDB, CategoryDB, SafeCategory, ServiceResponse, UserDB} from "@src/types/index.js";
 
 function base<T extends BaseDB>(data: T) {
     return {
@@ -19,7 +19,7 @@ export function getSafeUser(data: UserDB) {
     };
 }
 
-export function getSafeCategory(data: CategoryDB) {
+export function getSafeCategory(data: CategoryDB): SafeCategory {
     const baseData = base(data);
     return {
         ...baseData,
