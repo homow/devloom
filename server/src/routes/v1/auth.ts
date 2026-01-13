@@ -73,7 +73,7 @@ authRouter
     .route("/user/:id/role")
     .patch(
         middleware.checkRole({requiredRole: UserRole.ADMIN, comparison: "higher"}),
-        middleware.isValidParamId,
+        middleware.isValidParamId("user"),
         validateRequestBody(validator.ChangeRoleSchema),
         authController.changeRole
     );
