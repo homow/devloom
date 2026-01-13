@@ -40,7 +40,7 @@ export async function editService(
         status: 200,
         data: {
             ok: true,
-            message: "Successfully created",
+            message: "Successfully updated category",
             category: updateCategory && getSafeCategory(updateCategory),
         }
     };
