@@ -18,14 +18,7 @@ export const UserSchema = z.object({
             {error: "password must contain at least one letter and one number"}
         ),
     email: z.email(),
-}).overwrite(data => {
-        return {
-            name: data.name?.trim(),
-            password: data.password,
-            email: data.email,
-        };
-    }
-);
+});
 
 export type InputUser = z.infer<typeof UserSchema>;
 
@@ -83,3 +76,14 @@ export const UpdateUserSchema = z.object({
 );
 
 export type UpdateUserInput = z.infer<typeof UpdateUserSchema>;
+
+// <=== refine ===>
+
+UserSchema.overwrite(data => {
+        return {
+            name: data.name?.trim(),
+            password: data.password,
+            email: data.email,
+        };
+    }
+);
