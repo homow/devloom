@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import {getSafeCategory} from "@src/lib/index.js";
 import CategoryModel from "@models/Category.model.js";
 import type {ServiceResponse} from "@src/types/index.js";
@@ -8,16 +7,6 @@ export async function editService(
     id: string,
     data: EditCategoryInput
 ): Promise<ServiceResponse> {
-    const isValidID: boolean = mongoose.isValidObjectId(id);
-    if (!isValidID) return {
-        status: 403,
-        data: {
-            ok: false,
-            message: "Invalid category ID. please check it",
-            code: "INVALID_ID",
-        }
-    };
-
     const categoryExist = await CategoryModel.findById(id).lean();
 
     if (!categoryExist) return {
@@ -31,8 +20,8 @@ export async function editService(
 
     const newData: EditCategoryInput = {};
 
-    if (data.href !== undefined) newData.href = data.href;
-    if (data.title !== undefined) newData.title = data.title;
+    if (data.href) newData.href = data.href;
+    if (data.title) newData.title = data.title;
 
     if (data.href === categoryExist.href || data.title === categoryExist.title) return {
         status: 409,
