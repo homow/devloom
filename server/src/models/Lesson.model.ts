@@ -24,6 +24,7 @@ const LessonModelShema: Schema<LessonDB> = new mongoose.Schema({
     course: {
         type: mongoose.Types.ObjectId,
         ref: "Course",
+        required: true,
     }
 }, {
     timestamps: true
