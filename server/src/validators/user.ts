@@ -18,8 +18,7 @@ export const UserSchema = z.object({
             {error: "password must contain at least one letter and one number"}
         ),
     email: z.email(),
-}).overwrite(
-    data => {
+}).overwrite(data => {
         return {
             name: data.name?.trim(),
             password: data.password,
@@ -75,8 +74,7 @@ export const UpdateUserSchema = z.object({
         error: "At least one of 'name' or 'password' must be provided",
         path: ["name", "password"],
     }
-).overwrite(
-    data => {
+).overwrite(data => {
         return {
             name: data.name?.trim(),
             password: data.password,
