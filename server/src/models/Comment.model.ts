@@ -5,7 +5,7 @@ const CommentModelShema: Schema<CommentDB> = new mongoose.Schema({
     body: {
         type: String,
         required: true,
-        minLength: 2,
+        minLength: 3,
     },
     writer: {
         type: Types.ObjectId,
@@ -15,7 +15,6 @@ const CommentModelShema: Schema<CommentDB> = new mongoose.Schema({
     isConfirm: {
         type: Boolean,
         default: false,
-        required: true,
     },
     score: {
         type: Number,
@@ -29,10 +28,16 @@ const CommentModelShema: Schema<CommentDB> = new mongoose.Schema({
     isReply: {
         type: Boolean,
         required: true,
+        default: false,
     },
     mainComment: {
         type: Types.ObjectId,
-        required: false,
         default: null,
     },
 });
+
+CommentModelShema.index({course: 1});
+
+const CommentModel: Model<CommentDB> = mongoose.models.Comment || mongoose.model<CommentDB>("Comment", CommentModelShema, "comments");
+
+export default CommentModel;
