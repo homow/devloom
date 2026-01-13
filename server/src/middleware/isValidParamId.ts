@@ -17,9 +17,8 @@ export function isValidParamId(key?: string) {
                 message: "ID parameter is required",
             });
         }
-
         const invalidID = checkObjectID(id, key);
-        if (invalidID) return invalidID;
+        if (invalidID) return res.status(invalidID.status).json(invalidID.data);
 
         return next();
     };
