@@ -1,7 +1,15 @@
+import type {
+    BaseDB,
+    UserDB,
+    CategoryDB,
+    SafeBaseDB,
+    SafeUserDB,
+    SafeCategoryDB,
+    ServiceResponse,
+} from "@src/types/index.js";
 import mongoose, {Types} from "mongoose";
-import type {BaseDB, CategoryDB, SafeCategory, ServiceResponse, UserDB} from "@src/types/index.js";
 
-function base<T extends BaseDB>(data: T) {
+function base<T extends BaseDB>(data: T): SafeBaseDB {
     return {
         id: data._id?.toString(),
         createdAt: data.createdAt?.toISOString(),
@@ -9,7 +17,7 @@ function base<T extends BaseDB>(data: T) {
     };
 }
 
-export function getSafeUser(data: UserDB) {
+export function getSafeUser(data: UserDB): SafeUserDB {
     const baseData = base(data);
     return {
         ...baseData,
@@ -19,7 +27,7 @@ export function getSafeUser(data: UserDB) {
     };
 }
 
-export function getSafeCategory(data: CategoryDB): SafeCategory {
+export function getSafeCategory(data: CategoryDB): SafeCategoryDB {
     const baseData = base(data);
     return {
         ...baseData,
