@@ -23,6 +23,7 @@ categoryRoute
     .put(
         checkRole({requiredRole: UserRole.ADMIN}),
         middleware.isValidParamId("category"),
+        middleware.validateRequestBody(validator.EditCategorySchema),
         categoryController.edit
     );
 
