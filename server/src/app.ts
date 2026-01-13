@@ -42,7 +42,7 @@ if (!process.env.JWT_SECRET) {
 app.use(cookieParser(process.env.JWT_SECRET));
 
 // Static files (CSS, images, JS)
-app.use(express.static(createPath("public")));
+app.use("/static", express.static(createPath("public")));
 
 // --- Routes ---
 app.use(`${BASE_URL}/auth`, routes.authRouter);
