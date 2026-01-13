@@ -1,5 +1,5 @@
 import {Types} from "mongoose";
-import type {BaseDB} from "./common.js";
+import type {BaseDB, SafeBaseDB} from "./common.js";
 
 export enum UserRole {
     SUPER_ADMIN = "SUPER_ADMIN",
@@ -19,6 +19,8 @@ export interface UserDB extends BaseDB {
     role: UserRole;
     password: string;
 }
+
+export type SafeUserDB = Pick<UserDB, "role" | "name" | "email"> & SafeBaseDB;
 
 export interface RefreshToken extends BaseDB {
     token: string;
