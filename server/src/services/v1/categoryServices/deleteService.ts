@@ -1,6 +1,6 @@
-import type {ServiceResponse} from "@src/types/index.js";
-import CategoryModel from "@models/Category.model.js";
 import {getSafeCategory} from "@src/lib/index.js";
+import CategoryModel from "@models/Category.model.js";
+import type {ServiceResponse} from "@src/types/index.js";
 
 export async function deleteService(
     id: string
