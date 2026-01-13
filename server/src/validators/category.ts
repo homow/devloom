@@ -16,6 +16,11 @@ export const EditCategorySchema = z.object({
         error: "At least one of 'title' or 'href' must be provided",
         path: ["title", "href"],
     }
-);
+).overwrite(data => {
+    return {
+        title: data.title?.trim(),
+        href: data.href?.trim(),
+    };
+});
 
 export type EditCategoryInput = z.infer<typeof EditCategorySchema>;
