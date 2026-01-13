@@ -15,16 +15,7 @@ export async function checkCategoryConflict(data: CategoryInput, id?: string) {
     });
     const [categoryExist] = await CategoryModel.aggregate(stage);
 
-    if (categoryExist) {
-        return {
-            status: 409,
-            data: {
-                message: "",
-                ok: false,
-                category: categoryExist
-            }
-        };
-    }
+    if (categoryExist) return categoryExist;
 
     return null;
 }
