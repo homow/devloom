@@ -29,6 +29,7 @@ export async function editService(
             ok: false,
             message: "new data must be different with this category data",
             code: "CONFLICT_DATA",
+            category: getSafeCategory(categoryExist)
         }
     };
 
