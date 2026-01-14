@@ -1,7 +1,9 @@
 import {baseStage} from "./common.js";
 import type {PipelineStage} from "mongoose";
 
-export const categoryProjectStage: PipelineStage[] = [{
+type SafePipelineStage = Exclude<PipelineStage, PipelineStage.Merge | PipelineStage.Out>[];
+
+export const categoryProjectStage: SafePipelineStage = [{
     $project: {
         ...baseStage,
         title: 1,
@@ -9,7 +11,7 @@ export const categoryProjectStage: PipelineStage[] = [{
     }
 }];
 
-export const userProjectStage: PipelineStage[] = [{
+export const userProjectStage: SafePipelineStage = [{
     $project: {
         ...baseStage,
         name: 1,
@@ -25,7 +27,7 @@ export const courseProjectStage: PipelineStage[] = [
             let: {teacher: "$teacher"},
             pipeline: [
                 {$match: {$expr: {$eq: ["$_id", "$$teacher"]}}},
-
+                ...userProjectStage
             ],
             as: "teacher"
         }
