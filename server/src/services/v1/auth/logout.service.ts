@@ -1,6 +1,6 @@
 import RefreshTokenModel from "@models/RefreshToken.model.js";
 import type {RefreshToken, ServiceResponse} from "@src/types/index.js";
-import {refreshTokenProvider} from "@services/v1/authServices/refreshTokenProvider.js";
+import {refreshTokenProvider} from "@services/v1/auth/refreshTokenProvider.js";
 
 export async function logoutService(
     token: string

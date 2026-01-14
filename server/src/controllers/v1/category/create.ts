@@ -1,7 +1,7 @@
 import type {Response} from "express";
 import type {AuthRequest} from "@src/types/index.js";
 import type {CategoryInput} from "@validators/category.js";
-import {createService} from "@services/v1/categoryServices/index.js";
+import {createService} from "@services/v1/category/index.js";
 
 export async function create(
     req: AuthRequest<{}, {}, CategoryInput>,

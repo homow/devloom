@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import {checkUserDB} from "@src/lib/index.js";
 import type {AuthPayload, ServiceResponse} from "@src/types/index.js";
 
-export async function getMeService(
+export async function getMesService(
     userPayload: AuthPayload
 ): Promise<ServiceResponse> {
     const isValidID: boolean = mongoose.isValidObjectId(userPayload.id);

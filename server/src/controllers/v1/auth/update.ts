@@ -1,7 +1,7 @@
 import type {Response} from "express";
 import type {AuthRequest} from "@src/types/index.js";
 import type {UpdateUserInput} from "@validators/user.js";
-import {updateUserService} from "@services/v1/authServices/index.js";
+import {updateUserService} from "@services/v1/auth/index.js";
 
 export async function update(
     req: AuthRequest<{}, {}, UpdateUserInput>,

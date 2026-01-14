@@ -1,6 +1,6 @@
 import type {Response} from "express";
 import type {AuthRequest} from "@src/types/index.js";
-import {deleteService} from "@services/v1/categoryServices/index.js";
+import {deleteService} from "@services/v1/category/index.js";
 
 export async function deleteCategory(
     req: AuthRequest<{ id: string }>,

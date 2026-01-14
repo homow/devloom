@@ -1,7 +1,7 @@
 import {UserModel} from "@models/User.model.js";
 import type {InputLogin} from "@validators/user.js";
 import type {ServiceResponse} from "@src/types/index.js";
-import {createRefreshTokenService} from "@services/v1/authServices/index.js";
+import {createRefreshTokensService} from "@services/v1/auth/index.js";
 import {compareSecret, createTokenAndOptions, generateTokenTime, getSafeUser} from "@src/lib/index.js";
 
 export async function loginService(
@@ -48,7 +48,7 @@ export async function loginService(
 
     const expiresAt: Date = generateTokenTime(remember);
 
-    await createRefreshTokenService(
+    await createRefreshTokensService(
         userExist._id,
         refreshToken.token,
         expiresAt,

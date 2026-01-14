@@ -1,7 +1,8 @@
 import type {CategoryDB} from "@src/types/index.js";
 import mongoose, {type Model, type Schema} from "mongoose";
 
-const CategoryModelShema: Schema<CategoryDB> = new mongoose.Schema({
+const CategoryModelShema: Schema<CategoryDB> = new mongoose.Schema(
+    {
         title: {
             type: String,
             required: true,
@@ -14,7 +15,10 @@ const CategoryModelShema: Schema<CategoryDB> = new mongoose.Schema({
             minLength: 2,
             maxLength: 20,
         }
-    }, {timestamps: true}
+    },
+    {
+        timestamps: true
+    }
 );
 
 CategoryModelShema.index({title: 1}, {unique: true});

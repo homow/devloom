@@ -3,7 +3,7 @@ import {hashSecretToken} from "@utils/crypto.js";
 import type {ServiceResponse} from "@src/types/index.js";
 import RefreshTokenModel from "@models/RefreshToken.model.js";
 
-export async function createRefreshTokenService(
+export async function createRefreshTokensService(
     userId: Types.ObjectId | string,
     token: string,
     expiresAt: Date,

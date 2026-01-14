@@ -1,6 +1,6 @@
 import type {Response} from "express";
 import type {AuthRequest} from "@src/types/index.js";
-import {getMeService} from "@services/v1/authServices/index.js";
+import {getMesService} from "@services/v1/auth/index.js";
 
 export async function getMe(
     req: AuthRequest,
@@ -19,6 +19,6 @@ export async function getMe(
         });
     }
 
-    const result = await getMeService(userPayload);
+    const result = await getMesService(userPayload);
     return res.status(result.status).json(result.data);
 }

@@ -1,5 +1,5 @@
 import type {Request, Response} from "express";
-import {getService} from "@services/v1/categoryServices/index.js";
+import {getService} from "@services/v1/category/index.js";
 
 export async function get(
     req: Request<{ id?: string }>,

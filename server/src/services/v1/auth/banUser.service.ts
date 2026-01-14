@@ -1,6 +1,6 @@
 import {UserModel} from "@models/User.model.js";
 import {BanUserModel} from "@models/BanUser.model.js";
-import {revokeAllUserTokens} from "@services/v1/authServices/index.js";
+import {revokeAllUserTokens} from "@services/v1/auth/index.js";
 import {type AuthRouteParams, type ServiceResponse} from "@src/types/index.js";
 import {createQueryPattern, getSafeUser, isAllowedToAction} from "@src/lib/index.js";
 
