@@ -2,7 +2,7 @@ import type {NextFunction, Response} from "express";
 import {type AuthRequest, UserRole} from "@src/types/index.js";
 import {type Comparison, isAllowedToAction} from "@utils/auth.js";
 
-interface Params {
+interface CheckRoleParams {
     requiredRole: UserRole;
     comparison?: Comparison;
     message?: string;
@@ -12,8 +12,8 @@ export function checkRole(
     {
         requiredRole,
         comparison = "equal",
-        message
-    }: Params
+        message,
+    }: CheckRoleParams
 ) {
     return (
         req: AuthRequest,
