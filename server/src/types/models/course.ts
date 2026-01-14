@@ -11,5 +11,5 @@ export interface CourseDB extends BaseDB {
     discount: number;
     teacher: Types.ObjectId;
     category: Types.ObjectId;
-    status: "completed" | "forward sale" | "is ";
+    status: "completed" | "forward sale" | "in progress";
 }
