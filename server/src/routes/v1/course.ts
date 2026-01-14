@@ -1,12 +1,18 @@
 import express from 'express';
 import {UserRole} from "@src/types/index.js";
 import * as middleware from "@middleware/index.js";
+import type {IgnoredRoutesKeys} from "@utils/route.js";
 import * as courseController from "@controllers/v1/course/index.js";
 
 const courseRouter = express.Router();
+
+const ignoreRoutes: IgnoredRoutesKeys[] = [
+    {method: "GET", path: "/course"},
+];
+
 courseRouter.use(
-    middleware.checkAccessToken,
-    middleware.checkBanned(),
+    middleware.checkAccessToken(ignoreRoutes),
+    middleware.checkBanned(ignoreRoutes),
     middleware.checkRole({requiredRole: UserRole.ADMIN}),
 );
 
