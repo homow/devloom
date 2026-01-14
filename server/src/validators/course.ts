@@ -11,7 +11,7 @@ export const CourseSchema = z.object({
     href: z.string(),
     teacher: checkZodObjectId("teacher"),
     category: checkZodObjectId("category"),
-    status: z.enum(["completed", "forward sale", "in progress"]),
+    status: z.enum(["completed", "Pre-sale", "In-progress"]),
 }).overwrite(data => {
     return {
         title: data.title.trim(),
