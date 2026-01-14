@@ -53,3 +53,10 @@ const CourseModelShema: Schema<CourseDB> = new mongoose.Schema({
 }, {
     timestamps: true,
 });
+
+CourseModelShema.index({title: 1}, {unique: true});
+CourseModelShema.index({href: 1}, {unique: true});
+
+const CourseModel: Model<CourseDB> = mongoose.models.Course || mongoose.model<CourseDB>("Course", CourseModelShema, "courses");
+
+export default CourseModel;
