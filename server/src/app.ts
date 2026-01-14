@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 import {createPath} from "@lib/index.js";
 import * as routes from "@routes/v1/index.js";
 import * as middleware from "./middleware/index.js";
-import {validateGlobalBody} from "@middleware/validateGlobalBody.js";
 
 const BASE_URL: string = process.env.BASE_URL || "/api/v1";
 const app = express();
@@ -52,7 +51,7 @@ app.use(`${BASE_URL}/category`, routes.categoryRoute);
 app.use(middleware.notFoundHandler);
 
 // --- Global error handler (JSON Syntax) ---
-app.use(validateGlobalBody);
+app.use(middleware.validateGlobalBody);
 
 // internal server error handler
 app.use(middleware.internalServerError);
