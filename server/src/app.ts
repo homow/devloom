@@ -1,13 +1,13 @@
 import cors from "cors";
 import "./lib/configs/db.js";
 import express from "express";
-import cookieParser from "cookie-parser";
 import {createPath} from "./path.js";
+import cookieParser from "cookie-parser";
 import * as routes from "@routes/v1/index.js";
 import * as middleware from "./middleware/index.js";
 
-const BASE_URL: string = process.env.BASE_URL || "/api/v1";
 const app = express();
+const BASE_URL: string = process.env.BASE_URL || "/api/v1";
 
 const allowedOrigins: string[] = [
     `http://127.0.0.1:${process.env.PORT}`,
