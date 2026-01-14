@@ -1,0 +1,55 @@
+import type {CourseDB} from "@src/types/index.js";
+import mongoose, {Types, type Model, type Schema} from "mongoose";
+
+const CourseModelShema: Schema<CourseDB> = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+        minLength: 2,
+    },
+    description: {
+        type: String,
+        required: true,
+        minLength: 10,
+    },
+    price: {
+        type: Number,
+        min: 0,
+        required: true,
+    },
+    cover: {
+        type: String,
+        required: true,
+    },
+    support: {
+        type: String,
+        required: true,
+    },
+    href: {
+        type: String,
+        required: true,
+    },
+    discount: {
+        type: Number,
+        required: true,
+        min: 0,
+        default: 0,
+    },
+    teacher: {
+        type: Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
+    category: {
+        type: Types.ObjectId,
+        ref: "Category",
+        required: true,
+    },
+    status: {
+        type: String,
+        enum: ["completed", "forward sale", "in progress"],
+        required: true,
+    },
+}, {
+    timestamps: true,
+});
