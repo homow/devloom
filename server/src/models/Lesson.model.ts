@@ -20,6 +20,7 @@ const LessonModelShema: Schema<LessonDB> = new mongoose.Schema({
     video: {
         type: String,
         required: true,
+        minLength: 1
     },
     course: {
         type: mongoose.Types.ObjectId,
