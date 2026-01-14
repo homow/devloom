@@ -40,7 +40,7 @@ if (!process.env.JWT_SECRET) {
 
 app.use(cookieParser(process.env.JWT_SECRET));
 
-// Static files (CSS, images, JS)
+// --- Static files (CSS, images, JS) ---
 app.use("/static", express.static(createPath("public")));
 
 // --- Routes ---
@@ -53,7 +53,7 @@ app.use(middleware.notFoundHandler);
 // --- Global error handler (JSON Syntax) ---
 app.use(middleware.validateGlobalBody);
 
-// internal server error handler
+// --- internal server error handler ---
 app.use(middleware.internalServerError);
 
 export default app;
