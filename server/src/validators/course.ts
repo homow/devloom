@@ -12,6 +12,19 @@ export const CourseSchema = z.object({
     teacher: checkZodObjectId("teacher"),
     category: checkZodObjectId("category"),
     status: z.enum(["completed", "forward sale", "in progress"]),
+}).overwrite(data => {
+    return {
+        title: data.title.trim(),
+        description: data.description.trim(),
+        cover: data.cover.trim(),
+        support: data.support.trim(),
+        href: data.href.trim(),
+        price: data.price,
+        discount: data.discount,
+        teacher: data.teacher,
+        category: data.category,
+        status: data.status,
+    };
 });
 
 export type CourseInput = z.infer<typeof CourseSchema>;
