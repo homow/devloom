@@ -11,7 +11,7 @@ export const baseStage = {
 interface AggregateStageParams {
     filter?: Record<string, unknown>[];
     useAnd?: boolean;
-    stage: PipelineStage;
+    stage: PipelineStage[];
 }
 
 export function createPipelineStage(
@@ -21,14 +21,12 @@ export function createPipelineStage(
         useAnd = false,
     }: AggregateStageParams
 ): PipelineStage[] {
-    const stages: PipelineStage[] = [stage];
-
     if (filter && filter.length > 0) {
         const matchStage = createQueryPattern(
             filter,
             useAnd
         );
-        stages.unshift({$match: matchStage} as PipelineStage);
+        stage.unshift({$match: matchStage} as PipelineStage);
     }
-    return stages;
+    return stage;
 }
