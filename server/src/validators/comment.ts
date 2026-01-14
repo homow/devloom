@@ -9,6 +9,16 @@ export const CommentSchema = z.object({
     course: checkZodObjectId("course"),
     isReply: z.boolean().default(false),
     mainComment: checkZodObjectId("comment"),
+}).overwrite(data => {
+    return {
+        body: data.body.trim(),
+        writer: data.writer,
+        isConfirm: data.isConfirm,
+        score: data.score,
+        course: data.course,
+        isReply: data.isReply,
+        mainComment: data.mainComment,
+    };
 });
 
 export type CommentInput = z.infer<typeof CommentSchema>;
