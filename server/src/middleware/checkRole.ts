@@ -30,7 +30,7 @@ export function checkRole(
             });
         }
 
-        const userRole = userPayload.role;
+        const userRole: UserRole = userPayload.role;
 
         const isAllowed: boolean = isAllowedToAction({
             actionRole: userRole,
