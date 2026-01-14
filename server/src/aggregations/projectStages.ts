@@ -42,6 +42,8 @@ export const courseProjectStage: PipelineStage[] = [
             as: "category"
         }
     },
+    {$unwind: "$teacher"},
+    {$unwind: "$category"},
     {
         $project: {
             _id: 0
