@@ -1,9 +1,14 @@
 import {checkObjectID} from "@src/lib/index.js";
 import CourseModel from "@models/Course.model.js";
-import type {CourseInput} from "@validators/course.js";
 import {courseProjectStage, createPipelineStage} from "@src/aggregations/index.js";
 
-export async function checkCourseExist(data: CourseInput, id?: string) {
+export async function checkCourseExist(
+    data: {
+        title: string,
+        href: string
+    },
+    id?: string
+) {
     if (id) {
         const checkInvalidID = checkObjectID(id);
         if (checkInvalidID) return checkInvalidID;
