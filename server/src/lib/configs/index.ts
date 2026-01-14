@@ -1,2 +1,2 @@
 export * from "./paths.js";
-export * from "./uploader.js";
+export * from "./multer.js";

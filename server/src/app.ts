@@ -2,7 +2,7 @@ import cors from "cors";
 import "./lib/configs/db.js";
 import express from "express";
 import cookieParser from "cookie-parser";
-import {createPath} from "@lib/index.js";
+import {createPath} from "./path.js";
 import * as routes from "@routes/v1/index.js";
 import * as middleware from "./middleware/index.js";
 
