@@ -2,11 +2,16 @@ import express from "express";
 import {UserRole} from "@src/types/index.js";
 import * as validator from "@validators/index.js";
 import * as middleware from "@middleware/index.js";
+import type {IgnoredRoutesKeys} from "@utils/route.js";
 import * as categoryController from "@controllers/v1/category/index.js";
 
 const categoryRoute = express.Router();
 
-categoryRoute.use(middleware.checkAccessToken, middleware.checkBanned());
+const ignoreRoutes: IgnoredRoutesKeys[] = [
+    {method: "GET", path: "/category"},
+];
+
+categoryRoute.use(middleware.checkAccessToken(ignoreRoutes), middleware.checkBanned(ignoreRoutes));
 
 categoryRoute
     .route("/")
