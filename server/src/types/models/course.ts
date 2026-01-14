@@ -1,7 +1,7 @@
 import {Types} from "mongoose";
 import type {BaseDB} from "./index.js";
 
-export interface Course extends BaseDB {
+export interface CourseDB extends BaseDB {
     title: string;
     description: string;
     price: number;
