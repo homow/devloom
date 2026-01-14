@@ -20,6 +20,9 @@ function createMulter(pathDir: string) {
             file,
             cb
         ) => {
+            // const random: number = Math.round(Math.random() * 100);
+            // const filename: string = Date.now() + "_" + random + "_" + path.extname(file.originalname);
+
             const filename: string = hashSecretToken(file.originalname);
             cb(null, filename);
         }
