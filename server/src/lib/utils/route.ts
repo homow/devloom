@@ -1,21 +1,18 @@
-export interface IgnoredRoutesArray {
+export interface IgnoredRoutesKeys {
     path: string;
     method: string;
 }
 
-const ignoreRoutes: Readonly<IgnoredRoutesArray[]> = [
-    {method: "POST", path: "/auth/refresh"},
-    {method: "POST", path: "/auth/login"},
-    {method: "POST", path: "/auth/logout"},
-    {method: "POST", path: "/auth/signup"},
-    {method: "GET", path: "/category"},
-] as const;
+export interface CheckIgnoredRoutesParams extends IgnoredRoutesKeys {
+    ignoreRoutes: IgnoredRoutesKeys[];
+}
 
 export function checkIgnoredRoute(
     {
+        ignoreRoutes,
         method,
         path,
-    }: IgnoredRoutesArray,
+    }: CheckIgnoredRoutesParams,
 ): boolean {
     return ignoreRoutes.some(r => path.includes(r.path) && method === r.method);
 }
