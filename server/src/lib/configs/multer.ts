@@ -1,6 +1,9 @@
 import multer from "multer";
 import path from "node:path";
 import {createPath} from "@src/path.js";
+import {hashSecretToken} from "@utils/crypto.js";
+
+const MAX_SIZE: number = 3 * 1024 * 1024;
 
 function createMulter(pathDir: string) {
     const storage = multer.diskStorage({
@@ -16,14 +19,10 @@ function createMulter(pathDir: string) {
             file,
             cb
         ) => {
-            const random: number = Math.round(Math.random() * 100);
-            const filename: string = Date.now() + "_" + random + path.extname(file.originalname);
-
+            const filename: string = hashSecretToken(file.originalname);
             cb(null, filename);
         }
     });
-
-    const MAX_SIZE: number = 3 * 1024 * 1024;
 
     return multer({
         storage,
