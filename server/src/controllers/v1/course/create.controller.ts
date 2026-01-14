@@ -8,11 +8,5 @@ export async function create(
     res: Response
 ) {
     const result = await createService(req.body);
-
-    return res.status(200).json({
-        status: "success",
-        data: {
-            message: req.userPayload,
-        }
-    });
+    return res.status(result.status).json(result.data);
 }
