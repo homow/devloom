@@ -26,6 +26,7 @@ export async function createService(
             ok: false,
             message: "course already exists",
             code: "COURSE_EXIST",
+            course: courseExist
         }
     };
 
