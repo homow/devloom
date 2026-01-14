@@ -11,10 +11,12 @@ const BASE_URL: string = process.env.BASE_URL || "/api/v1";
 
 const allowedOrigins: string[] = [
     `http://127.0.0.1:${process.env.PORT}`,
+    "http://127.0.0.1:3000",
     "http://127.0.0.1:4173",
     "http://127.0.0.1:5173",
     "http://127.0.0.1:5174",
     `http://localhost:${process.env.PORT}`,
+    "http://localhost:3000",
     "http://localhost:4173",
     "http://localhost:5173",
     "http://localhost:5174",
