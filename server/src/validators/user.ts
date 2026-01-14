@@ -1,6 +1,6 @@
 import z from "zod";
-import {checkZodObjectId} from "@src/lib/index.js";
 import {UserRole} from "@src/types/index.js";
+import {checkZodObjectId} from "@src/lib/index.js";
 
 // <=== Signup Schema ===>
 
@@ -37,7 +37,7 @@ export type InputLogin = z.infer<typeof LoginSchema>;
 
 export const BaseUserSchema = z.object({
     email: z.email().optional(),
-    id: checkZodObjectId().optional()
+    id: checkZodObjectId("user").optional()
 }).refine(
     data => data.email || data.id,
     {
