@@ -2,11 +2,19 @@ import express from 'express';
 import {UserRole} from "@src/types/index.js";
 import * as validator from "@validators/index.js";
 import * as middleware from "@middleware/index.js";
+import type {IgnoredRoutesKeys} from "@utils/route.js";
 import * as authController from "@controllers/v1/auth/index.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
 
+const ignoreRoutes: IgnoredRoutesKeys[] = [
+    {method: "POST", path: "/auth/refresh"},
+    {method: "POST", path: "/auth/login"},
+    {method: "POST", path: "/auth/logout"},
+    {method: "POST", path: "/auth/signup"},
+];
+
 const authRouter = express.Router();
-authRouter.use(middleware.checkAccessToken, middleware.checkBanned());
+authRouter.use(middleware.checkAccessToken(ignoreRoutes), middleware.checkBanned(ignoreRoutes));
 
 authRouter
     .route("/signup")
