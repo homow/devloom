@@ -7,10 +7,10 @@ export async function createService(
 ): Promise<ServiceResponse> {
     const {
         title,
-        description,
-        category,
-        discount,
         href,
+        category,
+        description,
+        discount,
         status,
         support,
         teacher,
