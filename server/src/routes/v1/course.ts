@@ -14,12 +14,12 @@ const ignoreRoutes: IgnoredRoutesKeys[] = [
 courseRouter.use(
     middleware.checkAccessToken(ignoreRoutes),
     middleware.checkBanned(ignoreRoutes),
-    middleware.checkRole({requiredRole: UserRole.ADMIN}),
 );
 
 courseRouter
     .route("/")
     .post(
+        middleware.checkRole({requiredRole: UserRole.ADMIN}),
         middleware.validateRequestBody(validator.CourseSchema),
         courseController.create
     );
