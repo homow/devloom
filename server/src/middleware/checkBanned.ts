@@ -1,14 +1,17 @@
 import type {NextFunction, Response} from "express";
 import type {AuthRequest} from "@src/types/index.js";
-import {checkBannedUser, checkIgnoredRoute, checkUserDB} from "@src/lib/index.js";
+import {checkBannedUser, checkIgnoredRoute, checkUserDB, type IgnoredRoutesKeys} from "@src/lib/index.js";
 
-export function checkBanned(message?: string) {
+export function checkBanned(
+    ignoreRoutes: IgnoredRoutesKeys[],
+    message?: string
+) {
     return async (
         req: AuthRequest,
         res: Response,
         next: NextFunction
     ) => {
-        const isIgnored: boolean = checkIgnoredRoute({path: req.originalUrl, method: req.method});
+        const isIgnored: boolean = checkIgnoredRoute({path: req.originalUrl, method: req.method, ignoreRoutes});
 
         if (isIgnored) {
             return next();
