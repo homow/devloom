@@ -1,4 +1,4 @@
-import {Types} from "mongoose";
+import type {ObjectId} from "mongoose";
 import type {BaseDB, SafeBaseDB} from "./index.js";
 
 export interface CourseDB extends BaseDB {
@@ -9,8 +9,8 @@ export interface CourseDB extends BaseDB {
     support: string;
     href: string;
     discount: number;
-    teacher: Types.ObjectId;
-    category: Types.ObjectId;
+    teacher: ObjectId;
+    category: ObjectId;
     status: "completed" | "forward sale" | "in progress";
 }
 
