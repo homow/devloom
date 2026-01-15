@@ -29,7 +29,7 @@ export async function getService(
         };
     }
 
-    const categories = await CategoryModel.aggregate([categoryProjectStage]);
+    const categories = await CategoryModel.aggregate(categoryProjectStage);
 
     return {
         status: 200,
