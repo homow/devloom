@@ -1,4 +1,5 @@
 import z from "zod";
+import {CourseStatus} from "@src/types/index.js";
 import {checkZodObjectId} from "@src/lib/index.js";
 
 export const CourseSchema = z.object({
@@ -10,7 +11,7 @@ export const CourseSchema = z.object({
     href: z.string(),
     teacher: checkZodObjectId("teacher"),
     category: checkZodObjectId("category"),
-    status: z.enum(["completed", "Pre-sale", "In-progress"]),
+    status: z.enum(CourseStatus),
 }).overwrite(data => {
     return {
         title: data.title.trim(),
