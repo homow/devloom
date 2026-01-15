@@ -20,7 +20,7 @@ function createMulter(pathDir: string) {
             cb
         ) => {
             const random: number = Math.round(Math.random() * 100);
-            const filename: string = Date.now() + "_" + random + "_" + path.extname(file.originalname);
+            const filename: string = Date.now() + "_" + random + path.extname(file.originalname);
 
             cb(null, filename);
         }
