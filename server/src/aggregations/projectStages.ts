@@ -48,6 +48,7 @@ export const courseProjectStage: PipelineStage[] = [
     {
         $project: {
             ...baseStage,
+            title: 1,
             description: 1,
             price: 1,
             discount: 1,
