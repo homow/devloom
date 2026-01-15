@@ -2,12 +2,6 @@ import z from "zod";
 import type {NextFunction, Request, Response} from "express";
 import {createMulter, formatZodError} from "@src/lib/index.js";
 
-const fileSizeError = {
-    ok: false,
-    message: "File size too large, must be less than 3MB",
-    code: "LIMIT_FILE_SIZE"
-};
-
 interface UploaderOptions {
     pathDir: string;
     fileFieldName: string;
@@ -46,7 +40,11 @@ export function courseCoverUploader(
 
             if (err) {
                 if (err.code === "LIMIT_FILE_SIZE") {
-                    return res.status(400).json(fileSizeError);
+                    return res.status(400).json({
+                        ok: false,
+                        message: "File size too large, must be less than 3MB",
+                        code: "LIMIT_FILE_SIZE"
+                    });
                 }
                 return res.status(400).json({
                     ok: false,
