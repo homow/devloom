@@ -48,8 +48,8 @@ export function getSafeCourse(data: CourseDB): SafeCourseDB {
         support: data.support,
         href: data.href,
         discount: data.discount,
-        teacher: data.teacher,
-        category: data.category,
+        teacher: data.teacher.toString(),
+        category: data.category.toString(),
         status: data.status,
     };
 }
