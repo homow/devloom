@@ -5,7 +5,9 @@ import type {
     SafeBaseDB,
     SafeUserDB,
     SafeCategoryDB,
-    ServiceResponse, CourseDB, SafeCourseDB, CoursePopulate,
+    ServiceResponse,
+    SafeCourseDB,
+    CoursePopulate,
 } from "@src/types/index.js";
 import mongoose, {Types} from "mongoose";
 
