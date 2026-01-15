@@ -40,21 +40,21 @@ export function getSafeCategory(data: CategoryDB): SafeCategoryDB {
 
 export function getSafeCourse(data: CoursePopulate): SafeCourseDB {
     const baseData = base(data);
-    const category = getSafeCategory(data.category);
     const teacher = getSafeUser(data.teacher);
+    const category = getSafeCategory(data.category);
 
     return {
         ...baseData,
         title: data.title,
-        description: data.description,
-        price: data.price,
-        cover: data.cover,
-        support: data.support,
         href: data.href,
-        discount: data.discount,
-        teacher,
+        cover: data.cover,
         category,
+        teacher,
+        price: data.price,
+        discount: data.discount,
         status: data.status,
+        support: data.support,
+        description: data.description,
     };
 }
 
