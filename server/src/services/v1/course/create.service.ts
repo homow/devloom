@@ -42,27 +42,16 @@ export async function createService(
         teacher,
         price,
         cover
-    });
-
-    if (newCourse) {
-        const course = await newCourse.populate("teacher").then(c => c.populate("category"));
-
-        return {
-            status: 201,
-            data: {
-                ok: true,
-                message: "Course successfully created",
-                course,
-            }
-        };
-    }
+    })
+        .then(c => c.populate("teacher"))
+        .then(c => c.populate("category"));
 
     return {
-        status: 500,
+        status: 201,
         data: {
-            ok: false,
-            message: "Internal Server Error",
-            code: "INTERNAL_SERVER_ERROR",
+            ok: true,
+            message: "Course successfully created",
+            course: newCourse,
         }
     };
 }
