@@ -5,7 +5,9 @@ import type {CourseInput} from "@validators/course.js";
 import type {CoursePopulate, ServiceResponse} from "@src/types/index.js";
 
 export async function createService(
-    data: CourseInput,
+    data: CourseInput & {
+        cover: string,
+    },
 ): Promise<ServiceResponse> {
     const {
         title,
@@ -16,9 +18,9 @@ export async function createService(
         status,
         support,
         teacher,
-        price
+        price,
+        cover,
     } = data;
-
     const courseExist = await checkCourseExist({title, href});
 
     // check if exist and return a response
@@ -41,11 +43,14 @@ export async function createService(
         status,
         support,
         teacher,
-        price
+        price,
+        cover
     })
         // populated teacher form user and category collection
         .then(c => c.populate("teacher"))
         .then(c => c.populate("category")) as CoursePopulate;
+
+    console.log(newCourse);
 
     return {
         status: 201,
