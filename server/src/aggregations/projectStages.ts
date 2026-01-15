@@ -1,6 +1,7 @@
 import {baseStage} from "./common.js";
 import type {PipelineStage} from "mongoose";
 
+// type-safe for lookup and join
 type SafePipelineStage = Exclude<PipelineStage, PipelineStage.Merge | PipelineStage.Out>[];
 
 export const categoryProjectStage: SafePipelineStage = [{
@@ -22,6 +23,7 @@ export const userProjectStage: SafePipelineStage = [{
 
 export const courseProjectStage: PipelineStage[] = [
     {
+        // look and join teacher form users collection
         $lookup: {
             from: "users",
             let: {teacher: "$teacher"},
@@ -33,6 +35,7 @@ export const courseProjectStage: PipelineStage[] = [
         }
     },
     {
+        // look and join category form users collection
         $lookup: {
             from: "category",
             let: {category: "$category"},
@@ -43,6 +46,7 @@ export const courseProjectStage: PipelineStage[] = [
             as: "category"
         }
     },
+    // flatten arrays
     {$unwind: "$teacher"},
     {$unwind: "$category"},
     {
