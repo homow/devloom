@@ -20,7 +20,7 @@ courseRouter
     .route("/")
     .post(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
-        middleware.courseCoverUploader.singleUploader({
+        middleware.courseCoverUploader({
             pathDir: "courses/cover",
             fileFieldName: "cover",
             otherDataFieldName: "courseData",
