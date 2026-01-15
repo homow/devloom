@@ -1,7 +1,7 @@
 import {Types} from "mongoose";
 import type {BaseDB, SafeBaseDB, SafeUserDB, SafeCategoryDB, UserDB, CategoryDB} from "./index.js";
 
-enum CourseStatus {
+export enum CourseStatus {
     COMPLETED = "COMPLETED",
     PRE_SALSE = "PRE_SALSE",
     IN_PROGRESS = "IN_PROGRESS",
