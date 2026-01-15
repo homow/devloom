@@ -1,6 +1,12 @@
 import {Types} from "mongoose";
 import type {BaseDB, SafeBaseDB, SafeUserDB, SafeCategoryDB, UserDB, CategoryDB} from "./index.js";
 
+enum CourseStatus {
+    COMPLETED = "COMPLETED",
+    PRE_SALSE = "PRE_SALSE",
+    IN_PROGRESS = "IN_PROGRESS",
+}
+
 export interface CourseDB extends BaseDB {
     title: string;
     description: string;
@@ -11,7 +17,7 @@ export interface CourseDB extends BaseDB {
     discount: number;
     teacher: Types.ObjectId;
     category: Types.ObjectId;
-    status: "completed" | "forward sale" | "in progress";
+    status: CourseStatus;
 }
 
 export type CoursePopulate = Omit<CourseDB, "category" | "teacher"> & {
