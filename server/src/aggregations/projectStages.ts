@@ -20,6 +20,12 @@ export const userProjectStage: SafePipelineStage = [{
     }
 }];
 
+export const categoryProjectStage: SafePipelineStage = [{
+    $project: {
+
+    }
+}];
+
 export const courseProjectStage: PipelineStage[] = [
     {
         $lookup: {
