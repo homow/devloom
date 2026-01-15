@@ -11,6 +11,7 @@ import type {
 } from "@src/types/index.js";
 import mongoose, {Types} from "mongoose";
 
+// get safe base data form db collection
 function base<T extends BaseDB>(data: T): SafeBaseDB {
     return {
         id: data._id?.toString(),
@@ -19,6 +20,7 @@ function base<T extends BaseDB>(data: T): SafeBaseDB {
     };
 }
 
+// get safe user data from db collection
 export function getSafeUser(data: UserDB): SafeUserDB {
     const baseData = base(data);
     return {
@@ -29,6 +31,7 @@ export function getSafeUser(data: UserDB): SafeUserDB {
     };
 }
 
+// get safe category data from db collection
 export function getSafeCategory(data: CategoryDB): SafeCategoryDB {
     const baseData = base(data);
     return {
@@ -38,6 +41,7 @@ export function getSafeCategory(data: CategoryDB): SafeCategoryDB {
     };
 }
 
+// get safe course data from db collection
 export function getSafeCourse(data: CoursePopulate): SafeCourseDB {
     const baseData = base(data);
     const teacher = getSafeUser(data.teacher);
@@ -58,6 +62,7 @@ export function getSafeCourse(data: CoursePopulate): SafeCourseDB {
     };
 }
 
+// check object id and create ServiceResponse if exist
 export function checkObjectID(id: string | Types.ObjectId, key?: string): ServiceResponse | null {
     const isValidID: boolean = mongoose.isValidObjectId(id);
 
