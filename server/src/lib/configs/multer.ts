@@ -2,10 +2,19 @@ import multer from "multer";
 import path from "node:path";
 import {createPath} from "@src/path.js";
 
-const maxSize: number = Number(process.env.MULTER_MAX_SIZE_IMAGE);
-const MULTER_MAX_SIZE_IMAGE: number = (maxSize || 3) * 1024 * 1024;
+interface MulterOptionsParams {
+    pathDir: string,
+    maxSize: number,
+    limitFiles: RegExp
+}
 
-function createMulter(pathDir: string) {
+function createMulter(
+    {
+        pathDir,
+        maxSize,
+        limitFiles,
+    }: MulterOptionsParams
+) {
     const storage = multer.diskStorage({
         destination: (
             _req,
@@ -29,17 +38,16 @@ function createMulter(pathDir: string) {
     return multer({
         storage,
         limits: {
-            fileSize: MULTER_MAX_SIZE_IMAGE,
+            fileSize: maxSize,
         },
         fileFilter: (
             _req,
             file,
             cb
         ) => {
-            const allowed = /jpg|jpeg|png|webp/;
             const ext: string = path.extname(file.originalname);
 
-            if (allowed.test(ext)) {
+            if (limitFiles.test(ext)) {
                 cb(null, true);
             } else {
                 cb(new Error("Only jpg - jpeg - png - webp"));
