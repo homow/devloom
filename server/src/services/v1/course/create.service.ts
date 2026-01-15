@@ -22,6 +22,7 @@ export async function createService(
 
     const courseExist = await checkCourseExist({title, href});
 
+    // check if exist and return a response
     if (courseExist) return {
         status: 409,
         data: {
@@ -44,6 +45,7 @@ export async function createService(
         price,
         cover
     })
+        // populated teacher form user and category collection
         .then(c => c.populate("teacher"))
         .then(c => c.populate("category")) as CoursePopulate;
 
@@ -52,7 +54,7 @@ export async function createService(
         data: {
             ok: true,
             message: "Course successfully created",
-            course: getSafeCourse(newCourse),
+            course: getSafeCourse(newCourse), // return safe course data
         }
     };
 }
