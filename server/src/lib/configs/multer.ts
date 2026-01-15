@@ -1,7 +1,6 @@
 import multer from "multer";
 import path from "node:path";
 import {createPath} from "@src/path.js";
-import {hashSecretToken} from "@utils/crypto.js";
 
 const maxSize: number = Number(process.env.MULTER_MAX_SIZE_IMAGE);
 const MULTER_MAX_SIZE_IMAGE: number = (maxSize || 3) * 1024 * 1024;
@@ -20,11 +19,8 @@ function createMulter(pathDir: string) {
             file,
             cb
         ) => {
-            // const random: number = Math.round(Math.random() * 100);
-            // const filename: string = Date.now() + "_" + random + "_" + path.extname(file.originalname);
-
-            const hashedName: string = hashSecretToken(file.originalname);
-            const filename: string = Date.now() + "_" + hashedName + path.extname(file.originalname);
+            const random: number = Math.round(Math.random() * 100);
+            const filename: string = Date.now() + "_" + random + "_" + path.extname(file.originalname);
 
             cb(null, filename);
         }
