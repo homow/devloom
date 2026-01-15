@@ -29,6 +29,8 @@ export function courseCoverUploader(
         const multerUploader = createMulter({pathDir, maxSize: MULTER_MAX_SIZE_IMAGE, limitFiles: allowedFiles});
 
         multerUploader.single(fileFieldName)(req, res, (err) => {
+            const file = req.file;
+
             const body = JSON.parse(req.body[otherDataFieldName]);
             const result = schema.safeParse(body);
 
@@ -57,7 +59,7 @@ export function courseCoverUploader(
                     code: err?.code,
                 });
             }
-            const file = req.file;
+
             req.body[fileFieldName] = file?.filename;
             return next();
         });
