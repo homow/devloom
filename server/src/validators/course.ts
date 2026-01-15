@@ -6,7 +6,6 @@ export const CourseSchema = z.object({
     description: z.string().min(10),
     price: z.number().min(0),
     discount: z.number().min(0),
-    cover: z.string(),
     support: z.string(),
     href: z.string(),
     teacher: checkZodObjectId("teacher"),
@@ -16,7 +15,6 @@ export const CourseSchema = z.object({
     return {
         title: data.title.trim(),
         description: data.description.trim(),
-        cover: data.cover.trim(),
         support: data.support.trim(),
         href: data.href.trim(),
         price: data.price,
