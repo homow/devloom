@@ -1,8 +1,8 @@
 import {checkCourseExist} from "./common.js";
+import {getSafeCourse} from "@src/lib/index.js";
 import CourseModel from "@models/Course.model.js";
 import type {CourseInput} from "@validators/course.js";
 import type {CoursePopulate, ServiceResponse} from "@src/types/index.js";
-import {getSafeCourse} from "@src/lib/index.js";
 
 export async function createService(
     data: CourseInput,
