@@ -1,5 +1,4 @@
 import z from "zod";
-import type {ServiceResponse} from "@src/types/index.js";
 import type {NextFunction, Request, Response} from "express";
 import {createMulter, formatZodError} from "@src/lib/index.js";
 
@@ -9,42 +8,14 @@ const fileSizeError = {
     code: "LIMIT_FILE_SIZE"
 };
 
-function checkBody(
-    data: unknown,
-    schema: z.ZodTypeAny,
-): ServiceResponse | z.infer<typeof schema> {
-    const result = schema.safeParse(data);
-
-    if (!result.success) return {
-        status: 422,
-        data: {
-            ok: false,
-            errors: formatZodError(result.error),
-            message: "body is invalid"
-        }
-    };
-
-    return result.data;
-}
-
-interface BaseUploaderOptions {
+interface UploaderOptions {
     pathDir: string;
     fileFieldName: string;
+    schema: z.ZodTypeAny;
+    otherDataFieldName: string;
 }
 
-interface UploaderOptionsFile extends BaseUploaderOptions {
-    otherDataFieldName?: never;
-    schema?: never;
-}
-
-interface UploadOptionsFileWithBody extends BaseUploaderOptions {
-    schema?: z.ZodTypeAny;
-    otherDataFieldName?: string;
-}
-
-type UploaderOptions = | UploaderOptionsFile | UploadOptionsFileWithBody;
-
-function singleUploader(
+export function courseCoverUploader(
     {
         pathDir,
         fileFieldName,
@@ -59,16 +30,20 @@ function singleUploader(
     ) => {
         const multerUploader = createMulter(pathDir);
         multerUploader.single(fileFieldName)(req, res, (err) => {
-            if (otherDataFieldName && schema) {
-                const check = checkBody(JSON.parse(req.body[otherDataFieldName]), schema);
+            const body = JSON.parse(req.body[otherDataFieldName]);
+            const result = schema.safeParse(body);
 
-                const checkResponse = check as ServiceResponse;
-
-                if (checkResponse.status === 422) {
-                    return res.status(checkResponse.status).json(checkResponse.data);
+            if (!result.success) return res.status(422).json({
+                status: 422,
+                data: {
+                    ok: false,
+                    errors: formatZodError(result.error),
+                    message: "body is invalid"
                 }
-                req.body = check;
-            }
+            });
+
+            req.body = result.data;
+
             if (err) {
                 if (err.code === "LIMIT_FILE_SIZE") {
                     return res.status(400).json(fileSizeError);
@@ -85,51 +60,3 @@ function singleUploader(
         });
     };
 }
-
-// function multipleUploader(
-//     {
-//         pathDir,
-//         fileFieldName,
-//         otherDataFieldName,
-//         schema
-//     }: UploaderOptions
-// ) {
-//     return (
-//         req: Request,
-//         res: Response,
-//         next: NextFunction
-//     ) => {
-//         const multerUploader = createMulter(pathDir);
-//
-//         multerUploader.array(fileFieldName)(req, res, (err) => {
-//             if (otherDataFieldName !== undefined && schema) {
-//                 checkBody(JSON.parse(req.body[otherDataFieldName]), schema);
-//             }
-//
-//             if (err) {
-//                 if (err.code === "LIMIT_FILE_SIZE") {
-//                     return res.status(400).json(fileSizeError);
-//                 }
-//                 return res.status(400).json({
-//                     ok: false,
-//                     message: err?.message,
-//                     code: err?.code,
-//                 });
-//             }
-//
-//             const files = req.files;
-//
-//             if (Array.isArray(files) && files.length > 0) {
-//                 req.body[fileFieldName] = files.map(f => f?.filename);
-//             }
-//
-//             return next();
-//         });
-//     };
-// }
-
-const courseCoverUploader = {
-    singleUploader
-};
-
-export {courseCoverUploader};
