@@ -49,7 +49,6 @@ export function courseCoverUploader(
             });
 
             if (courseExist) {
-                console.log(file?.filename);
                 fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
                 return res.status(409).json({
                     ok: false,
