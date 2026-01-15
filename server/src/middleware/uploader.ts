@@ -1,12 +1,32 @@
 import z from "zod";
-import {createMulter} from "@src/lib/index.js";
 import type {NextFunction, Request, Response} from "express";
+import {createMulter, formatZodError} from "@src/lib/index.js";
 
 const fileSizeError = {
     ok: false,
     message: "File size too large, must be less than 3MB",
     code: "LIMIT_FILE_SIZE"
 };
+
+function checkBody(
+    data: unknown,
+    schema: z.ZodTypeAny,
+    req: Request,
+    res: Response
+) {
+    const result = schema.safeParse(data);
+
+    if (!result.success) return res.status(422).json({
+        status: 422,
+        data: {
+            ok: false,
+            errors: formatZodError(result.error),
+            message: "body is invalid"
+        }
+    });
+
+    return req.body = result.data;
+}
 
 interface BaseUploaderOptions {
     pathDir: string;
@@ -40,13 +60,10 @@ export function singleUploader(
     ) => {
         const multerUploader = createMulter(pathDir);
 
-
         multerUploader.single(fileFieldName)(req, res, (err) => {
-            if (otherDataFieldName !== undefined) {
-                const body = JSON.parse(req.body[otherDataFieldName]);
-                console.log(body);
+            if (otherDataFieldName && schema) {
+                checkBody(JSON.parse(req.body[otherDataFieldName]), schema, req, res);
             }
-
 
             if (err) {
                 if (err.code === "LIMIT_FILE_SIZE") {
@@ -59,7 +76,6 @@ export function singleUploader(
                 });
             }
             const file = req.file;
-            req.body = JSON.parse(req.body[otherDataFieldName]);
             req.body[fileFieldName] = file?.filename;
             return next();
         });
@@ -70,7 +86,8 @@ export function multipleUploader(
     {
         pathDir,
         fileFieldName,
-        otherDataFieldName
+        otherDataFieldName,
+        schema
     }: UploaderOptions
 ) {
     return (
@@ -81,6 +98,10 @@ export function multipleUploader(
         const multerUploader = createMulter(pathDir);
 
         multerUploader.array(fileFieldName)(req, res, (err) => {
+            if (otherDataFieldName !== undefined && schema) {
+                checkBody(JSON.parse(req.body[otherDataFieldName]), schema, req, res);
+            }
+
             if (err) {
                 if (err.code === "LIMIT_FILE_SIZE") {
                     return res.status(400).json(fileSizeError);
@@ -93,7 +114,6 @@ export function multipleUploader(
             }
 
             const files = req.files;
-            req.body = JSON.parse(req.body[otherDataFieldName]);
 
             if (Array.isArray(files) && files.length > 0) {
                 req.body[fileFieldName] = files.map(f => f?.filename);
