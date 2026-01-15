@@ -20,14 +20,6 @@ export const userProjectStage: SafePipelineStage = [{
     }
 }];
 
-export const categoryProjectStage: SafePipelineStage = [{
-    $project: {
-        ...baseStage,
-        title: 1,
-        href: 1,
-    }
-}];
-
 export const courseProjectStage: PipelineStage[] = [
     {
         $lookup: {
@@ -46,6 +38,7 @@ export const courseProjectStage: PipelineStage[] = [
             let: {category: "$category"},
             pipeline: [
                 {$match: {$expr: {$eq: ["$_id", "$$category"]}}},
+                ...categoryProjectStage
             ],
             as: "category"
         }
