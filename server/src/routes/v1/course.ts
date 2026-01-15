@@ -20,6 +20,7 @@ courseRouter
     .route("/")
     .post(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
+        middleware.singleUploader({pathDir: "courses/cover", fieldName: "cover"}),
         middleware.validateRequestBody(validator.CourseSchema),
         courseController.create
     );
