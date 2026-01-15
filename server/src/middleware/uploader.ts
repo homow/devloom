@@ -7,7 +7,17 @@ const fileSizeError = {
     code: "LIMIT_FILE_SIZE"
 };
 
-export function singleUploader(pathDir: string) {
+interface UploaderOptions {
+    pathDir: string;
+    fieldName: string;
+}
+
+export function singleUploader(
+    {
+        pathDir,
+        fieldName
+    }: UploaderOptions
+) {
     return (
         req: Request,
         res: Response,
@@ -15,7 +25,7 @@ export function singleUploader(pathDir: string) {
     ) => {
         const multerUploader = createMulter(pathDir);
 
-        multerUploader.single("file")(req, res, (err) => {
+        multerUploader.single(fieldName)(req, res, (err) => {
             if (err) {
                 if (err.code === "LIMIT_FILE_SIZE") {
                     return res.status(400).json(fileSizeError);
@@ -32,7 +42,12 @@ export function singleUploader(pathDir: string) {
     };
 }
 
-export function multipleUploader(pathDir: string) {
+export function multipleUploader(
+    {
+        pathDir,
+        fieldName
+    }: UploaderOptions
+) {
     return (
         req: Request,
         res: Response,
@@ -40,7 +55,7 @@ export function multipleUploader(pathDir: string) {
     ) => {
         const multerUploader = createMulter(pathDir);
 
-        multerUploader.array("file")(req, res, (err) => {
+        multerUploader.array(fieldName)(req, res, (err) => {
             if (err) {
                 if (err.code === "LIMIT_FILE_SIZE") {
                     return res.status(400).json(fileSizeError);
