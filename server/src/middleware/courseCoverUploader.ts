@@ -2,6 +2,10 @@ import z from "zod";
 import type {NextFunction, Request, Response} from "express";
 import {createMulter, formatZodError} from "@src/lib/index.js";
 
+const maxSize: number = Number(process.env.MULTER_MAX_SIZE_IMAGE);
+const MULTER_MAX_SIZE_IMAGE: number = (maxSize || 3) * 1024 * 1024;
+const allowedFiles = /jpg|jpeg|png|webp/;
+
 interface UploaderOptions {
     pathDir: string;
     fileFieldName: string;
@@ -22,7 +26,8 @@ export function courseCoverUploader(
         res: Response,
         next: NextFunction
     ) => {
-        const multerUploader = createMulter(pathDir);
+        const multerUploader = createMulter({pathDir, maxSize: MULTER_MAX_SIZE_IMAGE, limitFiles: allowedFiles});
+
         multerUploader.single(fileFieldName)(req, res, (err) => {
             const body = JSON.parse(req.body[otherDataFieldName]);
             const result = schema.safeParse(body);
