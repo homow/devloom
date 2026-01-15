@@ -3,8 +3,8 @@ import path from "node:path";
 import {createPath} from "@src/path.js";
 import {hashSecretToken} from "@utils/crypto.js";
 
-const maxSize: number = Number(process.env.MAX_SIZE_FILE);
-const MAX_SIZE_FILE: number = (maxSize || 3) * 1024 * 1024;
+const maxSize: number = Number(process.env.MULTER_MAX_SIZE_IMAGE);
+const MULTER_MAX_SIZE_IMAGE: number = (maxSize || 3) * 1024 * 1024;
 
 function createMulter(pathDir: string) {
     const storage = multer.diskStorage({
@@ -33,7 +33,7 @@ function createMulter(pathDir: string) {
     return multer({
         storage,
         limits: {
-            fileSize: MAX_SIZE_FILE,
+            fileSize: MULTER_MAX_SIZE_IMAGE,
         },
         fileFilter: (
             _req,
