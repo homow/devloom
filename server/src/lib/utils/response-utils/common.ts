@@ -5,7 +5,7 @@ import type {
     SafeBaseDB,
     SafeUserDB,
     SafeCategoryDB,
-    ServiceResponse,
+    ServiceResponse, CourseDB, SafeCourseDB,
 } from "@src/types/index.js";
 import mongoose, {Types} from "mongoose";
 
@@ -33,6 +33,24 @@ export function getSafeCategory(data: CategoryDB): SafeCategoryDB {
         ...baseData,
         title: data.title,
         href: data.href,
+    };
+}
+
+export function getSafeCourse(data: CourseDB): SafeCourseDB {
+    const baseData = base(data);
+
+    return {
+        ...baseData,
+        title: data.title,
+        description: data.description,
+        price: data.price,
+        cover: data.cover,
+        support: data.support,
+        href: data.href,
+        discount: data.discount,
+        teacher: data.teacher,
+        category: data.category,
+        status: data.status,
     };
 }
 
