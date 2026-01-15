@@ -4,7 +4,7 @@ import {createMulter, formatZodError} from "@src/lib/index.js";
 
 const allowedFiles = /jpg|jpeg|png|webp/;
 const maxSize: number = Number(process.env.MULTER_MAX_SIZE_IMAGE);
-const MULTER_MAX_SIZE_IMAGE: number = (maxSize || 3) * 1024 * 1024;
+const MULTER_MAX_SIZE_IMAGE: number = (maxSize || 2) * 1024 * 1024;
 
 interface UploaderOptions {
     pathDir: string;
