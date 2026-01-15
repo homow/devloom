@@ -23,7 +23,9 @@ function createMulter(pathDir: string) {
             // const random: number = Math.round(Math.random() * 100);
             // const filename: string = Date.now() + "_" + random + "_" + path.extname(file.originalname);
 
-            const filename: string = hashSecretToken(file.originalname);
+            const hashedName: string = hashSecretToken(file.originalname);
+            const filename: string = Date.now() + "_" + hashedName + path.extname(file.originalname);
+
             cb(null, filename);
         }
     });
