@@ -14,4 +14,7 @@ export interface CourseDB extends BaseDB {
     status: "completed" | "forward sale" | "in progress";
 }
 
-export type SafeCourseDB = Omit<CourseDB, "__v" | "_id" | "updatedAt" | "createdAt"> & SafeBaseDB;
+export type SafeCourseDB = Omit<CourseDB, "__v" | "_id" | "updatedAt" | "createdAt" | "category" | "teacher"> & SafeBaseDB & {
+    teacher: string;
+    category: string;
+};
