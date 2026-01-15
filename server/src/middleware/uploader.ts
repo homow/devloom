@@ -9,13 +9,15 @@ const fileSizeError = {
 
 interface UploaderOptions {
     pathDir: string;
-    fieldName: string;
+    fileFieldName: string;
+    otherDataFieldName: string;
 }
 
 export function singleUploader(
     {
         pathDir,
-        fieldName
+        fileFieldName,
+        otherDataFieldName
     }: UploaderOptions
 ) {
     return (
@@ -25,7 +27,40 @@ export function singleUploader(
     ) => {
         const multerUploader = createMulter(pathDir);
 
-        multerUploader.single(fieldName)(req, res, (err) => {
+        multerUploader.single(fileFieldName)(req, res, (err) => {
+            if (err) {
+                if (err.code === "LIMIT_FILE_SIZE") {
+                    return res.status(400).json(fileSizeError);
+                }
+                return res.status(400).json({
+                    ok: false,
+                    message: err?.message,
+                    code: err?.code,
+                });
+            }
+            const file = req.file;
+            req.body = JSON.parse(req.body[otherDataFieldName]);
+            req.body[fileFieldName] = file?.filename;
+            return next();
+        });
+    };
+}
+
+export function multipleUploader(
+    {
+        pathDir,
+        fileFieldName,
+        otherDataFieldName
+    }: UploaderOptions
+) {
+    return (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        const multerUploader = createMulter(pathDir);
+
+        multerUploader.array(fileFieldName)(req, res, (err) => {
             if (err) {
                 if (err.code === "LIMIT_FILE_SIZE") {
                     return res.status(400).json(fileSizeError);
@@ -37,34 +72,11 @@ export function singleUploader(
                 });
             }
 
-            return next();
-        });
-    };
-}
+            const files = req.files;
+            req.body = JSON.parse(req.body[otherDataFieldName]);
 
-export function multipleUploader(
-    {
-        pathDir,
-        fieldName
-    }: UploaderOptions
-) {
-    return (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        const multerUploader = createMulter(pathDir);
-
-        multerUploader.array(fieldName)(req, res, (err) => {
-            if (err) {
-                if (err.code === "LIMIT_FILE_SIZE") {
-                    return res.status(400).json(fileSizeError);
-                }
-                return res.status(400).json({
-                    ok: false,
-                    message: err?.message,
-                    code: err?.code,
-                });
+            if (Array.isArray(files) && files.length > 0) {
+                req.body[fileFieldName] = files.map(f => f?.filename);
             }
 
             return next();
