@@ -1,4 +1,4 @@
-import type {CourseDB} from "@src/types/index.js";
+import {type CourseDB, CourseStatus} from "@src/types/index.js";
 import mongoose, {Types, type Model, type Schema} from "mongoose";
 
 const CourseModelShema: Schema<CourseDB> = new mongoose.Schema(
@@ -48,7 +48,7 @@ const CourseModelShema: Schema<CourseDB> = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ["completed", "forward sale", "in progress"],
+            enum: Object.values(CourseStatus),
             required: true,
         },
     },
