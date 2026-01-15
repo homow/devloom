@@ -1,3 +1,4 @@
+import z from "zod";
 import {createMulter} from "@src/lib/index.js";
 import type {NextFunction, Request, Response} from "express";
 
@@ -7,17 +8,29 @@ const fileSizeError = {
     code: "LIMIT_FILE_SIZE"
 };
 
-interface UploaderOptions {
+interface BaseUploaderOptions {
     pathDir: string;
     fileFieldName: string;
-    otherDataFieldName: string;
 }
+
+interface UploaderOptionsFile extends BaseUploaderOptions {
+    otherDataFieldName?: never;
+    schema?: never;
+}
+
+interface UploadOptionsFileWithBody extends BaseUploaderOptions {
+    schema?: z.ZodTypeAny;
+    otherDataFieldName?: string;
+}
+
+type UploaderOptions = | UploaderOptionsFile | UploadOptionsFileWithBody;
 
 export function singleUploader(
     {
         pathDir,
         fileFieldName,
-        otherDataFieldName
+        otherDataFieldName,
+        schema,
     }: UploaderOptions
 ) {
     return (
@@ -27,7 +40,14 @@ export function singleUploader(
     ) => {
         const multerUploader = createMulter(pathDir);
 
+
         multerUploader.single(fileFieldName)(req, res, (err) => {
+            if (otherDataFieldName !== undefined) {
+                const body = JSON.parse(req.body[otherDataFieldName]);
+                console.log(body);
+            }
+
+
             if (err) {
                 if (err.code === "LIMIT_FILE_SIZE") {
                     return res.status(400).json(fileSizeError);
