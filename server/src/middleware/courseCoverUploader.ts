@@ -2,23 +2,23 @@ import z from "zod";
 import type {NextFunction, Request, Response} from "express";
 import {createMulter, formatZodError} from "@src/lib/index.js";
 
+const allowedFiles = /jpg|jpeg|png|webp/;
 const maxSize: number = Number(process.env.MULTER_MAX_SIZE_IMAGE);
 const MULTER_MAX_SIZE_IMAGE: number = (maxSize || 3) * 1024 * 1024;
-const allowedFiles = /jpg|jpeg|png|webp/;
 
 interface UploaderOptions {
     pathDir: string;
-    fileFieldName: string;
     schema: z.ZodTypeAny;
+    fileFieldName: string;
     otherDataFieldName: string;
 }
 
 export function courseCoverUploader(
     {
+        schema,
         pathDir,
         fileFieldName,
         otherDataFieldName,
-        schema,
     }: UploaderOptions
 ) {
     return (
