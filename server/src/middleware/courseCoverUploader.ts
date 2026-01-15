@@ -1,6 +1,9 @@
 import z from "zod";
+import fs from "node:fs";
+import type {CourseInput} from "@validators/course.js";
 import type {NextFunction, Request, Response} from "express";
 import {createMulter, formatZodError} from "@src/lib/index.js";
+import {checkCourseExist} from "@services/v1/course/common.js";
 
 const allowedFiles = /jpg|jpeg|png|webp/;
 const maxSize: number = Number(process.env.MULTER_MAX_SIZE_IMAGE);
@@ -21,27 +24,40 @@ export function courseCoverUploader(
         otherDataFieldName,
     }: UploaderOptions
 ) {
-    return (
+    return async (
         req: Request,
         res: Response,
         next: NextFunction
     ) => {
         const multerUploader = createMulter({pathDir, maxSize: MULTER_MAX_SIZE_IMAGE, limitFiles: allowedFiles});
 
-        multerUploader.single(fileFieldName)(req, res, (err) => {
+        multerUploader.single(fileFieldName)(req, res, async (err) => {
             const file = req.file;
 
             const body = JSON.parse(req.body[otherDataFieldName]);
             const result = schema.safeParse(body);
 
             if (!result.success) return res.status(422).json({
-                status: 422,
-                data: {
-                    ok: false,
-                    errors: formatZodError(result.error),
-                    message: "body is invalid"
-                }
+                ok: false,
+                errors: formatZodError(result.error),
+                message: "body is invalid"
             });
+
+            const courseExist = await checkCourseExist({
+                title: (result.data as CourseInput).title,
+                href: (result.data as CourseInput).href,
+            });
+
+            if (courseExist) {
+                console.log(file?.filename);
+                fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                return res.status(409).json({
+                    ok: false,
+                    message: "course already exists",
+                    code: "COURSE_EXIST",
+                    course: courseExist
+                });
+            }
 
             req.body = result.data;
 
