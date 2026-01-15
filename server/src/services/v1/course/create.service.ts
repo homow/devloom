@@ -1,7 +1,8 @@
 import {checkCourseExist} from "./common.js";
 import CourseModel from "@models/Course.model.js";
 import type {CourseInput} from "@validators/course.js";
-import type {ServiceResponse} from "@src/types/index.js";
+import type {CoursePopulate, ServiceResponse} from "@src/types/index.js";
+import {getSafeCourse} from "@src/lib/index.js";
 
 export async function createService(
     data: CourseInput,
@@ -44,14 +45,14 @@ export async function createService(
         cover
     })
         .then(c => c.populate("teacher"))
-        .then(c => c.populate("category"));
+        .then(c => c.populate("category")) as CoursePopulate;
 
     return {
         status: 201,
         data: {
             ok: true,
             message: "Course successfully created",
-            course: newCourse,
+            course: getSafeCourse(newCourse),
         }
     };
 }
