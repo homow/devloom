@@ -22,7 +22,9 @@ export const userProjectStage: SafePipelineStage = [{
 
 export const categoryProjectStage: SafePipelineStage = [{
     $project: {
-
+        ...baseStage,
+        title: 1,
+        href: 1,
     }
 }];
 
