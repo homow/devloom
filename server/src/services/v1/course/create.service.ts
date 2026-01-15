@@ -50,8 +50,6 @@ export async function createService(
         .then(c => c.populate("teacher"))
         .then(c => c.populate("category")) as CoursePopulate;
 
-    console.log(newCourse);
-
     return {
         status: 201,
         data: {
