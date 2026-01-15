@@ -5,7 +5,7 @@ import type {
     SafeBaseDB,
     SafeUserDB,
     SafeCategoryDB,
-    ServiceResponse, CourseDB, SafeCourseDB,
+    ServiceResponse, CourseDB, SafeCourseDB, CoursePopulate,
 } from "@src/types/index.js";
 import mongoose, {Types} from "mongoose";
 
@@ -36,8 +36,10 @@ export function getSafeCategory(data: CategoryDB): SafeCategoryDB {
     };
 }
 
-export function getSafeCourse(data: CourseDB): SafeCourseDB {
+export function getSafeCourse(data: CoursePopulate): SafeCourseDB {
     const baseData = base(data);
+    const category = getSafeCategory(data.category);
+    const teacher = getSafeUser(data.teacher);
 
     return {
         ...baseData,
@@ -48,8 +50,8 @@ export function getSafeCourse(data: CourseDB): SafeCourseDB {
         support: data.support,
         href: data.href,
         discount: data.discount,
-        teacher: data.teacher.toString(),
-        category: data.category.toString(),
+        teacher,
+        category,
         status: data.status,
     };
 }
