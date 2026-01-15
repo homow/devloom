@@ -16,8 +16,7 @@ export async function createService(
         status,
         support,
         teacher,
-        price,
-        cover
+        price
     } = data;
 
     const courseExist = await checkCourseExist({title, href});
@@ -42,8 +41,7 @@ export async function createService(
         status,
         support,
         teacher,
-        price,
-        cover
+        price
     })
         // populated teacher form user and category collection
         .then(c => c.populate("teacher"))
