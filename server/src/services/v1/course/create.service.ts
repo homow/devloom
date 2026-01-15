@@ -1,7 +1,7 @@
 import {checkCourseExist} from "./common.js";
+import CourseModel from "@models/Course.model.js";
 import type {CourseInput} from "@validators/course.js";
 import type {ServiceResponse} from "@src/types/index.js";
-import CourseModel from "@models/Course.model.js";
 
 export async function createService(
     data: CourseInput,
