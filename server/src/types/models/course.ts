@@ -1,5 +1,5 @@
 import type {ObjectId} from "mongoose";
-import type {BaseDB, SafeBaseDB} from "./index.js";
+import type {BaseDB, SafeBaseDB, SafeUserDB, SafeCategoryDB, UserDB, CategoryDB} from "./index.js";
 
 export interface CourseDB extends BaseDB {
     title: string;
@@ -14,7 +14,12 @@ export interface CourseDB extends BaseDB {
     status: "completed" | "forward sale" | "in progress";
 }
 
+export type CoursePopulate = Omit<CourseDB, "category" | "teacher"> & {
+    teacher: UserDB;
+    category: CategoryDB;
+};
+
 export type SafeCourseDB = Omit<CourseDB, "__v" | "_id" | "updatedAt" | "createdAt" | "category" | "teacher"> & SafeBaseDB & {
-    teacher: string;
-    category: string;
+    teacher: SafeUserDB;
+    category: SafeCategoryDB;
 };
