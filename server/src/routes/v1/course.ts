@@ -4,6 +4,7 @@ import * as validator from "@validators/index.js";
 import * as middleware from "@middleware/index.js";
 import type {IgnoredRoutesKeys} from "@utils/route.js";
 import * as courseController from "@controllers/v1/course/index.js";
+import * as lessonController from "@controllers/v1/lesson/index.js";
 
 const courseRouter = express.Router();
 
@@ -32,7 +33,9 @@ courseRouter
 courseRouter.route("/:id/lesson")
     .post(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
-        middleware.isValidParamId("course")
+        middleware.isValidParamId("course"),
+        middleware.validateRequestBody(validator.LessonSchema),
+        lessonController.create
     );
 
 export {courseRouter};
