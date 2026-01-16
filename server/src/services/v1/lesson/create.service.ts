@@ -3,7 +3,7 @@ import type {ServiceResponse} from "@src/types/index.js";
 import {checkCourseExist} from "@services/v1/course/common.js";
 
 export async function createService(
-    id,
+    id: string,
     body: LessonInput
 ): Promise<ServiceResponse> {
     const existCourse = await checkCourseExist({id});
