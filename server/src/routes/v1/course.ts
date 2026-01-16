@@ -47,7 +47,7 @@ courseRouter.route("/:id/lesson")
 
 /** get one lesson with id */
 courseRouter
-    .route("/:courseID/lesson/:lessonID")
+    .route("/:course/lesson/:lessonID")
     .get(
         lessonController.get
     );

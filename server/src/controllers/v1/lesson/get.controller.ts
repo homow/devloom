@@ -1,26 +1,33 @@
 import type {Request, Response} from "express";
 import mongoose from "mongoose";
 import {checkLessonExist} from "@services/v1/lesson/index.js";
+import {checkCourseExist} from "@services/v1/course/common.js";
 
 export async function get(
-    req: Request<{ courseID?: string, lessonID?: string }>,
+    req: Request<{ course?: string, lessonID?: string }>,
     res: Response
 ) {
-    const courseID = req.params.courseID;
-    const lessonID = req.params.lessonID;
+    const courseTitle: string | undefined = req.params.course;
+    const lessonID: string | undefined = req.params.lessonID;
 
-    if (courseID && lessonID) {
-        const isValidCourseID: boolean = mongoose.isValidObjectId(courseID);
-        const isValidLessonID: boolean = mongoose.isValidObjectId(lesson);
+    if (lessonID && courseTitle) {
+        const existCourse = await checkCourseExist({data: {title: courseTitle}});
 
-        if (!isValidLessonID || !isValidCourseID) return res.status(400).json({
+        if (!existCourse) {
+            return res.status(404).json({
+                ok: false,
+                message: "Course not found",
+                code: "NOT_EXIST_COURSE",
+            });
+        }
+
+        const isValidLessonID: boolean = mongoose.isValidObjectId(lessonID);
+
+        if (!isValidLessonID) return res.status(400).json({
             ok: false,
-            message: "invalid ID",
+            message: "invalid lesson id",
             code: "INVALID_ID",
-            errors: [
-                !isValidCourseID ? "invalid course id" : undefined,
-                !isValidLessonID ? "invalid lesson id" : undefined,
-            ]
+
         });
 
         const lesson = await checkLessonExist({id: lessonID});
