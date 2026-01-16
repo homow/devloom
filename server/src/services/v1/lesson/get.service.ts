@@ -5,7 +5,6 @@ import {lessonProjectStage, createPipelineStage} from "@src/aggregations/index.j
 interface CheckLessonParams {
     data?: {
         title?: string,
-        course?: string,
     };
     id?: string;
 }
@@ -24,7 +23,6 @@ export async function checkLessonExist(
     if (
         id === undefined
         && data?.title === undefined
-        && data?.course === undefined
     ) {
         const lessonStage = createPipelineStage({
             stage: lessonProjectStage,
@@ -36,7 +34,7 @@ export async function checkLessonExist(
 
     const filterLessonStage = createPipelineStage({
         stage: lessonProjectStage,
-        filter: [{title: data?.title}, {course: data?.course}, {_id: id}]
+        filter: [{title: data?.title}, {_id: id}]
     });
 
     const [lessonExist] = await LessonModel.aggregate(filterLessonStage);
