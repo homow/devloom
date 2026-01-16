@@ -2,6 +2,7 @@ import LessonModel from "@models/Lesson.model.js";
 import type {LessonInput} from "@validators/lesson.js";
 import type {ServiceResponse} from "@src/types/index.js";
 import {checkCourseExist} from "@services/v1/course/common.js";
+import {createPipelineStage, lessonProjectStage} from "@src/aggregations/index.js";
 
 export async function createService(
     id: string,
@@ -26,14 +27,20 @@ export async function createService(
         free,
         video,
         course: id,
-    }).then(l => l.populate("course"));
+    });
+
+    const pipelineStage = createPipelineStage({
+        stage: lessonProjectStage,
+        filter: [{_id: newLesson._id}]
+    });
+    const lesson = await LessonModel.aggregate(pipelineStage);
 
     return {
         status: 201,
         data: {
             message: "lesson successfully created",
             ok: true,
-            lesson: newLesson,
+            lesson,
         }
     };
 }
