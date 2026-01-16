@@ -29,4 +29,10 @@ courseRouter
         courseController.create
     );
 
+courseRouter.route("/:id/lesson")
+    .post(
+        middleware.checkRole({requiredRole: UserRole.ADMIN}),
+        middleware.isValidParamId("course")
+    );
+
 export {courseRouter};
