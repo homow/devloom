@@ -1,4 +1,5 @@
 import express from 'express';
+import {BASE_URL} from "@src/path.js";
 import {UserRole} from "@src/types/index.js";
 import * as validator from "@validators/index.js";
 import * as middleware from "@middleware/index.js";
@@ -8,9 +9,13 @@ import * as lessonController from "@controllers/v1/lesson/index.js";
 
 const courseRouter = express.Router();
 
+const getLessonRegexString = `^${BASE_URL}/course/([^/]+)/lesson/([^/]+)$`;
+const getLessonRegex = new RegExp(getLessonRegexString);
+
 /** ignore this route in protected route */
 const ignoreRoutes: IgnoredRoutesKeys[] = [
     {method: "GET", path: "/course"},
+    {method: "GET", path: getLessonRegex}
 ];
 
 /** global middleware */
