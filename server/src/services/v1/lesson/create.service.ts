@@ -1,10 +1,11 @@
+import LessonModel from "@models/Lesson.model.js";
 import type {LessonInput} from "@validators/lesson.js";
 import type {ServiceResponse} from "@src/types/index.js";
 import {checkCourseExist} from "@services/v1/course/common.js";
 
 export async function createService(
     id: string,
-    body: LessonInput
+    data: LessonInput
 ): Promise<ServiceResponse> {
     const existCourse = await checkCourseExist({id});
 
@@ -17,5 +18,22 @@ export async function createService(
         }
     };
 
+    const {title, free, video, time} = data;
 
+    const newLesson = await LessonModel.create({
+        title,
+        time,
+        free,
+        video,
+        course: id,
+    }).then(l => l.populate("course"));
+
+    return {
+        status: 201,
+        data: {
+            message: "lesson successfully created",
+            ok: true,
+            lesson: newLesson,
+        }
+    };
 }
