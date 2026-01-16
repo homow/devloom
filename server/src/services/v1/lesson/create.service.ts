@@ -1,3 +1,4 @@
+import {checkLessonExist} from "./index.js";
 import LessonModel from "@models/Lesson.model.js";
 import type {LessonInput} from "@validators/lesson.js";
 import type {ServiceResponse} from "@src/types/index.js";
@@ -20,6 +21,18 @@ export async function createService(
     };
 
     const {title, free, video, time} = data;
+
+    const lessonExist = await checkLessonExist({data: {title}});
+
+    if (lessonExist) return {
+        status: 409,
+        data: {
+            ok: false,
+            message: "lesson already exist",
+            code: "LESSON_EXIST",
+            lesson: lessonExist
+        }
+    };
 
     const newLesson = await LessonModel.create({
         title,
