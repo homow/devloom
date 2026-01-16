@@ -39,11 +39,14 @@ export function courseCoverUploader(
             const result = schema.safeParse(body);
 
             // return if invalid body
-            if (!result.success) return res.status(422).json({
-                ok: false,
-                errors: formatZodError(result.error),
-                message: "body is invalid"
-            });
+            if (!result.success) {
+                fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                return res.status(422).json({
+                    ok: false,
+                    errors: formatZodError(result.error),
+                    message: "body is invalid"
+                });
+            }
 
             // check exist
             const courseExist = await checkCourseExist({
