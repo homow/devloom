@@ -1,26 +1,26 @@
-import type {Request, Response} from "express";
 import mongoose from "mongoose";
-import {checkLessonExist} from "@services/v1/lesson/index.js";
+import type {Request, Response} from "express";
 import {checkCourseExist} from "@services/v1/course/common.js";
+import {checkLessonExist, getServices} from "@services/v1/lesson/index.js";
 
 export async function get(
-    req: Request<{ courseHref?: string, lessonID?: string }>,
+    req: Request<{ courseHref: string, lessonID?: string }>,
     res: Response
 ) {
-    const courseHref: string | undefined = req.params.courseHref;
+    const courseHref: string = req.params.courseHref;
     const lessonID: string | undefined = req.params.lessonID;
 
-    if (lessonID && courseHref) {
-        const existCourse = await checkCourseExist({data: {href: courseHref}});
+    const existCourse = await checkCourseExist({data: {href: courseHref}});
 
-        if (!existCourse) {
-            return res.status(404).json({
-                ok: false,
-                message: "Course not found",
-                code: "NOT_EXIST_COURSE",
-            });
-        }
+    if (!existCourse) {
+        return res.status(404).json({
+            ok: false,
+            message: "Course not found",
+            code: "NOT_EXIST_COURSE",
+        });
+    }
 
+    if (lessonID) {
         const isValidLessonID: boolean = mongoose.isValidObjectId(lessonID);
 
         if (!isValidLessonID) return res.status(400).json({
@@ -44,4 +44,7 @@ export async function get(
             message: "lesson successfully found",
         });
     }
+
+    const getLessons = await getServices(existCourse.id);
+    return res.status(getLessons.status).json(getLessons.data);
 }
