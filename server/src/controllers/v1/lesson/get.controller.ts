@@ -4,14 +4,14 @@ import {checkLessonExist} from "@services/v1/lesson/index.js";
 import {checkCourseExist} from "@services/v1/course/common.js";
 
 export async function get(
-    req: Request<{ course?: string, lessonID?: string }>,
+    req: Request<{ courseHref?: string, lessonID?: string }>,
     res: Response
 ) {
-    const courseTitle: string | undefined = req.params.course;
+    const courseHref: string | undefined = req.params.courseHref;
     const lessonID: string | undefined = req.params.lessonID;
 
-    if (lessonID && courseTitle) {
-        const existCourse = await checkCourseExist({data: {title: courseTitle}});
+    if (lessonID && courseHref) {
+        const existCourse = await checkCourseExist({data: {href: courseHref}});
 
         if (!existCourse) {
             return res.status(404).json({
