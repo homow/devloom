@@ -21,7 +21,7 @@ export const userProjectStage: SafePipelineStage = [{
     }
 }];
 
-export const courseProjectStage: PipelineStage[] = [
+export const courseProjectStage: SafePipelineStage = [
     {
         // look and join teacher form users collection
         $lookup: {
@@ -62,6 +62,31 @@ export const courseProjectStage: PipelineStage[] = [
             teacher: 1,
             category: 1,
             status: 1,
+        }
+    }
+];
+
+export const lessonProjectStage: SafePipelineStage = [
+    {
+        $lookup: {
+            from: "courses",
+            let: {course: "$course"},
+            pipeline: [
+                {$match: {$expr: {$eq: ["$_id", "$$course"]}}},
+                ...courseProjectStage
+            ],
+            as: "course"
+        }
+    },
+    {$unwind: "$course"},
+    {
+        $project: {
+            ...baseStage,
+            title: 1,
+            free: 1,
+            time: 1,
+            video: 1,
+            course: 1
         }
     }
 ];
