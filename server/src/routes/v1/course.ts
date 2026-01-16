@@ -38,4 +38,10 @@ courseRouter.route("/:id/lesson")
         lessonController.create
     );
 
+courseRouter
+    .route("/:course/lesson/:id")
+    .get(
+
+    );
+
 export {courseRouter};
