@@ -3,7 +3,7 @@ import type {BaseDB, SafeBaseDB, SafeUserDB, SafeCategoryDB, UserDB, CategoryDB}
 
 export enum CourseStatus {
     COMPLETED = "COMPLETED",
-    PRE_SALSE = "PRE_SALSE",
+    PRE_SALE = "PRE_SALE",
     IN_PROGRESS = "IN_PROGRESS",
 }
 
