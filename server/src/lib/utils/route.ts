@@ -1,3 +1,10 @@
+import {BASE_URL} from "@src/path.js";
+
+export function getRegexForIgnoreRoutes(regex: string): RegExp {
+    const getLessonRegexString = `^${BASE_URL}${regex}`;
+    return new RegExp(getLessonRegexString);
+}
+
 export interface IgnoredRoutesKeys {
     path: string | RegExp;
     method: string;

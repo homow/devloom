@@ -1,16 +1,14 @@
 import express from 'express';
-import {BASE_URL} from "@src/path.js";
 import {UserRole} from "@src/types/index.js";
 import * as validator from "@validators/index.js";
 import * as middleware from "@middleware/index.js";
-import type {IgnoredRoutesKeys} from "@utils/route.js";
+import {getRegexForIgnoreRoutes, type IgnoredRoutesKeys} from "@utils/route.js";
 import * as courseController from "@controllers/v1/course/index.js";
 import * as lessonController from "@controllers/v1/lesson/index.js";
 
 const courseRouter = express.Router();
 
-const getLessonRegexString = `^${BASE_URL}/course/([^/]+)/lesson/([^/]+)$`;
-const getLessonRegex = new RegExp(getLessonRegexString);
+const getLessonRegex = getRegexForIgnoreRoutes("/course/([^/]+)/lesson/([^/]+)$");
 
 /** ignore this route in protected route */
 const ignoreRoutes: IgnoredRoutesKeys[] = [
