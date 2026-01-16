@@ -49,7 +49,7 @@ courseRouter.route("/:id/lesson")
 courseRouter
     .route("/:courseID/lesson/:lessonID")
     .get(
-
+        lessonController.get
     );
 
 export {courseRouter};
