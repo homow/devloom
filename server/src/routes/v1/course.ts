@@ -8,15 +8,21 @@ import * as lessonController from "@controllers/v1/lesson/index.js";
 
 const courseRouter = express.Router();
 
+/** ignore this route in protected route */
 const ignoreRoutes: IgnoredRoutesKeys[] = [
     {method: "GET", path: "/course"},
 ];
 
+/** global middleware */
 courseRouter.use(
     middleware.checkAccessToken(ignoreRoutes),
     middleware.checkBanned(ignoreRoutes),
 );
 
+/**
+ * root route
+ * for created, delete, update
+ * */
 courseRouter
     .route("/")
     .post(
@@ -30,6 +36,7 @@ courseRouter
         courseController.create
     );
 
+/** create lesson in a course */
 courseRouter.route("/:id/lesson")
     .post(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
@@ -38,8 +45,9 @@ courseRouter.route("/:id/lesson")
         lessonController.create
     );
 
+/** get one lesson with id */
 courseRouter
-    .route("/:course/lesson/:id")
+    .route("/:courseID/lesson/:lessonID")
     .get(
 
     );
