@@ -1,6 +1,8 @@
 import path from "node:path";
 import {fileURLToPath} from "node:url";
 
+export const BASE_URL: string = process.env.BASE_URL || "/api/v1";
+
 const __filename: string = fileURLToPath(import.meta.url);
 const __dirname: string = path.dirname(__filename);
 
