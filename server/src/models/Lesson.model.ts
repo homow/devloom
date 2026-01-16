@@ -35,6 +35,7 @@ const LessonModelShema: Schema<LessonDB> = new mongoose.Schema(
 );
 
 LessonModelShema.index({title: 1}, {unique: true});
+LessonModelShema.index({course: 1});
 
 const LessonModel: Model<LessonDB> = mongoose.models.Lesson || mongoose.model<LessonDB>("Lesson", LessonModelShema, "lessons");
 
