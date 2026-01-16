@@ -4,8 +4,8 @@ import {courseProjectStage, createPipelineStage} from "@src/aggregations/index.j
 
 interface CheckCourseParams {
     data?: {
-        title: string,
-        href: string
+        title?: string,
+        href?: string
     };
     id?: string;
 }
