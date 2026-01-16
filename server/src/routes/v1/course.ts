@@ -2,9 +2,9 @@ import express from 'express';
 import {UserRole} from "@src/types/index.js";
 import * as validator from "@validators/index.js";
 import * as middleware from "@middleware/index.js";
-import {getRegexForIgnoreRoutes, type IgnoredRoutesKeys} from "@utils/route.js";
 import * as courseController from "@controllers/v1/course/index.js";
 import * as lessonController from "@controllers/v1/lesson/index.js";
+import {getRegexForIgnoreRoutes, type IgnoredRoutesKeys} from "@utils/route.js";
 
 const courseRouter = express.Router();
 
