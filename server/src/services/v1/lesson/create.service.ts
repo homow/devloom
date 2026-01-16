@@ -3,7 +3,6 @@ import LessonModel from "@models/Lesson.model.js";
 import type {LessonInput} from "@validators/lesson.js";
 import type {ServiceResponse} from "@src/types/index.js";
 import {checkCourseExist} from "@services/v1/course/common.js";
-import {createPipelineStage, lessonProjectStage} from "@src/aggregations/index.js";
 
 export async function createService(
     id: string,
@@ -42,11 +41,7 @@ export async function createService(
         course: id,
     });
 
-    const pipelineStage = createPipelineStage({
-        stage: lessonProjectStage,
-        filter: [{_id: newLesson._id}]
-    });
-    const lesson = await LessonModel.aggregate(pipelineStage);
+    const lesson = await checkLessonExist({id: newLesson._id});
 
     return {
         status: 201,
