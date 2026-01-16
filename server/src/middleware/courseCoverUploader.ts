@@ -40,7 +40,11 @@ export function courseCoverUploader(
 
             // return if invalid body
             if (!result.success) {
+                /**
+                 * delete cover if invalid body
+                 */
                 fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+
                 return res.status(422).json({
                     ok: false,
                     errors: formatZodError(result.error),
@@ -56,7 +60,11 @@ export function courseCoverUploader(
 
             // return and delete file if exist
             if (courseExist) {
+                /**
+                 * delete cover if exist course
+                 * */
                 fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+
                 return res.status(409).json({
                     ok: false,
                     message: "course already exists",
