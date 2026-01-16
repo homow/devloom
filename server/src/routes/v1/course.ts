@@ -8,12 +8,14 @@ import {getRegexForIgnoreRoutes, type IgnoredRoutesKeys} from "@utils/route.js";
 
 const courseRouter = express.Router();
 
-const getLessonRegex = getRegexForIgnoreRoutes("/course/([^/]+)/lesson/([^/]+)$");
+const getLessonRegex = getRegexForIgnoreRoutes("/course/([^/]+)/lesson$");
+const getOneLessonRegex = getRegexForIgnoreRoutes("/course/([^/]+)/lesson/([^/]+)$");
 
 /** ignore this route in protected route */
 const ignoreRoutes: IgnoredRoutesKeys[] = [
     {method: "GET", path: "/course"},
-    {method: "GET", path: getLessonRegex}
+    {method: "GET", path: getOneLessonRegex},
+    {method: "GET", path: getLessonRegex},
 ];
 
 /** global middleware */
@@ -54,5 +56,9 @@ courseRouter
     .get(
         lessonController.get
     );
+
+courseRouter
+    .route("/:courseHref/lesson")
+    .get(lessonController.get);
 
 export {courseRouter};
