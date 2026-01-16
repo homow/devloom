@@ -46,7 +46,7 @@ export async function createService(
         price,
         cover
     })
-        // populated teacher form user and category collection
+        // populated teacher form 'user' and 'category' collection
         .then(c => c.populate("teacher"))
         .then(c => c.populate("category")) as CoursePopulate;
 
