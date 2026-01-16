@@ -21,12 +21,13 @@ export function createPipelineStage(
         useAnd = false,
     }: AggregateStageParams
 ): PipelineStage[] {
+    const newStage: PipelineStage[] = [...stage];
     if (filter && filter.length > 0) {
         const matchStage = createQueryPattern(
             filter,
             useAnd
         );
-        stage.unshift({$match: matchStage} as PipelineStage);
+        newStage.unshift({$match: matchStage} as PipelineStage);
     }
-    return stage;
+    return newStage;
 }
