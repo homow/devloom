@@ -34,11 +34,11 @@ export function courseCoverUploader(
         multerUploader.single(fileFieldName)(req, res, async (err) => {
             const file = req.file; // save file
 
-            // check body
+            /** check body */
             const body = JSON.parse(req.body[otherDataFieldName]);
             const result = schema.safeParse(body);
 
-            // return if invalid body
+            /** return if invalid body */
             if (!result.success) {
                 /**
                  * delete cover if invalid body
@@ -52,13 +52,13 @@ export function courseCoverUploader(
                 });
             }
 
-            // check exist
+            /** check exist */
             const courseExist = await checkCourseExist({
                 title: (result.data as CourseInput).title,
                 href: (result.data as CourseInput).href,
             });
 
-            // return and delete file if exist
+            /** return and delete file if exist */
             if (courseExist) {
                 /**
                  * delete cover if exist course
@@ -73,10 +73,10 @@ export function courseCoverUploader(
                 });
             }
 
-            // save valid body
+            /** save valid body */
             req.body = result.data;
 
-            // error handling for multer
+            /** error handling for multer */
             if (err) {
                 if (err.code === "LIMIT_FILE_SIZE") {
                     return res.status(400).json({
@@ -92,7 +92,7 @@ export function courseCoverUploader(
                 });
             }
 
-            // add filename to body
+            /** add filename to body */
             req.body[fileFieldName] = file?.filename;
             return next();
         });
