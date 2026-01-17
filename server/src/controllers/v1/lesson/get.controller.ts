@@ -22,30 +22,35 @@ export async function get(
 
     /** if it has lesson id */
     if (lessonID) {
+        /** check is valid object id */
         const isValidLessonID: boolean = mongoose.isValidObjectId(lessonID);
 
+        /** if invalid object id */
         if (!isValidLessonID) return res.status(400).json({
             ok: false,
             message: "invalid lesson id",
             code: "INVALID_ID",
-
         });
 
+        /** get one lesson */
         const lesson = await checkLessonExist({id: lessonID});
 
+        /** if not exist lesson */
         if (!lesson) return res.status(404).json({
             ok: false,
             message: "lesson not found",
             code: "NOT_EXIST_LESSON",
         });
 
-        res.status(200).json({
+        /** find and return lesson */
+        return res.status(200).json({
             ok: true,
-            lesson,
             message: "lesson successfully found",
+            lesson,
         });
     }
 
+    /** get all lessons from one course */
     const getLessons = await getServices(existCourse.id);
     return res.status(getLessons.status).json(getLessons.data);
 }
