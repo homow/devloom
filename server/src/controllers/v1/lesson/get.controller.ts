@@ -53,6 +53,7 @@ export async function get(
         code: "NOT_EXIST_LESSONS",
     });
 
+    /** return lessons in response */
     return res.status(200).json({
         ok: true,
         message: "lessons successfully found",
