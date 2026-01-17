@@ -4,16 +4,11 @@ import LessonModel from "@models/Lesson.model.js";
 import type {ServiceResponse} from "@src/types/index.js";
 import {lessonProjectStage, createPipelineStage} from "@src/aggregations/index.js";
 
-interface CheckLessonParams {
-    data?: {
-        title?: string,
-    };
-    id?: string;
-}
-
+/** get all lessons from one course */
 export async function getServices(
     courseID: string,
 ): Promise<ServiceResponse> {
+    /**  */
     const lessonsPipelineStages = createPipelineStage({
         stage: lessonProjectStage,
         filter: [{course: new mongoose.Types.ObjectId(courseID)}]
@@ -37,6 +32,13 @@ export async function getServices(
             lessons,
         }
     };
+}
+
+interface CheckLessonParams {
+    data?: {
+        title?: string;
+    };
+    id?: string;
 }
 
 export async function checkLessonExist(
