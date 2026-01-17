@@ -21,7 +21,7 @@ export async function createService(
         price,
         cover,
     } = data;
-    const courseExist = await checkCourseExist({title, href});
+    const courseExist = await checkCourseExist({data: {title, href}});
 
     // check if exist and return a response
     if (courseExist) return {
