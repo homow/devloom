@@ -40,6 +40,17 @@ export async function get(
     }
 
     /** get all lessons from one course */
-    const getLessons = await getServices(existCourse.id);
-    return res.status(getLessons.status).json(getLessons.data);
+    const lessons = await checkLessonExist({data: {course: existCourse.id}});
+
+    if (!lessons || lessons.length === 0) return res.status(404).json({
+        ok: false,
+        message: "lessons not found",
+        code: "NOT_EXIST_LESSONS",
+    });
+
+    return res.status(200).json({
+        ok: true,
+        message: "lessons successfully found",
+        lessons,
+    });
 }
