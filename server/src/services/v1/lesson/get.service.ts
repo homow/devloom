@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import {checkObjectID} from "@src/lib/index.js";
 import LessonModel from "@models/Lesson.model.js";
-import {lessonProjectStage, createPipelineStage} from "@src/aggregations/index.js";
 import type {ServiceResponse} from "@src/types/index.js";
+import {lessonProjectStage, createPipelineStage} from "@src/aggregations/index.js";
 
 interface CheckLessonParams {
     data?: {
