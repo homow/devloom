@@ -8,5 +8,12 @@ export async function logout(
 ) {
     const refreshToken = req.cookies.refreshToken || req.signedCookies.refreshToken;
     const result = await logoutService(refreshToken);
+
+    if (result.status === 200) {
+        res.cookie("refreshToken", "", {
+            maxAge: 0
+        });
+    }
+
     return res.status(result.status).json(result.data);
 }
