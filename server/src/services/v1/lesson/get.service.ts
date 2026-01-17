@@ -8,13 +8,14 @@ import {lessonProjectStage, createPipelineStage} from "@src/aggregations/index.j
 export async function getServices(
     courseID: string,
 ): Promise<ServiceResponse> {
-    /**  */
+    /** find all lessons from course with Pipeline */
     const lessonsPipelineStages = createPipelineStage({
         stage: lessonProjectStage,
         filter: [{course: new mongoose.Types.ObjectId(courseID)}]
     });
     const lessons = await LessonModel.aggregate(lessonsPipelineStages);
 
+    /** if not found lesson */
     if (!lessons || lessons.length === 0) return {
         status: 404,
         data: {
@@ -24,6 +25,7 @@ export async function getServices(
         }
     };
 
+    /** find lessons and return response */
     return {
         status: 200,
         data: {
@@ -37,16 +39,19 @@ export async function getServices(
 interface CheckLessonParams {
     data?: {
         title?: string;
+        course?: string;
     };
     id?: string;
 }
 
+/** check one lesson */
 export async function checkLessonExist(
     {
+        id,
         data,
-        id
     }: CheckLessonParams
 ) {
+    /** check id */
     if (id) {
         const checkInvalidID = checkObjectID(id);
         if (checkInvalidID) return checkInvalidID;
@@ -55,18 +60,19 @@ export async function checkLessonExist(
     if (
         id === undefined
         && data?.title === undefined
+        && data?.course === undefined
     ) {
         const lessonStage = createPipelineStage({
             stage: lessonProjectStage,
         });
 
-        const [lessonExist] = await LessonModel.aggregate(lessonStage);
+        const lessonExist = await LessonModel.aggregate(lessonStage);
         if (lessonExist) return lessonExist;
     }
 
     const filterLessonStage = createPipelineStage({
         stage: lessonProjectStage,
-        filter: [{title: data?.title}, {_id: id}]
+        filter: [{title: data?.title}, {course: new mongoose.Types.ObjectId(data?.course)}, {_id: id}]
     });
 
     const [lessonExist] = await LessonModel.aggregate(filterLessonStage);
