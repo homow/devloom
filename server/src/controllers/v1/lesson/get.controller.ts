@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import type {Request, Response} from "express";
 import {checkCourseExist} from "@services/v1/course/common.js";
 import {checkLessonExist, getServices} from "@services/v1/lesson/index.js";
@@ -22,16 +21,6 @@ export async function get(
 
     /** if it has lesson id */
     if (lessonID) {
-        /** check is valid object id */
-        const isValidLessonID: boolean = mongoose.isValidObjectId(lessonID);
-
-        /** if invalid object id */
-        if (!isValidLessonID) return res.status(400).json({
-            ok: false,
-            message: "invalid lesson id",
-            code: "INVALID_ID",
-        });
-
         /** get one lesson */
         const lesson = await checkLessonExist({id: lessonID});
 
