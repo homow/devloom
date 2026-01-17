@@ -1,11 +1,11 @@
 import type {Request, Response} from "express";
-import type {LessonDB, ServiceResponse} from "@src/types/index.js";
 import {checkLessonExist} from "@services/v1/lesson/index.js";
 import {checkCourseExist} from "@services/v1/course/common.js";
+import type {LessonDB, ServiceResponse} from "@src/types/index.js";
 
 /** get one lesson with id and get all lesson from one course */
 export async function get(
-    req: Request<{ courseHref: string, lessonID?: string }>,
+    req: Request<{ courseHref: string; lessonID?: string }>,
     res: Response
 ) {
     const courseHref: string = req.params.courseHref;
