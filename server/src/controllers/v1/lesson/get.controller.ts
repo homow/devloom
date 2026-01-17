@@ -1,6 +1,7 @@
 import type {Request, Response} from "express";
+import type {LessonDB, ServiceResponse} from "@src/types/index.js";
+import {checkLessonExist} from "@services/v1/lesson/index.js";
 import {checkCourseExist} from "@services/v1/course/common.js";
-import {checkLessonExist, getServices} from "@services/v1/lesson/index.js";
 
 /** get one lesson with id and get all lesson from one course */
 export async function get(
@@ -23,7 +24,7 @@ export async function get(
     if (lessonID) {
         /** get one lesson */
         const lesson = await checkLessonExist({id: lessonID});
-
+        console.log(lesson);
         /** if not exist lesson */
         if (!lesson) return res.status(404).json({
             ok: false,
@@ -31,11 +32,14 @@ export async function get(
             code: "NOT_EXIST_LESSON",
         });
 
+        /** if invalid id */
+        if ((lesson as ServiceResponse).status === 400) return res.status((lesson as ServiceResponse).status).json((lesson as ServiceResponse).data);
+
         /** find and return lesson */
         return res.status(200).json({
             ok: true,
             message: "lesson successfully found",
-            lesson,
+            lesson: (lesson as LessonDB[])[0],
         });
     }
 
