@@ -3,6 +3,7 @@ import type {Request, Response} from "express";
 import {checkCourseExist} from "@services/v1/course/common.js";
 import {checkLessonExist, getServices} from "@services/v1/lesson/index.js";
 
+/** get one lesson with id and get all lesson from one course */
 export async function get(
     req: Request<{ courseHref: string, lessonID?: string }>,
     res: Response
@@ -10,16 +11,16 @@ export async function get(
     const courseHref: string = req.params.courseHref;
     const lessonID: string | undefined = req.params.lessonID;
 
+    /** check course on db collection */
     const existCourse = await checkCourseExist({data: {href: courseHref}});
 
-    if (!existCourse) {
-        return res.status(404).json({
-            ok: false,
-            message: "Course not found",
-            code: "NOT_EXIST_COURSE",
-        });
-    }
+    if (!existCourse) return res.status(404).json({
+        ok: false,
+        message: "Course not found",
+        code: "NOT_EXIST_COURSE",
+    });
 
+    /** if it has lesson id */
     if (lessonID) {
         const isValidLessonID: boolean = mongoose.isValidObjectId(lessonID);
 
