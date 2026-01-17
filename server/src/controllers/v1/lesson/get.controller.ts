@@ -22,11 +22,11 @@ export async function get(
 
     /** if it has lesson id */
     if (lessonID) {
-        /** get one lesson */
+        /** get one lesson from aggregate PipelineStage[] */
         const lesson = await checkLessonExist({id: lessonID});
-        console.log(lesson);
+
         /** if not exist lesson */
-        if (!lesson) return res.status(404).json({
+        if (!lesson || lesson.length === 0) return res.status(404).json({
             ok: false,
             message: "lesson not found",
             code: "NOT_EXIST_LESSON",
