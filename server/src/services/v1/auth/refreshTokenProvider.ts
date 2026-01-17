@@ -5,16 +5,14 @@ import {hashSecretToken, verifyToken} from "@utils/crypto.js";
 export async function refreshTokenProvider(
     token: string
 ): Promise<ServiceResponse> {
-    if (!token) {
-        return {
-            status: 401,
-            data: {
-                ok: false,
-                message: "refresh token is missing or expired",
-                code: "REFRESH_TOKEN_NOT_FOUND",
-            }
-        };
-    }
+    if (!token) return {
+        status: 401,
+        data: {
+            ok: false,
+            message: "refresh token is missing or expired",
+            code: "REFRESH_TOKEN_NOT_FOUND",
+        }
+    };
 
     try {
         const userPayload = verifyToken(token);
