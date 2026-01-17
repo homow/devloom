@@ -57,6 +57,7 @@ courseRouter
         lessonController.get
     );
 
+/** get one lesson from one course */
 courseRouter
     .route("/:courseHref/lesson")
     .get(lessonController.get);
