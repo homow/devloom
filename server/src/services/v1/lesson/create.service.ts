@@ -1,7 +1,7 @@
 import {checkLessonExist} from "./index.js";
 import LessonModel from "@models/Lesson.model.js";
 import type {LessonInput} from "@validators/lesson.js";
-import type {ServiceResponse} from "@src/types/index.js";
+import type {SafeLessonDB, ServiceResponse} from "@src/types/index.js";
 import {checkCourseExist} from "@services/v1/course/common.js";
 
 export async function createService(
@@ -23,13 +23,13 @@ export async function createService(
 
     const lessonExist = await checkLessonExist({data: {title}});
 
-    if (lessonExist) return {
+    if ((lessonExist as SafeLessonDB[])[0]) return {
         status: 409,
         data: {
             ok: false,
             message: "lesson already exist",
             code: "LESSON_EXIST",
-            lesson: lessonExist
+            lesson: (lessonExist as SafeLessonDB[])[0]
         }
     };
 
@@ -48,7 +48,7 @@ export async function createService(
         data: {
             message: "lesson successfully created",
             ok: true,
-            lesson,
+            lesson: (lesson as SafeLessonDB[])[0],
         }
     };
 }
