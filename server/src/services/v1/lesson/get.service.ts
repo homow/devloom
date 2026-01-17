@@ -49,7 +49,7 @@ export async function checkLessonExist(
     {
         id,
         data,
-    }: CheckLessonParams
+    }: CheckLessonParams = {}
 ) {
     /** check id */
     if (id) {
