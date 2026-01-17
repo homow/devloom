@@ -46,6 +46,7 @@ export async function get(
     /** get all lessons from one course */
     const lessons = await checkLessonExist({data: {course: existCourse.id}});
 
+    /** if not exist lessons */
     if (!lessons || lessons.length === 0) return res.status(404).json({
         ok: false,
         message: "lessons not found",
