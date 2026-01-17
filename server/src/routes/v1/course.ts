@@ -27,7 +27,7 @@ courseRouter.use(
 /**
  * root route
  * for created, delete, update
- * */
+ */
 courseRouter
     .route("/")
     .post(
