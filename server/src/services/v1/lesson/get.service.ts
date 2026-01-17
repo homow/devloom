@@ -33,8 +33,8 @@ export async function checkLessonExist(
             stage: lessonProjectStage,
         });
 
-        const lessonExist = await LessonModel.aggregate(lessonStage);
-        if (lessonExist) return lessonExist;
+        const lessonsExist = await LessonModel.aggregate(lessonStage);
+        if (lessonsExist) return lessonsExist;
     }
 
     const filterLessonStage = createPipelineStage({
