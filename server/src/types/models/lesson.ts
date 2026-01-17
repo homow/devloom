@@ -1,5 +1,5 @@
 import {Types} from "mongoose";
-import type {BaseDB} from "./index.js";
+import type {BaseDB, SafeBaseDB, SafeCourseDB} from "./index.js";
 
 export interface LessonDB extends BaseDB {
     title: string;
@@ -8,3 +8,5 @@ export interface LessonDB extends BaseDB {
     free: boolean;
     course: Types.ObjectId;
 }
+
+export type SafeLessonDB = Pick<LessonDB, "free" | "time" | "video" | "title"> & SafeBaseDB & SafeCourseDB;
