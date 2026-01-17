@@ -54,8 +54,10 @@ export function courseCoverUploader(
 
             /** check exist */
             const courseExist = await checkCourseExist({
-                title: (result.data as CourseInput).title,
-                href: (result.data as CourseInput).href,
+                data: {
+                    title: (result.data as CourseInput).title,
+                    href: (result.data as CourseInput).href,
+                }
             });
 
             /** return and delete file if exist */
