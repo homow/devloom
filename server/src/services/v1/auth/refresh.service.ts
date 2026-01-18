@@ -1,6 +1,6 @@
+import {checkUserDB} from "@src/lib/index.js";
+import {updateRefreshToken} from "./index.js";
 import {createTokenAndOptions} from "@utils/tokens.js";
-import {checkUserDB, generateTokenTime} from "@src/lib/index.js";
-import {createRefreshTokensService, updateRefreshToken} from "./index.js";
 import {refreshTokenProvider} from "@services/v1/auth/refreshTokenProvider.js";
 import type {AuthPayload, RefreshToken, ServiceResponse} from "@src/types/index.js";
 
@@ -15,15 +15,6 @@ export async function refreshService(
 
     await updateRefreshToken(session._id);
 
-    const refreshToken = createTokenAndOptions({
-        payload: {
-            id: userPayload.id,
-            role: userPayload.role,
-            remember: userPayload.remember,
-        },
-        tokenType: "refresh",
-        remember: userPayload.remember,
-    });
     const accessToken = createTokenAndOptions({
         payload: {
             id: userPayload.id,
@@ -31,10 +22,6 @@ export async function refreshService(
         },
         tokenType: "access"
     });
-
-    const expiresAt: Date = generateTokenTime(userPayload.remember);
-
-    await createRefreshTokensService(userPayload.id, refreshToken.token, expiresAt);
 
     const user = await checkUserDB({id: userPayload.id});
 
@@ -46,6 +33,5 @@ export async function refreshService(
             accessToken: accessToken.token,
             user
         },
-        refreshToken,
     };
 }
