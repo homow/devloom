@@ -2,9 +2,11 @@ import {findRefreshToken} from "./index.js";
 import type {ServiceResponse} from "@src/types/index.js";
 import {hashSecretToken, verifyToken} from "@utils/crypto.js";
 
+/** find and check token */
 export async function refreshTokenProvider(
     token: string
 ): Promise<ServiceResponse> {
+    /** if token not exist */
     if (!token) return {
         status: 401,
         data: {
@@ -15,21 +17,26 @@ export async function refreshTokenProvider(
     };
 
     try {
+        /** check token */
         const userPayload = verifyToken(token);
+
+        /** hash old token for compare */
         const hashedOldToken: string = hashSecretToken(token);
+
+        /** find token with hashed */
         const session = await findRefreshToken(hashedOldToken, userPayload.id);
 
-        if (!session || session.isRevoked) {
-            return {
-                status: 401,
-                data: {
-                    ok: false,
-                    message: "Invalid or expired refresh token",
-                    code: "REFRESH_TOKEN_INVALID",
-                }
-            };
-        }
+        /** if token not found or expired */
+        if (!session || session.isRevoked) return {
+            status: 401,
+            data: {
+                ok: false,
+                message: "Invalid or expired refresh token",
+                code: "REFRESH_TOKEN_INVALID",
+            }
+        };
 
+        /** if token found and is valid */
         return {
             status: 200,
             data: {
