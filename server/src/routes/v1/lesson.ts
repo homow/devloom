@@ -6,7 +6,7 @@ import {getRegexForIgnoreRoutes, type IgnoredRoutesKeys} from "@utils/route.js";
 
 const lessonRouter = express.Router();
 
-const getOneLessonRegex: RegExp = getRegexForIgnoreRoutes("/course/([^/]+)/lesson/([^/]+)$");
+const getOneLessonRegex: RegExp = getRegexForIgnoreRoutes("/lesson/([^/]+)$");
 
 /** ignore this route in protected route */
 const ignoreRoutes: IgnoredRoutesKeys[] = [
