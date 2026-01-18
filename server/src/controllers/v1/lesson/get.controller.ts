@@ -5,11 +5,11 @@ import type {LessonDB, ServiceResponse} from "@src/types/index.js";
 
 /** get one lesson with id or get all lesson with course id */
 export async function get(
-    req: Request<{ courseHref?: string; lessonID?: string }>,
+    req: Request<{ courseHref?: string; id?: string }>,
     res: Response
 ) {
     const courseHref: string | undefined = req.params.courseHref;
-    const lessonID: string | undefined = req.params.lessonID;
+    const lessonID: string | undefined = req.params.id;
 
     /** if courseHref in params */
     if (courseHref) {

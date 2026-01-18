@@ -12,6 +12,9 @@ lessonRouter.use(
 
 lessonRouter
     .route("/:id")
+    .get(
+        lessonController.get
+    )
     .delete(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
         middleware.isValidParamId("lesson"),
