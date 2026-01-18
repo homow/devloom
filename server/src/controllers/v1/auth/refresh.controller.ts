@@ -1,6 +1,5 @@
 import type {Response} from "express";
 import type {AuthRequest} from "@src/types/index.js";
-import {createTokenAndOptions} from "@utils/tokens.js";
 import {refreshService} from "@services/v1/auth/index.js";
 
 export async function refresh(
@@ -9,10 +8,5 @@ export async function refresh(
 ) {
     const refreshToken = req.cookies.refreshToken || req.signedCookies.refreshToken;
     const result = await refreshService(refreshToken);
-    if (result.data.ok) {
-        const newRefresh = result.refreshToken as ReturnType<typeof createTokenAndOptions>;
-        res.cookie("refreshToken", newRefresh.token, newRefresh.options);
-    }
-
     return res.status(result.status).json(result.data);
 }
