@@ -32,7 +32,7 @@ export async function refreshTokenProvider(
             data: {
                 ok: false,
                 message: "Invalid or expired refresh token",
-                code: "REFRESH_TOKEN_INVALID",
+                code: "INVALID_REFRESH_TOKEN",
             }
         };
 
