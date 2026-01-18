@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import {getSafeCourse} from "@src/lib/index.js";
 import CourseModel from "@models/Course.model.js";
 import type {CoursePopulate, ServiceResponse} from "@src/types/index.js";
@@ -17,6 +18,8 @@ export async function deleteService(
     };
 
     const coursePopulate = deleteCourse as unknown as CoursePopulate;
+
+    fs.rmSync(`public/uploads/courses/cover/${coursePopulate.cover}`);
 
     return {
         status: 200,
