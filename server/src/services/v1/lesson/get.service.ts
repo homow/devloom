@@ -24,6 +24,7 @@ export async function checkLessonExist(
         if (checkInvalidID) return checkInvalidID;
     }
 
+    /** if not exist params, return all lessons */
     if (
         id === undefined
         && data?.title === undefined
@@ -37,6 +38,7 @@ export async function checkLessonExist(
         if (lessonsExist) return lessonsExist;
     }
 
+    /** filter on title, course or id */
     const filterLessonStage = createPipelineStage({
         stage: lessonProjectStage,
         filter: [{title: data?.title}, {course: new mongoose.Types.ObjectId(data?.course)}, {_id: id}]
