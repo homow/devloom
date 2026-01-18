@@ -1,8 +1,8 @@
-import {checkUserDB, generateTokenTime} from "@src/lib/index.js";
 import {createTokenAndOptions} from "@utils/tokens.js";
+import {checkUserDB, generateTokenTime} from "@src/lib/index.js";
 import {createRefreshTokensService, updateRefreshToken} from "./index.js";
-import type {AuthPayload, RefreshToken, ServiceResponse} from "@src/types/index.js";
 import {refreshTokenProvider} from "@services/v1/auth/refreshTokenProvider.js";
+import type {AuthPayload, RefreshToken, ServiceResponse} from "@src/types/index.js";
 
 export async function refreshService(
     oldToken: string
