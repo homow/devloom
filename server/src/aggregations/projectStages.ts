@@ -1,4 +1,4 @@
-import {baseStage} from "./common.js";
+import {baseStage} from "./index.js";
 import type {PipelineStage} from "mongoose";
 
 // type-safe for lookup and join
