@@ -1,5 +1,5 @@
-import CourseModel from "@models/Course.model.js";
 import {getSafeCourse} from "@src/lib/index.js";
+import CourseModel from "@models/Course.model.js";
 import type {CoursePopulate, ServiceResponse} from "@src/types/index.js";
 
 export async function deleteService(
