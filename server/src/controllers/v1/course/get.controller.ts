@@ -6,6 +6,9 @@ export async function get(
     res: Response
 ) {
     const courses = await checkCourseExist();
-    console.log(courses);
-    return res.status(200).json(courses);
+    return res.status(200).json({
+        ok: true,
+        message: "courses successfully found.",
+        courses
+    });
 }
