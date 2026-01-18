@@ -10,7 +10,7 @@ interface CheckCourseParams {
     id?: string;
 }
 
-/** get course */
+/** get one or all course from db collection and return */
 export async function checkCourseExist(
     {
         data,
