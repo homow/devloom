@@ -33,15 +33,11 @@ export function createTokenAndOptions(
 
     const isRefresh: boolean = tokenType === "refresh";
 
-    const remember: boolean | undefined =
-        isRefresh
-            ? params.remember
-            : false;
+    const remember: boolean | undefined = isRefresh ? params.remember : false;
 
     const expiresIn: StringValue | number = isRefresh
         ? remember
-            ? "7d"
-            : "6h"
+            ? "7d" : "6h"
         : "1h";
 
     const maxAge: number | undefined = isRefresh
