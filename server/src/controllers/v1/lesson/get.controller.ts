@@ -1,6 +1,6 @@
 import type {Request, Response} from "express";
 import {checkLessonExist} from "@services/v1/lesson/index.js";
-import {checkCourseExist} from "@services/v1/course/common.js";
+import {checkCourseExist} from "@services/v1/course/index.js";
 import type {LessonDB, ServiceResponse} from "@src/types/index.js";
 
 /** get one lesson with id or get all lesson with course id */

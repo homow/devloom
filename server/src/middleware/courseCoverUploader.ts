@@ -2,8 +2,8 @@ import z from "zod";
 import fs from "node:fs";
 import type {CourseInput} from "@validators/course.js";
 import type {NextFunction, Request, Response} from "express";
+import {checkCourseExist} from "@services/v1/course/index.js";
 import {createMulter, formatZodError} from "@src/lib/index.js";
-import {checkCourseExist} from "@services/v1/course/common.js";
 
 const allowedFiles = /jpg|jpeg|png|webp/;
 const maxSize: number = Number(process.env.MULTER_MAX_SIZE_IMAGE);

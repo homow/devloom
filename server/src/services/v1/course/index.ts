@@ -1,2 +1,2 @@
 export * from "./create.service.js";
-export * from "./common.js";
+export * from "./get.service.js";

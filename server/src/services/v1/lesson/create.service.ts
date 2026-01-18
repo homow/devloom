@@ -1,7 +1,7 @@
 import {checkLessonExist} from "./index.js";
 import LessonModel from "@models/Lesson.model.js";
 import type {LessonInput} from "@validators/lesson.js";
-import {checkCourseExist} from "@services/v1/course/common.js";
+import {checkCourseExist} from "@services/v1/course/get.service.js";
 import type {SafeLessonDB, ServiceResponse} from "@src/types/index.js";
 
 /** create lesson for a course */
