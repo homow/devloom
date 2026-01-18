@@ -9,11 +9,12 @@ export async function logout(
     const refreshToken = req.cookies.refreshToken || req.signedCookies.refreshToken;
     const result = await logoutService(refreshToken);
 
-    if (result.status === 200) {
-        res.cookie("refreshToken", "", {
-            maxAge: 0
-        });
-    }
+    if (result.status === 200) res.clearCookie("refreshToken", {
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        httpOnly: true,
+    });
 
     return res.status(result.status).json(result.data);
 }
