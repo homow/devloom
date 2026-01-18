@@ -19,7 +19,12 @@ export async function deleteService(
 
     const coursePopulate = deleteCourse as unknown as CoursePopulate;
 
-    fs.rmSync(`public/uploads/courses/cover/${coursePopulate.cover}`);
+    try {
+        fs.rmSync(`public/uploads/courses/cover/${coursePopulate.cover}`);
+    } catch (e) {
+        console.log(e);
+    }
+
 
     return {
         status: 200,
