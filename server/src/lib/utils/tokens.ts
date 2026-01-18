@@ -2,10 +2,11 @@ import type {StringValue} from "ms";
 import type {CookieOptions} from "express";
 import {generateToken} from "@utils/crypto.js";
 
+/** generate refresh token time with remember flag */
 export function generateTokenTime(remember?: boolean): Date {
     return remember
         ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7d
-        : new Date(Date.now() + 6 * 60 * 60 * 1000);    // 6h
+        : new Date(Date.now() + 6 * 60 * 60 * 1000);     // 6h
 }
 
 interface BaseParms {
@@ -24,6 +25,7 @@ interface TokenParamsAccess extends BaseParms {
 
 type TokenParams = TokenParamsRefresh | TokenParamsAccess;
 
+/** create refresh or access token and options */
 export function createTokenAndOptions(
     params: TokenParams
 ) {
