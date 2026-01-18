@@ -65,11 +65,6 @@ courseRouter.route("/:id/lesson")
         lessonController.create
     );
 
-/** get one lesson with id */
-courseRouter
-    .route("/:courseHref/lesson/:lessonID")
-    .get(lessonController.get);
-
 /** get all lessons from one course */
 courseRouter
     .route("/:courseHref/lesson")
