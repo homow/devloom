@@ -49,6 +49,7 @@ app.use("/static", express.static(createPath("public")));
 app.use(`${BASE_URL}/auth`, routes.authRouter);
 app.use(`${BASE_URL}/category`, routes.categoryRoute);
 app.use(`${BASE_URL}/course`, routes.courseRouter);
+app.use(`${BASE_URL}/lesson`, routes.lessonRouter);
 
 // --- 404 handler ---
 app.use(middleware.notFoundHandler);
