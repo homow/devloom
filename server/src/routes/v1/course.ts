@@ -10,13 +10,11 @@ const courseRouter = express.Router();
 
 const getOneCourseRegex: RegExp = getRegexForIgnoreRoutes("/course/([^/]+)$");
 const getLessonRegex: RegExp = getRegexForIgnoreRoutes("/course/([^/]+)/lesson$");
-const getOneLessonRegex: RegExp = getRegexForIgnoreRoutes("/course/([^/]+)/lesson/([^/]+)$");
 
 /** ignore this route in protected route */
 const ignoreRoutes: IgnoredRoutesKeys[] = [
     {method: "GET", path: "/course"},
     {method: "GET", path: getOneCourseRegex},
-    {method: "GET", path: getOneLessonRegex},
     {method: "GET", path: getLessonRegex},
 ];
 
