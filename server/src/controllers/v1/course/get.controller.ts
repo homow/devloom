@@ -3,10 +3,10 @@ import {checkCourseExist} from "@services/v1/course/index.js";
 
 /** get all or one course from services and return to client */
 export async function get(
-    req: Request<{ href?: string }>,
+    req: Request<{ courseHref?: string }>,
     res: Response
 ) {
-    const courses = await checkCourseExist({data: {href: req.params.href}});
+    const courses = await checkCourseExist({data: {href: req.params.courseHref}});
 
     const response = {
         ok: true,
@@ -15,7 +15,7 @@ export async function get(
         course: undefined
     };
 
-    if (req.params.href) {
+    if (req.params.courseHref) {
         response.message = "course successfully found.";
         response.course = courses;
     } else {
