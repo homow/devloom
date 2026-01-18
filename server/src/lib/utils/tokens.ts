@@ -5,7 +5,7 @@ import {generateToken} from "@utils/crypto.js";
 export function generateTokenTime(remember?: boolean): Date {
     return remember
         ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7d
-        : new Date(Date.now() + 24 * 60 * 60 * 1000);    // 1d
+        : new Date(Date.now() + 6 * 60 * 60 * 1000);    // 6h
 }
 
 interface BaseParms {
