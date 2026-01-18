@@ -48,6 +48,13 @@ courseRouter
     .route("/:courseHref")
     .get(courseController.get);
 
+courseRouter
+    .route("/:id")
+    .delete(
+        middleware.checkRole({requiredRole: UserRole.ADMIN}),
+        courseController.deleteController
+    );
+
 /** create lesson in a course */
 courseRouter.route("/:id/lesson")
     .post(
