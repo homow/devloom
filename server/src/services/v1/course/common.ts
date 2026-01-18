@@ -15,7 +15,7 @@ export async function checkCourseExist(
     {
         data,
         id
-    }: CheckCourseParams
+    }: CheckCourseParams = {}
 ) {
     if (id) {
         const checkInvalidID = checkObjectID(id);
