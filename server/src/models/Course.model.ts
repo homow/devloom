@@ -29,6 +29,7 @@ const CourseModelShema: Schema<CourseDB> = new mongoose.Schema(
         href: {
             type: String,
             required: true,
+            match: /^\s*[a-zA-Z0-9_-]+\s*$/,
         },
         discount: {
             type: Number,
