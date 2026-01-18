@@ -6,6 +6,7 @@ export function notFoundHandler(
 ) {
     return res.status(404).json({
         ok: false,
-        message: "Not Found",
+        message: "Not Found endpoint and method",
+        code: "METHOD_AND_ENDPOINT_NOT_FOUND",
     });
 }
