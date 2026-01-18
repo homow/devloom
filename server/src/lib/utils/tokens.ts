@@ -1,3 +1,4 @@
+import type {StringValue} from "ms";
 import type {CookieOptions} from "express";
 import {generateToken} from "@utils/crypto.js";
 
@@ -35,16 +36,16 @@ export function createTokenAndOptions(
             ? params.remember
             : false;
 
-    const expiresIn: "7d" | "24h" | "1h" = isRefresh
+    const expiresIn: StringValue | number = isRefresh
         ? remember
             ? "7d"
-            : "24h"
+            : "6h"
         : "1h";
 
-    const maxAge: number = isRefresh
+    const maxAge: number | undefined = isRefresh
         ? remember
             ? 1000 * 60 * 60 * 24 * 7
-            : 1000 * 60 * 60 * 24
+            : undefined
         : 1000 * 60 * 60;
 
     const token: string = generateToken({...payload, timestamp: Date.now()}, expiresIn);
