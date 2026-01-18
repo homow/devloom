@@ -4,6 +4,7 @@ import CourseModel from "@models/Course.model.js";
 import type {CourseInput} from "@validators/course.js";
 import type {CoursePopulate, ServiceResponse} from "@src/types/index.js";
 
+/** check and created one course in db collection */
 export async function createService(
     data: CourseInput & {
         cover: string,
@@ -21,9 +22,11 @@ export async function createService(
         price,
         cover,
     } = data;
+
+    /** check course exist */
     const courseExist = await checkCourseExist({data: {title, href}});
 
-    // check if exist and return a response
+    /** check if exist and return a response */
     if (courseExist) return {
         status: 409,
         data: {
@@ -34,6 +37,7 @@ export async function createService(
         }
     };
 
+    /** create new course with Model */
     const newCourse = await CourseModel.create({
         title,
         href,
@@ -46,16 +50,17 @@ export async function createService(
         price,
         cover
     })
-        // populated teacher form 'user' and 'category' collection
+        /** populated teacher form 'user' and 'category' collection */
         .then(c => c.populate("teacher"))
         .then(c => c.populate("category")) as CoursePopulate;
 
+    /** return safe course data */
     return {
         status: 201,
         data: {
             ok: true,
             message: "Course successfully created",
-            course: getSafeCourse(newCourse), // return safe course data
+            course: getSafeCourse(newCourse),
         }
     };
 }
