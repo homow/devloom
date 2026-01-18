@@ -12,3 +12,5 @@ lessonRouter
         middleware.isValidParamId("lesson"),
         lessonController.deleteController
     );
+
+export {lessonRouter};
