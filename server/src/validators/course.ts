@@ -8,7 +8,7 @@ export const CourseSchema = z.object({
     price: z.number().min(0),
     discount: z.number().min(0),
     support: z.string(),
-    href: z.string(),
+    href: z.string().regex(/^\s*[a-zA-Z0-9_-]+\s*$/),
     teacher: checkZodObjectId("teacher"),
     category: checkZodObjectId("category"),
     status: z.enum(CourseStatus),
