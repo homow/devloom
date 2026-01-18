@@ -5,6 +5,11 @@ import * as lessonController from "@controllers/v1/lesson/index.js";
 
 const lessonRouter = express.Router();
 
+lessonRouter.use(
+    middleware.checkAccessToken(),
+    middleware.checkBanned()
+);
+
 lessonRouter
     .route("/:id")
     .delete(
