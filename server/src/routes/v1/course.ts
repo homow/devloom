@@ -52,6 +52,7 @@ courseRouter
     .route("/:id")
     .delete(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
+        middleware.isValidParamId("course"),
         courseController.deleteController
     );
 
