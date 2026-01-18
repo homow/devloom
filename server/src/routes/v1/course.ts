@@ -70,7 +70,7 @@ courseRouter
     .route("/:courseHref/lesson/:lessonID")
     .get(lessonController.get);
 
-/** get one lesson from one course */
+/** get all lessons from one course */
 courseRouter
     .route("/:courseHref/lesson")
     .get(lessonController.get);
