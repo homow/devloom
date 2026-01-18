@@ -1,4 +1,4 @@
-import {checkCourseExist} from "./common.js";
+import {checkCourseExist} from "./index.js";
 import {getSafeCourse} from "@src/lib/index.js";
 import CourseModel from "@models/Course.model.js";
 import type {CourseInput} from "@validators/course.js";
