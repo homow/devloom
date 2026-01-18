@@ -68,7 +68,12 @@ courseRouter.route("/:id/lesson")
 /** get one lesson with id */
 courseRouter
     .route("/:courseHref/lesson/:lessonID")
-    .get(lessonController.get);
+    .get(lessonController.get)
+    .delete(
+        middleware.checkRole({requiredRole: UserRole.ADMIN}),
+        middleware.isValidParamId("lesson"),
+        lessonController.deleteController
+    );
 
 /** get one lesson from one course */
 courseRouter
