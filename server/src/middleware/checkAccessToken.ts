@@ -4,7 +4,7 @@ import type {AuthPayload, AuthRequest} from "@src/types/index.js";
 import {checkIgnoredRoute, type IgnoredRoutesKeys} from "@utils/index.js";
 
 export function checkAccessToken(
-    ignoreRoutes: IgnoredRoutesKeys[]
+    ignoreRoutes: IgnoredRoutesKeys[] = []
 ) {
     return (
         req: AuthRequest,

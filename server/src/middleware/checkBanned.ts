@@ -3,7 +3,7 @@ import type {AuthRequest} from "@src/types/index.js";
 import {checkBannedUser, checkIgnoredRoute, checkUserDB, type IgnoredRoutesKeys} from "@src/lib/index.js";
 
 export function checkBanned(
-    ignoreRoutes: IgnoredRoutesKeys[],
+    ignoreRoutes: IgnoredRoutesKeys[] = [],
     message?: string
 ) {
     return async (
