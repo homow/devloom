@@ -43,7 +43,11 @@ export function courseCoverUploader(
                 /**
                  * delete cover if invalid body
                  */
-                fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                try {
+                    fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                } catch (e) {
+                    console.log(e);
+                }
 
                 return res.status(422).json({
                     ok: false,
@@ -65,7 +69,11 @@ export function courseCoverUploader(
                 /**
                  * delete cover if exist course
                  * */
-                fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                try {
+                    fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                } catch (e) {
+                    console.log(e);
+                }
 
                 return res.status(409).json({
                     ok: false,
