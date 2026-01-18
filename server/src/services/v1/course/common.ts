@@ -10,6 +10,7 @@ interface CheckCourseParams {
     id?: string;
 }
 
+/** get course */
 export async function checkCourseExist(
     {
         data,
@@ -21,11 +22,16 @@ export async function checkCourseExist(
         if (checkInvalidID) return checkInvalidID;
     }
 
+    /** if not exist params, return all courses */
     if (
         id === undefined
         && data?.title === undefined
         && data?.href === undefined
-    ) return null;
+    ) {
+        const stage = createPipelineStage({stage: courseProjectStage});
+        const courseExist = await CourseModel.aggregate(stage);
+        if (courseExist) return courseExist;
+    }
 
     const stage = createPipelineStage({
         stage: courseProjectStage,
