@@ -11,7 +11,8 @@
     "build": "tsc && tsc-alias",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "seed:superadmin": "npx tsx src/scripts/create-super-admin.ts"
+    "seed:superadmin": "npx tsx src/scripts/create-super-admin.ts",
+    "swagger:bundle": "redocly bundle src/docs/openapi.yaml -o src/docs/openapi.bundle.yaml"
   },
   "type": "module",
   "dependencies": {
