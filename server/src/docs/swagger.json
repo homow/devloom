@@ -10,6 +10,25 @@
       "url": "http://localhost:3000/api/v1/"
     }
   ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "User Auth"
+    },
+    {
+      "name": "Category",
+      "description": "category of courses"
+    },
+    {
+      "name": "Course",
+      "description": "courses"
+    },
+    {
+      "name": "Lesson",
+      "description": "lessons of Course"
+    }
+  ],
   "paths": {
+
   }
 }
