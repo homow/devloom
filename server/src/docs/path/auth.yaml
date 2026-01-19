@@ -1,0 +1,46 @@
+signup:
+  post:
+    operationId: "createUser"
+    "summary": "create new user"
+    description: "Create a new user in db collection(users)"
+    tags:
+      - "Auth"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+                minLength: 3
+                maxLength: 20
+                description: "name must be at least 3 characters and less than 20 characters"
+              email:
+                type: "string"
+                format: "email"
+              password:
+                type: "string"
+                minLength: 6
+                pattern: /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$/
+                description: "password must be at least 6 characters and contain at least one letter and one number"
+            required: [ "email", "password" ]
+            example:
+              name: "john"
+              email: "john@mail.co"
+              password: "123qwe"
+    responses:
+      201:
+        description: "user created successfully"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "Sign up successfully"
+              user:
+                id: "695d0babedf79cffd1f83999"
+                name: "john"
+                email: "john@mail.co"
+                createdAt: "2026-01-06T13:18:35.169+0000"
+                updatedAt: "2026-01-06T13:18:35.169+0000"
