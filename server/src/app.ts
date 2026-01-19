@@ -1,13 +1,16 @@
 import cors from "cors";
 import "./lib/configs/db.js";
-import express from "express";
 import {BASE_URL} from "./path.js";
 import {createPath} from "./path.js";
 import cookieParser from "cookie-parser";
+import express, {type Express} from "express";
 import * as routes from "@routes/v1/index.js";
+import {configSwagger} from "@src/lib/index.js";
 import * as middleware from "./middleware/index.js";
 
-const app = express();
+const app: Express = express();
+
+configSwagger(app);
 
 const allowedOrigins: string[] = [
     `http://127.0.0.1:${process.env.PORT}`,
