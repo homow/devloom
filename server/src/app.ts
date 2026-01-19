@@ -5,12 +5,9 @@ import {createPath} from "./path.js";
 import cookieParser from "cookie-parser";
 import express, {type Express} from "express";
 import * as routes from "@routes/v1/index.js";
-import {configSwagger} from "@src/lib/index.js";
 import * as middleware from "./middleware/index.js";
 
 const app: Express = express();
-
-configSwagger(app);
 
 const allowedOrigins: string[] = [
     `http://127.0.0.1:${process.env.PORT}`,
@@ -50,9 +47,10 @@ app.use("/static", express.static(createPath("public")));
 
 // --- Routes ---
 app.use(`${BASE_URL}/auth`, routes.authRouter);
-app.use(`${BASE_URL}/category`, routes.categoryRoute);
+app.use(`${BASE_URL}/category`, routes.categoryRouter);
 app.use(`${BASE_URL}/course`, routes.courseRouter);
 app.use(`${BASE_URL}/lesson`, routes.lessonRouter);
+app.use(`${BASE_URL}/api-docs`, routes.swaggerRouter);
 
 // --- 404 handler ---
 app.use(middleware.notFoundHandler);
