@@ -54,7 +54,7 @@ app.use(`${BASE_URL}/lesson`, routes.lessonRouter);
 /**
  * swagger api documents
  */
-app.use(`${BASE_URL}/api-docs`, routes.swaggerRouter);
+app.use(`${BASE_URL}/docs`, routes.swaggerRouter);
 
 /** 404 handler */
 app.use(middleware.notFoundHandler);

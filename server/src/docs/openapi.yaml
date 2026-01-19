@@ -23,5 +23,5 @@ components:
       in: header
       description: "accessToken Authorization: Bearer <accessToken>"
 paths:
-  "/auth/signup":
+  /auth/signup:
     $ref: "./path/auth.yaml#/signup"
