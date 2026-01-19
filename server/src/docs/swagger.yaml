@@ -6,7 +6,7 @@ info:
   version: 1.0.0
 servers:
   - url: 'http://localhost:3000/api/v1/'
-    description: "base url"
+    description: base url
 tags:
   - name: "Auth"
     description: "User Auth"
@@ -16,6 +16,13 @@ tags:
     description: "courses"
   - name: "Lesson"
     description: "lessons of Course"
+components:
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: "accessToken Authorization: Bearer <accessToken>"
 paths:
   "/auth/signup":
     post:
