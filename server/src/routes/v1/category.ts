@@ -5,7 +5,7 @@ import * as middleware from "@middleware/index.js";
 import * as categoryController from "@controllers/v1/category/index.js";
 import {getRegexForIgnoreRoutes, type IgnoredRoutesKeys} from "@utils/route.js";
 
-const categoryRoute = express.Router();
+const categoryRouter = express.Router();
 
 const ignoreRouteGetCategory = getRegexForIgnoreRoutes("/category/([^/]+)$");
 
@@ -14,9 +14,9 @@ const ignoreRoutes: IgnoredRoutesKeys[] = [
     {method: "GET", path: ignoreRouteGetCategory},
 ];
 
-categoryRoute.use(middleware.checkAccessToken(ignoreRoutes), middleware.checkBanned(ignoreRoutes));
+categoryRouter.use(middleware.checkAccessToken(ignoreRoutes), middleware.checkBanned(ignoreRoutes));
 
-categoryRoute
+categoryRouter
     .route("/")
     .post(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
@@ -25,7 +25,7 @@ categoryRoute
     )
     .get(categoryController.get);
 
-categoryRoute
+categoryRouter
     .route("/:id")
     .put(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
@@ -43,4 +43,4 @@ categoryRoute
         categoryController.get
     );
 
-export {categoryRoute};
+export {categoryRouter};
