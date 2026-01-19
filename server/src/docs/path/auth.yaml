@@ -23,6 +23,35 @@ signup:
                 id: "695d0babedf79cffd1f83999"
                 name: "john"
                 email: "john@mail.co"
-                createdAt: "2026-01-19T19:22:20.707Z",
-                updatedAt: "2026-01-19T19:22:20.707Z",
+                createdAt: "2026-01-19T19:22:20.707Z"
+                updatedAt: "2026-01-19T19:22:20.707Z"
+                role: "USER"
+login:
+  post:
+    operationId: "login"
+    "summary": "login users"
+    description: "login user with email and password"
+    tags:
+      - "Auth"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/auth.yaml#/LoginRequest"
+    responses:
+      200:
+        description: "user logged in successfully"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "login successfully"
+              accessToken: "<accessToken Value>"
+              user:
+                id: "695d0babedf79cffd1f83999"
+                name: "john"
+                email: "john@mail.co"
+                createdAt: "2026-01-19T19:22:20.707Z"
+                updatedAt: "2026-01-19T19:22:20.707Z"
                 role: "USER"

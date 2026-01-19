@@ -25,3 +25,5 @@ components:
 paths:
   /auth/signup:
     $ref: "./path/auth.yaml#/signup"
+  /auth/login:
+    $ref: "./path/auth.yaml#/login"

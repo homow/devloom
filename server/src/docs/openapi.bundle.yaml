@@ -41,8 +41,38 @@ paths:
                   id: 695d0babedf79cffd1f83999
                   name: john
                   email: john@mail.co
-                  createdAt: 2026-01-06T13:18:35.169+0000
-                  updatedAt: 2026-01-06T13:18:35.169+0000
+                  createdAt: '2026-01-19T19:22:20.707Z'
+                  updatedAt: '2026-01-19T19:22:20.707Z'
+                  role: USER
+  /auth/login:
+    post:
+      operationId: login
+      summary: login users
+      description: login user with email and password
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: user logged in successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Login successfully
+                user:
+                  accessToken: 121hasjfhajfh12
+                  id: 695d0babedf79cffd1f83999
+                  name: john
+                  email: john@mail.co
+                  createdAt: '2026-01-19T19:22:20.707Z'
+                  updatedAt: '2026-01-19T19:22:20.707Z'
+                  role: USER
 components:
   securitySchemes:
     Authorization:
@@ -62,11 +92,6 @@ components:
         email:
           type: string
           format: email
-          description: Your primary email
-          example: user@example.com
-          x-order: 2
-          x-icon: mail
-          x-validation: Must be unique
         password:
           type: string
           minLength: 6
@@ -77,5 +102,22 @@ components:
         - password
       example:
         name: john
+        email: john@mail.co
+        password: 123qwe
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6
+          pattern: /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$/
+          description: password must be at least 6 characters and contain at least one letter and one number
+      required:
+        - email
+        - password
+      example:
         email: john@mail.co
         password: 123qwe

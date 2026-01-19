@@ -9,11 +9,6 @@ SignupRequest:
     email:
       type: "string"
       format: email
-      description: "Your primary email"
-      example: "user@example.com"
-      x-order: 2
-      x-icon: "mail"
-      x-validation: "Must be unique"
     password:
       type: "string"
       minLength: 6
@@ -22,5 +17,21 @@ SignupRequest:
   required: [ "email", "password" ]
   example:
     name: "john"
+    email: "john@mail.co"
+    password: "123qwe"
+
+LoginRequest:
+  type: "object"
+  properties:
+    email:
+      type: "string"
+      format: email
+    password:
+      type: "string"
+      minLength: 6
+      pattern: /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$/
+      description: "password must be at least 6 characters and contain at least one letter and one number"
+  required: [ "email", "password" ]
+  example:
     email: "john@mail.co"
     password: "123qwe"
