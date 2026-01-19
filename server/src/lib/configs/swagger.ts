@@ -14,7 +14,9 @@ function configSwagger(app: Express): void {
         },
     });
 
-    const swaggerUiDoc = swaggerUi.serveFiles(swaggerDocument);
+    const swaggerUiDoc = swaggerUi.setup(swaggerDocument, {
+        customCssUrl: "/static/css/style.css",
+    });
     app.use("/api-docs", swaggerUi.serve, swaggerUiDoc);
 }
 
