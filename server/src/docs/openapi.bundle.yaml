@@ -20,6 +20,7 @@ tags:
 paths:
   /auth/signup:
     post:
+      security: []
       operationId: createUser
       summary: create new user
       description: Create a new user in db collection(users)
@@ -48,6 +49,7 @@ paths:
                   role: USER
   /auth/login:
     post:
+      security: []
       operationId: login
       summary: login users
       description: login user with email and password
@@ -75,6 +77,13 @@ paths:
                   createdAt: '2026-01-19T19:22:20.707Z'
                   updatedAt: '2026-01-19T19:22:20.707Z'
                   role: USER
+        '401':
+          description: Unauthorized. invalid password or email.
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Invalid Credentials
         '403':
           description: Forbidden. This account is banned. Login is not allowed.
           content:
@@ -93,20 +102,19 @@ paths:
         - Auth
       responses:
         '200':
-          description: user logged in successfully
+          description: successfully get user info
           content:
             application/json:
               example:
                 ok: true
-                message: login successfully
-                accessToken: <accessToken Value>
+                message: user successfully found
                 user:
-                  id: 695d0babedf79cffd1f83999
                   name: john
                   email: john@mail.co
+                  role: USER
+                  id: 696e846cdd939b376e89608b
                   createdAt: '2026-01-19T19:22:20.707Z'
                   updatedAt: '2026-01-19T19:22:20.707Z'
-                  role: USER
         '401':
           description: Unauthorized - missed access token
           content:
