@@ -8,7 +8,7 @@ export const UserSchema = z.object({
     name: z
         .string()
         .min(3, {error: "name must be at least 3 characters"})
-        .max(10, {error: "name must be less than 10 characters"})
+        .max(20, {error: "name must be less than 20 characters"})
         .optional(),
     password: z
         .string()
