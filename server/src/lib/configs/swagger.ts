@@ -2,8 +2,9 @@ import type {Express} from "express";
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
-const configSwagger = (app: Express) => {
+function configSwagger(app: Express): void {
     const swaggerDocument = swaggerJsDoc({
+        apis: [],
         swaggerDefinition: {
             info: {
                 title: "Devloom - Programming Education",
@@ -15,6 +16,6 @@ const configSwagger = (app: Express) => {
 
     const swaggerUiDoc = swaggerUi.serveFiles(swaggerDocument);
     app.use("/api-docs", swaggerUi.serve, swaggerUiDoc);
-};
+}
 
 export {configSwagger};
