@@ -29,6 +29,51 @@
     }
   ],
   "paths": {
-
+    "/auth/signup": {
+      "summary": "create new user",
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": {
+                    "type": "string",
+                    "required": false,
+                    "description": "name must be at least 3 characters and less than 20 characters"
+                  },
+                  "email": {
+                    "type": "email",
+                    "required": true
+                  },
+                  "password": {
+                    "type": "string",
+                    "required": true,
+                    "format": "/^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$/",
+                    "description": "password must be at least 6 characters and contain at least one letter and one number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "": ""
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
