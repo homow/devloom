@@ -9,6 +9,7 @@ import * as middleware from "./middleware/index.js";
 
 const app: Express = express();
 
+/** allowed origin url */
 const allowedOrigins: string[] = [
     `http://127.0.0.1:${process.env.PORT}`,
     "http://127.0.0.1:3000",
@@ -22,13 +23,13 @@ const allowedOrigins: string[] = [
     "http://localhost:5174",
 ];
 
-// --- Global-cors security ---
+/** Global-cors security */
 app.use(cors({
     origin: allowedOrigins,
     credentials: true,
 }));
 
-// --- Global parsers ---
+/** Global parsers */
 app.use(express.json({
     strict: true
 }));
@@ -42,23 +43,26 @@ if (!process.env.JWT_SECRET) {
 
 app.use(cookieParser(process.env.JWT_SECRET));
 
-// --- Static files (CSS, images, JS) ---
+/** Static files (CSS, images, JS) */
 app.use("/static", express.static(createPath("public")));
 
-// --- Routes ---
+/** Routes */
 app.use(`${BASE_URL}/auth`, routes.authRouter);
 app.use(`${BASE_URL}/category`, routes.categoryRouter);
 app.use(`${BASE_URL}/course`, routes.courseRouter);
 app.use(`${BASE_URL}/lesson`, routes.lessonRouter);
+/**
+ * swagger api documents
+ */
 app.use(`${BASE_URL}/api-docs`, routes.swaggerRouter);
 
-// --- 404 handler ---
+/** 404 handler */
 app.use(middleware.notFoundHandler);
 
-// --- Global error handler (JSON Syntax) ---
+/** Global error handler (JSON Syntax) */
 app.use(middleware.validateGlobalBody);
 
-// --- internal server error handler ---
+/** internal server error handler */
 app.use(middleware.internalServerError);
 
 export default app;
