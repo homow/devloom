@@ -28,7 +28,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/signup'
+              $ref: '#/components/schemas/SignupRequest'
       responses:
         '201':
           description: user created successfully
@@ -51,7 +51,7 @@ components:
       in: header
       description: 'accessToken Authorization: Bearer <accessToken>'
   schemas:
-    signup:
+    SignupRequest:
       type: object
       properties:
         name:

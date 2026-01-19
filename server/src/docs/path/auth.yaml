@@ -10,7 +10,7 @@ signup:
       content:
         application/json:
           schema:
-            $ref: "../schema/auth.yaml#/signup"
+            $ref: "../schema/auth.yaml#/SignupRequest"
     responses:
       201:
         description: "user created successfully"
