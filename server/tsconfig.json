@@ -57,6 +57,9 @@
       ],
       "@models/*": [
         "src/models/*"
+      ],
+      "@docs/*": [
+        "src/docs/*"
       ]
     }
   },
