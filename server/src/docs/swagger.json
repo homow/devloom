@@ -1,3 +1,15 @@
 {
-
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Devloom - Programming Education",
+    "description": "Devloom is a modular, scalable API designed for building a modern programming education platform.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1/"
+    }
+  ],
+  "paths": {
+  }
 }
