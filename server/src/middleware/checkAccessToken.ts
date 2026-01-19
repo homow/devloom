@@ -11,6 +11,7 @@ export function checkAccessToken(
         res: Response,
         next: NextFunction
     ) => {
+        console.log(req.cookies);
         const isIgnored: boolean = checkIgnoredRoute({method: req.method, path: req.originalUrl, ignoreRoutes});
 
         if (isIgnored) {

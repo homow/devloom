@@ -1,3 +1,4 @@
+# Request body and response for user signup
 SignupRequest:
   type: "object"
   properties:
@@ -20,6 +21,7 @@ SignupRequest:
     email: "john@mail.co"
     password: "123qwe"
 
+# Request body and response for user login
 LoginRequest:
   type: "object"
   properties:

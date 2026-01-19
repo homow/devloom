@@ -17,13 +17,17 @@ tags:
     description: "lessons of Course"
 components:
   securitySchemes:
-    Authorization:
-      type: apiKey
-      name: Authorization
-      in: header
-      description: "accessToken Authorization: Bearer <accessToken>"
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "JWT access token"
+security:
+  - bearerAuth: [ ]
 paths:
   /auth/signup:
     $ref: "./path/auth.yaml#/signup"
   /auth/login:
     $ref: "./path/auth.yaml#/login"
+  /auth/getMe/:
+    $ref: "./path/auth.yaml#/getMe"

@@ -6,6 +6,8 @@ info:
 servers:
   - url: http://localhost:3000/api/v1/
     description: base url
+security:
+  - bearerAuth: []
 tags:
   - name: Auth
     description: User Auth
@@ -64,22 +66,62 @@ paths:
             application/json:
               example:
                 ok: true
-                message: Login successfully
+                message: login successfully
+                accessToken: <accessToken Value>
                 user:
-                  accessToken: 121hasjfhajfh12
                   id: 695d0babedf79cffd1f83999
                   name: john
                   email: john@mail.co
                   createdAt: '2026-01-19T19:22:20.707Z'
                   updatedAt: '2026-01-19T19:22:20.707Z'
                   role: USER
+        '403':
+          description: Forbidden. This account is banned. Login is not allowed.
+          content:
+            application/json:
+              example:
+                ok: false
+                message: This account is banned. Login is not allowed. Please contact support if you think this is a mistake.
+                email: john@mail.com
+                code: BANNED_EMAIL
+  /auth/getMe/:
+    get:
+      operationId: getMe
+      summary: get user info
+      description: get user safe-information in db collection(users)
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: user logged in successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: login successfully
+                accessToken: <accessToken Value>
+                user:
+                  id: 695d0babedf79cffd1f83999
+                  name: john
+                  email: john@mail.co
+                  createdAt: '2026-01-19T19:22:20.707Z'
+                  updatedAt: '2026-01-19T19:22:20.707Z'
+                  role: USER
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
 components:
   securitySchemes:
-    Authorization:
-      type: apiKey
-      name: Authorization
-      in: header
-      description: 'accessToken Authorization: Bearer <accessToken>'
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token
   schemas:
     SignupRequest:
       type: object
