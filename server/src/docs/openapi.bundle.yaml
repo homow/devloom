@@ -113,7 +113,7 @@ paths:
                 message: This account is banned. Login is not allowed. Please contact support if you think this is a mistake.
                 email: john@mail.com
                 code: BANNED_EMAIL
-  /auth/getMe/:
+  /auth/getMe:
     get:
       operationId: getMe
       summary: get user info
@@ -143,7 +143,7 @@ paths:
                 ok: false
                 message: Access token is required
                 code: ACCESS_TOKEN_MISSING
-  /auth/logout/:
+  /auth/logout:
     post:
       operationId: logout
       summary: logout system
@@ -158,6 +158,37 @@ paths:
               example:
                 ok: true
                 message: Logged out successfully
+        '401':
+          description: Unauthorized - not login
+          content:
+            application/json:
+              example:
+                ok: false,
+                message: refresh token is missing or expired
+                code: REFRESH_TOKEN_NOT_FOUND
+  /auth/refresh:
+    post:
+      '200':
+        description: new accessToken created successfully.
+        content: null
+        application/json:
+          example:
+            ok: true
+            message: success
+            accessToken: <AccessTokenValue>
+            user:
+              name: john
+              email: john@mail.co
+              role: USER
+              id: 696f96416bd22d439cf79d3f
+              createdAt: '2026-01-20T14:50:41.946Z'
+              updatedAt: '2026-01-20T14:50:41.946Z'
+      operationId: refresh
+      summary: refresh accessToken
+      description: get a new accessToken with refreshToken
+      tags:
+        - Auth
+      responses: null
 components:
   securitySchemes:
     bearerAuth:

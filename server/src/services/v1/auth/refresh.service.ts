@@ -1,8 +1,7 @@
 import {checkUserDB} from "@src/lib/index.js";
-import {updateRefreshToken} from "./index.js";
 import {createTokenAndOptions} from "@utils/tokens.js";
+import type {AuthPayload, ServiceResponse} from "@src/types/index.js";
 import {refreshTokenProvider} from "@services/v1/auth/refreshTokenProvider.js";
-import type {AuthPayload, RefreshToken, ServiceResponse} from "@src/types/index.js";
 
 export async function refreshService(
     oldToken: string
@@ -10,10 +9,7 @@ export async function refreshService(
     const checkRefreshToken = await refreshTokenProvider(oldToken);
     if (checkRefreshToken.status !== 200) return checkRefreshToken;
 
-    const session = checkRefreshToken.refreshTokenSession as RefreshToken;
-    const userPayload = checkRefreshToken.payload as AuthPayload;
-
-    await updateRefreshToken(session._id);
+    const userPayload = checkRefreshToken.data.userPayload as AuthPayload;
 
     const accessToken = createTokenAndOptions({
         payload: {
