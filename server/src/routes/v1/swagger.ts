@@ -9,6 +9,9 @@ const swaggerRouter = express.Router();
 const swaggerOptions: SwaggerUiOptions = {
     customCssUrl: "/static/css/style.css",
     explorer: true,
+    swaggerOptions: {
+        withCredentials: true,
+    }
 };
 
 const swaggerYamlPath: string = createPath("src/docs/openapi.bundle.yaml");
