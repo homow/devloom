@@ -6,6 +6,7 @@ import type {IgnoredRoutesKeys} from "@utils/route.js";
 import * as authController from "@controllers/v1/auth/index.js";
 import {validateRequestBody} from "@middleware/validateRequestBody.js";
 
+/** ignore routes */
 const ignoreRoutes: IgnoredRoutesKeys[] = [
     {method: "POST", path: "/auth/refresh"},
     {method: "POST", path: "/auth/login"},
@@ -14,8 +15,11 @@ const ignoreRoutes: IgnoredRoutesKeys[] = [
 ];
 
 const authRouter = express.Router();
+
+/** global middlewares */
 authRouter.use(middleware.checkAccessToken(ignoreRoutes), middleware.checkBanned(ignoreRoutes));
 
+/** create new user(Signup) */
 authRouter
     .route("/signup")
     .post(
@@ -24,6 +28,7 @@ authRouter
         authController.signUp
     );
 
+/** login user */
 authRouter
     .route("/login")
     .post(
@@ -32,18 +37,22 @@ authRouter
         authController.login
     );
 
+/** get safe-information user */
 authRouter
     .route("/getMe")
     .get(authController.getMe);
 
+/** logout */
 authRouter
     .route("/logout")
     .post(authController.logout);
 
+/** refresh accessToken */
 authRouter
     .route("/refresh")
     .post(authController.refresh);
 
+/** banned user */
 authRouter
     .route("/ban")
     .post(
@@ -53,6 +62,7 @@ authRouter
         authController.ban
     );
 
+/** get all users */
 authRouter
     .route("/users")
     .get(
@@ -60,6 +70,11 @@ authRouter
         authController.get
     );
 
+/**
+ * 1. get one user
+ * 2. delete one user
+ * 3. update information user
+ */
 authRouter
     .route("/user")
     .get(
@@ -77,6 +92,7 @@ authRouter
         authController.update
     );
 
+/** update user role */
 authRouter
     .route("/user/:id/role")
     .patch(
