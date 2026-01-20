@@ -196,3 +196,13 @@ refresh:
                 id: '696f96416bd22d439cf79d3f'
                 createdAt: '2026-01-20T14:50:41.946Z'
                 updatedAt: '2026-01-20T14:50:41.946Z'
+
+      # Unauthorized
+      401:
+        description: "missed or expired refresh token"
+        content:
+          application/json:
+            example:
+              ok: false,
+              message: "refresh token is missing or expired",
+              code: "REFRESH_TOKEN_NOT_FOUND"
