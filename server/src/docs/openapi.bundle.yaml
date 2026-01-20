@@ -47,6 +47,13 @@ paths:
                   createdAt: '2026-01-19T19:22:20.707Z'
                   updatedAt: '2026-01-19T19:22:20.707Z'
                   role: USER
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              example:
+                ok: false,
+                message: email already exist
         '422':
           description: Unprocessable Entity
           content:
@@ -136,6 +143,21 @@ paths:
                 ok: false
                 message: Access token is required
                 code: ACCESS_TOKEN_MISSING
+  /auth/logout/:
+    post:
+      operationId: logout
+      summary: logout system
+      description: logout user in the current system.
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: user logged out in the system successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Logged out successfully
 components:
   securitySchemes:
     bearerAuth:

@@ -143,6 +143,7 @@ getMe:
               message: "Access token is required"
               code: "ACCESS_TOKEN_MISSING"
 
+# Logout user
 logout:
   post:
     operationId: "logout"
@@ -151,4 +152,11 @@ logout:
     tags:
       - "Auth"
     responses:
-    # success
+      # success
+      200:
+        description: "user logged out in the system successfully"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: 'Logged out successfully'
