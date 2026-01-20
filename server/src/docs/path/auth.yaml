@@ -34,17 +34,16 @@ signup:
             example:
               ok: false
               errors:
-                fields: "password"
-                message: "password must be at least 6 characters"
-                  errors: []
-                  "fields": "name"
+                - "fields": "name"
                   "message": "name must be at least 3 characters"
-                  "fields": "password"
+
+                - "fields": "password"
                   "message": "password must be at least 6 characters"
-                  "fields": "email"
 
+                - "fields": "email"
+                  message: "Invalid email address"
 
-                  login:
+login:
   post:
     security: [ ]
     operationId: "login"
