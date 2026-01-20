@@ -4,7 +4,6 @@ import * as validator from "@validators/index.js";
 import * as middleware from "@middleware/index.js";
 import type {IgnoredRoutesKeys} from "@utils/route.js";
 import * as authController from "@controllers/v1/auth/index.js";
-import {validateRequestBody} from "@middleware/validateRequestBody.js";
 
 /** ignore routes */
 const ignoreRoutes: IgnoredRoutesKeys[] = [
@@ -23,7 +22,7 @@ authRouter.use(middleware.checkAccessToken(ignoreRoutes), middleware.checkBanned
 authRouter
     .route("/signup")
     .post(
-        validateRequestBody(validator.UserSchema),
+        middleware.validateRequestBody(validator.UserSchema),
         middleware.checkBannedInBody("You cannot sign up because this email is banned. Please contact support if you believe this is an error."),
         authController.signUp
     );
@@ -32,7 +31,7 @@ authRouter
 authRouter
     .route("/login")
     .post(
-        validateRequestBody(validator.LoginSchema),
+        middleware.validateRequestBody(validator.LoginSchema),
         middleware.checkBannedInBody("This account is banned. Login is not allowed. Please contact support if you think this is a mistake."),
         authController.login
     );
@@ -57,7 +56,7 @@ authRouter
     .route("/ban")
     .post(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
-        validateRequestBody(validator.BaseUserSchema),
+        middleware.validateRequestBody(validator.BaseUserSchema),
         middleware.checkBannedInBody("The user is currently banned."),
         authController.ban
     );
@@ -79,16 +78,16 @@ authRouter
     .route("/user")
     .get(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
-        validateRequestBody(validator.BaseUserSchema),
+        middleware.validateRequestBody(validator.BaseUserSchema),
         authController.get
     )
     .delete(
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
-        validateRequestBody(validator.BaseUserSchema),
+        middleware.validateRequestBody(validator.BaseUserSchema),
         authController.deleteUser
     )
     .patch(
-        validateRequestBody(validator.UpdateUserSchema),
+        middleware.validateRequestBody(validator.UpdateUserSchema),
         authController.update
     );
 
@@ -98,7 +97,7 @@ authRouter
     .patch(
         middleware.checkRole({requiredRole: UserRole.ADMIN, comparison: "higher"}),
         middleware.isValidParamId("user"),
-        validateRequestBody(validator.ChangeRoleSchema),
+        middleware.validateRequestBody(validator.ChangeRoleSchema),
         authController.changeRole
     );
 
