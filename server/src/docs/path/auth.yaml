@@ -180,19 +180,19 @@ refresh:
     tags:
       - "Auth"
     responses:
-    # success
-    200:
-      description: "new accessToken created successfully."
-      content:
-      application/json:
-        example:
-          ok: true
-          message: 'success'
-          accessToken: '<AccessTokenValue>'
-          user:
-            name: 'john'
-            email: 'john@mail.co'
-            role: 'USER'
-            id: '696f96416bd22d439cf79d3f'
-            createdAt: '2026-01-20T14:50:41.946Z'
-            updatedAt: '2026-01-20T14:50:41.946Z'
+      # success
+      200:
+        description: "new accessToken created successfully."
+        content:
+          application/json:
+            example:
+              ok: true
+              message: 'success'
+              accessToken: '<AccessTokenValue>'
+              user:
+                name: 'john'
+                email: 'john@mail.co'
+                role: 'USER'
+                id: '696f96416bd22d439cf79d3f'
+                createdAt: '2026-01-20T14:50:41.946Z'
+                updatedAt: '2026-01-20T14:50:41.946Z'
