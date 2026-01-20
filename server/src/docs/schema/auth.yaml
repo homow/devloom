@@ -1,21 +1,21 @@
 # Request body and response for user signup
 SignupRequest:
-  type: "object"
+  type: object
   properties:
     name:
-      type: "string"
+      type: string
       minLength: 3
       maxLength: 20
       description: "name must be at least 3 characters and less than 20 characters"
     email:
-      type: "string"
+      type: string
       format: email
     password:
-      type: "string"
+      type: string
       minLength: 6
       pattern: /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$/
       description: "password must be at least 6 characters and contain at least one letter and one number"
-  required: [ "email", "password" ]
+  required: [ email, password ]
   example:
     name: "john"
     email: "john@mail.co"
@@ -23,17 +23,28 @@ SignupRequest:
 
 # Request body and response for user login
 LoginRequest:
-  type: "object"
+  type: object
+  description: User login request payload
   properties:
+    remember:
+      type: boolean
+      description: "Keep user logged in (remember me)"
+
     email:
-      type: "string"
+      type: string
       format: email
+      description: "User email address"
+
     password:
-      type: "string"
+      type: string
+      format: password
       minLength: 6
-      pattern: /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$/
-      description: "password must be at least 6 characters and contain at least one letter and one number"
+      pattern: '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$'
+      description: "Password must contain at least one letter and one number"
+
   required: [ "email", "password" ]
+
   example:
+    remember: true
     email: "john@mail.co"
     password: "123qwe"
