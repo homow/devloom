@@ -28,6 +28,13 @@ signup:
                 createdAt: "2026-01-19T19:22:20.707Z"
                 updatedAt: "2026-01-19T19:22:20.707Z"
                 role: "USER"
+      409:
+        description: "Conflict"
+        content:
+          application/json:
+            example:
+              ok: false,
+              message: "email already exist"
       422:
         description: "Unprocessable Entity"
         content:
@@ -43,6 +50,7 @@ signup:
 
                 - fields: email
                   message: "Invalid email address"
+
 # Login response and schema
 login:
   post:
