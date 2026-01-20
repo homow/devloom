@@ -206,3 +206,50 @@ refresh:
               ok: false
               message: "refresh token is missing or expired"
               code: "REFRESH_TOKEN_NOT_FOUND"
+
+# get user list
+users:
+  refresh:
+    get:
+      operationId: "users"
+      "summary": "get users list"
+      description: "get all users list **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+      tags:
+        - "Auth"
+      responses:
+        # success
+        200:
+          description: "new accessToken created successfully."
+          content:
+            application/json:
+              example:
+                ok: true
+                message: "users found"
+                users:
+                  - name: "Bridie"
+                    email: "alfredo.little@gmail.com"
+                    role: "USER"
+                    id: "695b5d0267a06ae7f2afb9f2"
+                    createdAt: "2026-01-05T06:41:06.376Z"
+                    updatedAt: "2026-01-05T06:41:06.376Z"
+
+                  - name: "Destin"
+                    email: "felton47@gmail.com"
+                    role: "USER"
+                    id: "695b5d0567a06ae7f2afb9f6"
+                    createdAt: "2026-01-05T06:41:09.937Z"
+                    updatedAt: "2026-01-05T06:41:09.937Z"
+
+                  - name: "Braulio"
+                    email: "johnfsdf@email.co"
+                    role: "USER"
+                    id: "695b7e95df07650a9c0784ca"
+                    createdAt: "2026-01-05T09:04:21.031Z"
+                    updatedAt: "2026-01-05T09:04:21.031Z"
+
+                  - name: "Odell"
+                    email: "john@email.co"
+                    role: "ADMIN"
+                    id: "695ccd4520812fad88b856a2"
+                    createdAt: "2026-01-06T08:52:21.759Z"
+                    updatedAt: "2026-01-06T08:52:21.759Z"
