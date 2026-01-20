@@ -27,7 +27,8 @@ export function checkIgnoredRoute(
 ): boolean {
     return ignoreRoutes.some(r => {
         if (typeof r.path === "string") {
-            const match: string = path.slice(path.length - r.path.length);
+            const normalize = (p: string) => p.replace(/\/$/, "");
+            const match: string = normalize(path).slice(-normalize(r.path).length);
             return r.path === match && method === r.method;
         }
         return r.path.test(path) && r.method === method;
