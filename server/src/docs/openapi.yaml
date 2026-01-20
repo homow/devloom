@@ -31,3 +31,5 @@ paths:
     $ref: "./path/auth.yaml#/login"
   /auth/getMe/:
     $ref: "./path/auth.yaml#/getMe"
+  /auth/logout/:
+    $ref: "./path/auth.yaml#/logout"

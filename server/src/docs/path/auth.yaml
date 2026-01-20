@@ -142,3 +142,13 @@ getMe:
               ok: false
               message: "Access token is required"
               code: "ACCESS_TOKEN_MISSING"
+
+logout:
+  post:
+    operationId: "logout"
+    "summary": "logout system"
+    description: "logout user in the current system."
+    tags:
+      - "Auth"
+    responses:
+    # success
