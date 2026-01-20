@@ -35,7 +35,7 @@ signup:
         content:
           application/json:
             example:
-              ok: false,
+              ok: false
               message: "email already exist"
 
       # invalid body
@@ -167,7 +167,7 @@ logout:
         content:
           application/json:
             example:
-              ok: false,
+              ok: false
               message: "refresh token is missing or expired"
               code: "REFRESH_TOKEN_NOT_FOUND"
 
@@ -203,6 +203,6 @@ refresh:
         content:
           application/json:
             example:
-              ok: false,
-              message: "refresh token is missing or expired",
+              ok: false
+              message: "refresh token is missing or expired"
               code: "REFRESH_TOKEN_NOT_FOUND"
