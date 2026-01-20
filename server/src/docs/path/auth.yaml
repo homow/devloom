@@ -1,3 +1,4 @@
+# Signup response and schema
 signup:
   post:
     security: [ ]
@@ -42,7 +43,7 @@ signup:
 
                 - fields: email
                   message: "Invalid email address"
-
+# Login response and schema
 login:
   post:
     security: [ ]
@@ -90,6 +91,7 @@ login:
               ok: false
               message: "Invalid Credentials"
 
+# getMe response
 getMe:
   get:
     operationId: "getMe"
