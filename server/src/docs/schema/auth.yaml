@@ -15,7 +15,9 @@ SignupRequest:
       minLength: 6
       pattern: /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$/
       description: "password must be at least 6 characters and contain at least one letter and one number"
+
   required: [ email, password ]
+
   example:
     name: "john"
     email: "john@mail.co"
@@ -42,7 +44,7 @@ LoginRequest:
       pattern: '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$'
       description: "Password must contain at least one letter and one number"
 
-  required: [ "email", "password" ]
+  required: [ email, password ]
 
   example:
     remember: true
