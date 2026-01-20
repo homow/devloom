@@ -34,13 +34,13 @@ signup:
             example:
               ok: false
               errors:
-                - "fields": "name"
-                  "message": "name must be at least 3 characters"
+                - fields: name
+                  message: "name must be at least 3 characters"
 
-                - "fields": "password"
-                  "message": "password must be at least 6 characters"
+                - fields: password
+                  message: "password must be at least 6 characters"
 
-                - "fields": "email"
+                - fields: email
                   message: "Invalid email address"
 
 login:

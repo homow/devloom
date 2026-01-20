@@ -47,6 +47,19 @@ paths:
                   createdAt: '2026-01-19T19:22:20.707Z'
                   updatedAt: '2026-01-19T19:22:20.707Z'
                   role: USER
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              example:
+                ok: false
+                errors:
+                  - fields: name
+                    message: name must be at least 3 characters
+                  - fields: password
+                    message: password must be at least 6 characters
+                  - fields: email
+                    message: Invalid email address
   /auth/login:
     post:
       security: []
