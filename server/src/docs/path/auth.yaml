@@ -14,6 +14,7 @@ signup:
           schema:
             $ref: "../schema/auth.yaml#/SignupRequest"
     responses:
+      # success
       201:
         description: "user created successfully"
         content:
@@ -28,6 +29,7 @@ signup:
                 createdAt: "2026-01-19T19:22:20.707Z"
                 updatedAt: "2026-01-19T19:22:20.707Z"
                 role: "USER"
+      # conflict
       409:
         description: "Conflict"
         content:
@@ -35,6 +37,8 @@ signup:
             example:
               ok: false,
               message: "email already exist"
+
+      # invalid body
       422:
         description: "Unprocessable Entity"
         content:
@@ -67,6 +71,7 @@ login:
           schema:
             $ref: "../schema/auth.yaml#/LoginRequest"
     responses:
+      # success
       200:
         description: "user logged in successfully"
         content:
@@ -82,6 +87,8 @@ login:
                 createdAt: "2026-01-19T19:22:20.707Z"
                 updatedAt: "2026-01-19T19:22:20.707Z"
                 role: "USER"
+
+      # banned email
       403:
         description: "Forbidden. This account is banned. Login is not allowed."
         content:
@@ -91,6 +98,8 @@ login:
               message: "This account is banned. Login is not allowed. Please contact support if you think this is a mistake."
               email: "john@mail.com"
               code: "BANNED_EMAIL"
+
+      # invalid information
       401:
         description: "Unauthorized. invalid password or email."
         content:
@@ -108,6 +117,7 @@ getMe:
     tags:
       - "Auth"
     responses:
+      # success
       200:
         description: "successfully get user info"
         content:
@@ -122,6 +132,8 @@ getMe:
                 id: "696e846cdd939b376e89608b"
                 createdAt: "2026-01-19T19:22:20.707Z"
                 updatedAt: "2026-01-19T19:22:20.707Z"
+
+      # missed accessToken
       401:
         description: "Unauthorized - missed access token"
         content:
