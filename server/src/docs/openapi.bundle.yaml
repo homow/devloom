@@ -206,7 +206,7 @@ paths:
         - Auth
       responses:
         '200':
-          description: new accessToken created successfully.
+          description: get users list successfully.
           content:
             application/json:
               example:
@@ -237,6 +237,194 @@ paths:
                     id: 695ccd4520812fad88b856a2
                     createdAt: '2026-01-06T08:52:21.759Z'
                     updatedAt: '2026-01-06T08:52:21.759Z'
+        '403':
+          description: Forbidden - not allowed for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+  /auth/user:
+    get:
+      operationId: getUser
+      summary: get one user
+      description: 'get one user **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetUserRequest'
+      responses:
+        '200':
+          description: user successfully found.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: user found
+                user:
+                  name: Odell
+                  email: john@email.co
+                  role: ADMIN
+                  id: 695ccd4520812fad88b856a2
+                  createdAt: '2026-01-06T08:52:21.759Z'
+                  updatedAt: '2026-01-06T08:52:21.759Z'
+        '403':
+          description: Forbidden - not allowed for role
+          content:
+            application/json:
+              example:
+                ok: false
+                message: You are not authorized to access this route.
+                code: ACCESS_DENIED
+        '404':
+          description: Not found - User not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: user not found in database
+                code: USER_NOT_FOUND
+    delete:
+      operationId: deleteUser
+      summary: delete one user
+      description: Delete one user. **Access restricted to users with roles higher than the target user (ADMIN | SUPER_ADMIN) only.**
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetUserRequest'
+      responses:
+        '200':
+          description: user successfully deleted
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Successfully updated user
+                user:
+                  id: 695d58f71e66bde9eb688a20
+                  name: john
+                  email: john@mail.co
+                  role: USER
+                  createdAt: '2026-01-06T18:48:23.495Z'
+                  updatedAt: '2026-01-08T13:31:48.981Z'
+        '403':
+          description: Forbidden - not allowed for role
+          content:
+            application/json:
+              example:
+                ok: false
+                message: you cannot delete a user with equal or higher role
+                code: ROLE_NOT_ALLOWED
+    update:
+      operationId: updateUser
+      summary: update one user
+      description: Update user details by themselves.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../schema/auth.yaml#/UpdateUserRequest
+      responses:
+        '200':
+          description: user updated successfully.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Successfully updated user
+                user:
+                  id: 695d58f71e66bde9eb688a20
+                  name: john
+                  email: john@mail.co
+                  role: USER
+                  createdAt: '2026-01-06T18:48:23.495Z'
+                  updatedAt: '2026-01-08T13:31:48.981Z'
+        '422':
+          description: Unprocessable Entity - invalid body
+          content:
+            application/json:
+              example:
+                ok: false
+                errors:
+                  - fields: name
+                    message: name must be at least 3 characters
+                  - fields: password
+                    message: password must be at least 6 characters
+                  - fields: password
+                    message: password must contain at least one letter and one number
+                  - fields: name, password
+                    message: At least one of 'name' or 'password' must be provided
+  /auth/user/{id}/role:
+    patch:
+      operationId: changeUserRole
+      summary: change user role
+      description: 'change user role **Access restricted to users with role: SUPER_ADMIN only.**'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeUserRole'
+      responses:
+        '200':
+          description: user successfully found.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: User role updated successfully
+                userTarget:
+                  - name: Odell
+                  - email: john@email.co
+                  - role: ADMIN
+                  - id: 695ccd4520812fad88b856a2
+                  - createdAt: '2026-01-06T08:52:21.759Z'
+                  - updatedAt: '2026-01-06T08:52:21.759Z'
+        '400':
+          description: user successfully found.
+          content:
+            application/json:
+              example:
+                ok: false
+                message: You are not allowed to change your own role.
+                code: CANNOT_CHANGE_OWN_ROLE
+        '403':
+          description: Forbidden - ACCESS_DENIED
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Your role (ADMIN) is not allowed to access a route requiring ADMIN (higher)
+                code: ACCESS_DENIED
+        '409':
+          description: Conflict role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ROLE_ALREADY_ASSIGNED
+                message: The user already has the role USER
+                userTarget:
+                  - name: Odell
+                  - email: john@email.co
+                  - role: USER
+                  - id: 695ccd4520812fad88b856a2
+                  - createdAt: '2026-01-06T08:52:21.759Z'
+                  - updatedAt: '2026-01-06T08:52:21.759Z'
 components:
   securitySchemes:
     bearerAuth:
@@ -292,3 +480,34 @@ components:
         remember: true
         email: john@mail.co
         password: 123qwe
+    GetUserRequest:
+      type: object
+      description: Get one User
+      properties:
+        id:
+          type: string
+          format: ObjectId
+          description: User MongoDB ObjectId
+        email:
+          type: string
+          format: email
+          description: User email address
+        oneOf:
+          - required:
+              - id
+          - required:
+              - email
+    ChangeUserRole:
+      type: object
+      description: change user role
+      properties:
+        type: object
+        properties:
+          role:
+            type: string
+            enum:
+              - ADMIN
+              - USER
+            description: 'The role of the user. Must be one of: ''ADMIN'', or ''USER''.'
+          required:
+            - role

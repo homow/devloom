@@ -393,16 +393,16 @@ user:
             example:
               ok: false
               errors:
-                - fields: "name",
+                - fields: "name"
                   message: "name must be at least 3 characters"
 
-                - fields: "password",
+                - fields: "password"
                   message: "password must be at least 6 characters"
 
-                - fields: "password",
+                - fields: "password"
                   message: "password must contain at least one letter and one number"
 
-                - fields: "name, password",
+                - fields: "name, password"
                   message: "At least one of 'name' or 'password' must be provided"
 
 # change userRole
