@@ -463,3 +463,12 @@ userRole:
                 - id: "695ccd4520812fad88b856a2"
                 - createdAt: "2026-01-06T08:52:21.759Z"
                 - updatedAt: "2026-01-06T08:52:21.759Z"
+      # Forbidden
+      403:
+        description: "Forbidden - ACCESS_DENIED"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "You are not allowed to perform this action."
+              code: "ACCESS_DENIED"
