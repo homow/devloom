@@ -48,3 +48,5 @@ paths:
     $ref: "./path/auth.yaml#/user"
   /auth/user/{id}/role:
     $ref: "./path/auth.yaml#/userRole"
+  /auth/ban:
+    $ref: "./path/auth.yaml#/banUser"

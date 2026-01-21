@@ -472,3 +472,27 @@ userRole:
               ok: false
               message: "Your role (ADMIN) is not allowed to access a route requiring ADMIN (higher)"
               code: "ACCESS_DENIED"
+
+# ban user
+banUser:
+  # change userRole one user
+  post:
+    operationId: "banUser"
+    summary: "ban user"
+    description: "ban user **Access restricted to users with role: (SUPER_ADMIN or ADMIN) only.**"
+    tags:
+      - "Auth"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/auth.yaml#/GetUserRequest"
+    responses:
+      # success
+      200:
+        description: "user successfully found."
+        content:
+          application/json:
+            example:
+              ok: true
