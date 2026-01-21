@@ -505,7 +505,14 @@ banUser:
                 createdAt: "2026-01-06T08:52:21.759Z"
                 updatedAt: "2026-01-06T08:52:21.759Z"
 
-
+      403:
+        description: "Forbidden - ACCESS_DENIED"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "you cannot ban a user with equal or higher role"
+              code: "ROLE_NOT_ALLOWED"
 
       409:
         description: "Conflict"
