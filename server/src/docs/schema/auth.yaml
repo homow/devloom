@@ -70,5 +70,5 @@ GetUserRequest:
       description: "User email address"
 
     oneOf:
-      - required: [id]
-      - required: [email]
+      - required: [ id ]
+      - required: [ email ]
