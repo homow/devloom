@@ -262,3 +262,19 @@ users:
               ok: false,
               code: "ACCESS_DENIED",
               message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
+
+# get one user
+user:
+  get:
+    operationId: "user"
+    "summary": "get one user"
+    description: "get one user **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Auth"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/auth.yaml#/GetUserRequest"
+    responses:

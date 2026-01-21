@@ -28,7 +28,7 @@ SignupRequest:
 # Request body and response for user login
 LoginRequest:
   type: object
-  description: User login request payload
+  description: "User login request payload"
   properties:
     remember:
       type: boolean
@@ -54,3 +54,21 @@ LoginRequest:
     remember: true
     email: "john@mail.co"
     password: "123qwe"
+
+GetUserRequest:
+  type: object
+  description: "Get one User"
+  properties:
+    id:
+      type: string
+      format: ObjectId
+      description: "User MongoDB ObjectId"
+
+    email:
+      type: string
+      format: email
+      description: "User email address"
+
+    oneOf:
+      - required: [id]
+      - required: [email]
