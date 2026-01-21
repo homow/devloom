@@ -280,24 +280,36 @@ user:
     responses:
       # success
       200:
-        ok: true
-        message: "user found"
-        user:
-          name: "Odell"
-          email: "john@email.co"
-          role: "ADMIN"
-          id: "695ccd4520812fad88b856a2"
-          createdAt: "2026-01-06T08:52:21.759Z"
-          updatedAt: "2026-01-06T08:52:21.759Z"
+        description: "user successfully found."
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "user found"
+              user:
+                name: "Odell"
+                email: "john@email.co"
+                role: "ADMIN"
+                id: "695ccd4520812fad88b856a2"
+                createdAt: "2026-01-06T08:52:21.759Z"
+                updatedAt: "2026-01-06T08:52:21.759Z"
 
       # user not found
       404:
-        ok: false
-        message: "user not found in database"
-        code: "USER_NOT_FOUND"
+        description: "Not found - User not found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "user not found in database"
+              code: "USER_NOT_FOUND"
 
       # Forbidden
       403:
-        ok: false
-        message: "You are not authorized to access this route."
-        code: "ACCESS_DENIED"
+        description: "Forbidden - not allowed for role"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "You are not authorized to access this route."
+              code: "ACCESS_DENIED"
