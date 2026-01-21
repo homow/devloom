@@ -491,8 +491,16 @@ banUser:
     responses:
       # success
       200:
-        description: "user successfully found."
+        description: "success"
         content:
           application/json:
             example:
-              ok: true
+              ok: false
+              message: "user banned successfully"
+              "user":
+                name: "Odell"
+                email: "john@email.co"
+                role: "USER"
+                id: "695ccd4520812fad88b856a2"
+                createdAt: "2026-01-06T08:52:21.759Z"
+                updatedAt: "2026-01-06T08:52:21.759Z"
