@@ -449,12 +449,13 @@ userRole:
 
       # Conflict
       409:
-        description: "user successfully found."
+        description: "Conflict role"
         content:
           application/json:
             example:
-              ok: true
-              message: "User role updated successfully"
+              ok: false
+              code: "ROLE_ALREADY_ASSIGNED"
+              message: "The user already has the role USER"
               userTarget:
                 - name: "Odell"
                 - email: "john@email.co"
