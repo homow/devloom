@@ -46,3 +46,5 @@ paths:
     # get one user with id or email
   /auth/user:
     $ref: "./path/auth.yaml#/user"
+  /auth/user/{id}/role:
+    $ref: "./path/auth.yaml#/userRole"
