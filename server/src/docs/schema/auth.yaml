@@ -72,3 +72,21 @@ GetUserRequest:
     oneOf:
       - required: [ id ]
       - required: [ email ]
+
+UpdateUserRequest:
+  type: object
+  description: "Get one User"
+  properties:
+    "type": object
+    "properties":
+      name:
+        type: string
+        minLength: 3
+      password:
+        type: string
+        minLength: 6
+        pattern: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$'
+        description: "required, at least 6 chars, must contain at least one letter and one number"
+    oneOf:
+      - required: [ email ]
+      - required: [ password ]

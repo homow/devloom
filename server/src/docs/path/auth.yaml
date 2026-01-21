@@ -3,7 +3,7 @@ signup:
   post:
     security: [ ]
     operationId: "createUser"
-    "summary": "create new user"
+    summary: "create new user"
     description: "Create a new user in db collection(users)"
     tags:
       - "Auth"
@@ -60,7 +60,7 @@ login:
   post:
     security: [ ]
     operationId: "login"
-    "summary": "login users"
+    summary: "login users"
     description: "login user with email and password"
     tags:
       - "Auth"
@@ -112,7 +112,7 @@ login:
 getMe:
   get:
     operationId: "getMe"
-    "summary": "get user info"
+    summary: "get user info"
     description: "get user safe-information in db collection(users)"
     tags:
       - "Auth"
@@ -147,7 +147,7 @@ getMe:
 logout:
   post:
     operationId: "logout"
-    "summary": "logout system"
+    summary: "logout system"
     description: "logout user in the current system."
     tags:
       - "Auth"
@@ -175,7 +175,7 @@ logout:
 refresh:
   post:
     operationId: "refresh"
-    "summary": "refresh accessToken"
+    summary: "refresh accessToken"
     description: "get a new accessToken with refreshToken"
     tags:
       - "Auth"
@@ -211,7 +211,7 @@ refresh:
 users:
   get:
     operationId: "users"
-    "summary": "get users list"
+    summary: "get users list"
     description: "get all users list **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
     tags:
       - "Auth"
@@ -268,7 +268,7 @@ user:
   # get one user
   get:
     operationId: "getUser"
-    "summary": "get one user"
+    summary: "get one user"
     description: "get one user **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
     tags:
       - "Auth"
@@ -318,7 +318,7 @@ user:
   # delete one user
   delete:
     operationId: "deleteUser"
-    "summary": "delete one user"
+    summary: "delete one user"
     description: "delete one user **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
     tags:
       - "Auth"
@@ -328,3 +328,54 @@ user:
         application/json:
           schema:
             $ref: "../schema/auth.yaml#/GetUserRequest"
+    responses:
+
+  # update one user
+  update:
+    operationId: "updateUser"
+    summary: "update one user"
+    description: "Update user details by themselves."
+    tags:
+      - "Auth"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/auth.yaml#/UpdateUserRequest"
+    responses:
+      200:
+        # success
+        description: "user updated successfully."
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "Successfully updated user"
+              user:
+                id: "695d58f71e66bde9eb688a20"
+                name: "john"
+                email: "john@mail.co"
+                role: "USER"
+                createdAt: "2026-01-06T18:48:23.495Z"
+                updatedAt: "2026-01-08T13:31:48.981Z"
+
+      # bad request
+      422:
+        description: "Unprocessable Entity - invalid body"
+        content:
+          application/json:
+            example:
+              ok: false
+              errors:
+                - fields: "name",
+                  message: "name must be at least 3 characters"
+
+                - fields: "password",
+                  message: "password must be at least 6 characters"
+
+                - fields: "password",
+                  message: "password must contain at least one letter and one number"
+
+                - fields: "name, password",
+                  message: "At least one of 'name' or 'password' must be provided"
