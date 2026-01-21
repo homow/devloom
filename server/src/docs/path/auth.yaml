@@ -319,7 +319,7 @@ user:
   delete:
     operationId: "deleteUser"
     summary: "delete one user"
-    description: "delete one user **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    description: "Delete one user. **Access restricted to users with roles higher than the target user (ADMIN | SUPER_ADMIN) only.**"
     tags:
       - "Auth"
     requestBody:
@@ -329,6 +329,31 @@ user:
           schema:
             $ref: "../schema/auth.yaml#/GetUserRequest"
     responses:
+      # success
+      200:
+        description: "user successfully deleted"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "Successfully updated user"
+              user:
+                id: "695d58f71e66bde9eb688a20"
+                name: "john"
+                email: "john@mail.co"
+                role: "USER"
+                createdAt: "2026-01-06T18:48:23.495Z"
+                updatedAt: "2026-01-08T13:31:48.981Z"
+
+      # Forbidden
+      403:
+        description: "Forbidden - not allowed for role"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "you cannot delete a user with equal or higher role"
+              code: "ROLE_NOT_ALLOWED"
 
   # update one user
   update:
@@ -344,8 +369,8 @@ user:
           schema:
             $ref: "../schema/auth.yaml#/UpdateUserRequest"
     responses:
+      # success
       200:
-        # success
         description: "user updated successfully."
         content:
           application/json:
