@@ -414,9 +414,35 @@ userRole:
     description: "change user role **Access restricted to users with role: SUPER_ADMIN only.**"
     tags:
       - "Auth"
-      - requestBody:
-          required: true
-          content:
-            application/json:
-              schema:
-                $ref: "../schema/auth.yaml#/ChangeUserRole"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/auth.yaml#/ChangeUserRole"
+    responses:
+      # success
+      200:
+        description: "user successfully found."
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "User role updated successfully"
+              userTarget:
+                - name: "Odell"
+                - email: "john@email.co"
+                - role: "ADMIN"
+                - id: "695ccd4520812fad88b856a2"
+                - createdAt: "2026-01-06T08:52:21.759Z"
+                - updatedAt: "2026-01-06T08:52:21.759Z"
+
+      # Bad Request
+      400:
+        description: "user successfully found."
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "You are not allowed to change your own role."
+              code: "CANNOT_CHANGE_OWN_ROLE"
