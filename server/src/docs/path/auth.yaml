@@ -470,5 +470,5 @@ userRole:
           application/json:
             example:
               ok: false
-              message: "You are not allowed to perform this action."
+              message: "Your role (ADMIN) is not allowed to access a route requiring ADMIN (higher)"
               code: "ACCESS_DENIED"
