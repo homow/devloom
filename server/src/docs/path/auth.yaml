@@ -446,3 +446,19 @@ userRole:
               ok: false
               message: "You are not allowed to change your own role."
               code: "CANNOT_CHANGE_OWN_ROLE"
+
+      # Conflict
+      409:
+        description: "user successfully found."
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "User role updated successfully"
+              userTarget:
+                - name: "Odell"
+                - email: "john@email.co"
+                - role: "USER"
+                - id: "695ccd4520812fad88b856a2"
+                - createdAt: "2026-01-06T08:52:21.759Z"
+                - updatedAt: "2026-01-06T08:52:21.759Z"
