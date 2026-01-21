@@ -504,3 +504,14 @@ banUser:
                 id: "695ccd4520812fad88b856a2"
                 createdAt: "2026-01-06T08:52:21.759Z"
                 updatedAt: "2026-01-06T08:52:21.759Z"
+
+
+
+      409:
+        description: "Conflict"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "The user is currently banned."
+              email: "john@mail.co"
