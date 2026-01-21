@@ -12,12 +12,12 @@ export async function changeRoleService(
     {
         targetID,
         newRole,
-        userPayload
+        userPayload,
     }: Params
 ): Promise<ServiceResponse> {
     if (targetID === userPayload.id) {
         return {
-            status: 403,
+            status: 400,
             data: {
                 ok: false,
                 code: "CANNOT_CHANGE_OWN_ROLE",
@@ -54,7 +54,7 @@ export async function changeRoleService(
 
     if (newRole === userTarget.role) {
         return {
-            status: 400,
+            status: 409,
             data: {
                 ok: false,
                 code: "ROLE_ALREADY_ASSIGNED",
