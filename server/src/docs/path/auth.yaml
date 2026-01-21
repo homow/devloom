@@ -405,12 +405,18 @@ user:
                 - fields: "name, password",
                   message: "At least one of 'name' or 'password' must be provided"
 
-# update userRole
+# change userRole
 userRole:
-  # get one user
-  get:
-    operationId: "updateUserRole"
-    summary: "update user role"
-    description: "update user role **Access restricted to users with role: SUPER_ADMIN only.**"
+  # change userRole one user
+  patch:
+    operationId: "changeUserRole"
+    summary: "change user role"
+    description: "change user role **Access restricted to users with role: SUPER_ADMIN only.**"
     tags:
       - "Auth"
+      - requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "../schema/auth.yaml#/ChangeUserRole"

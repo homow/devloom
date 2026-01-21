@@ -55,6 +55,7 @@ LoginRequest:
     email: "john@mail.co"
     password: "123qwe"
 
+# get user request body
 GetUserRequest:
   type: object
   description: "Get one User"
@@ -73,6 +74,7 @@ GetUserRequest:
       - required: [ "id" ]
       - required: [ "email" ]
 
+# update user request body
 UpdateUserRequest:
   type: object
   description: "Update user details."
@@ -90,3 +92,18 @@ UpdateUserRequest:
     oneOf:
       - required: [ "email" ]
       - required: [ "password" ]
+
+ChangeUserRole:
+  type: object
+  description: "change user role"
+  properties:
+    type: object
+    properties:
+      role:
+        type: string
+        enum:
+          - "ADMIN"
+          - "USER"
+        description: "The role of the user. Must be one of: 'ADMIN', or 'USER'."
+      required:
+        - role
