@@ -70,40 +70,73 @@ GetUserRequest:
       format: email
       description: "User email address"
 
-    oneOf:
-      - required: [ "id" ]
-      - required: [ "email" ]
+  oneOf:
+    - required: [ "id" ]
+    - required: [ "email" ]
+
+  examples:
+    example1:
+      value:
+        id: "695d58f71e66bde9eb688a20"
+        email: "john@mail.co"
+
+      example2:
+        value:
+          id: "695d58f71e66bde9eb688a20"
+
+      example3:
+        value:
+          email: "john@mail.co"
 
 # update user request body
 UpdateUserRequest:
   type: object
   description: "Update user details."
   properties:
-    type: object
-    properties:
-      name:
-        type: string
-        minLength: 3
-      password:
-        type: string
-        minLength: 6
-        pattern: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$'
-        description: "required, at least 6 chars, must contain at least one letter and one number"
-    oneOf:
-      - required: [ "email" ]
-      - required: [ "password" ]
+    name:
+      type: string
+      minLength: 3
+    password:
+      type: string
+      minLength: 6
+      pattern: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$'
+      description: "required, at least 6 chars, must contain at least one letter and one number"
+  oneOf:
+    - required: [ "name" ]
+    - required: [ "password" ]
+
+  examples:
+    example1:
+      value:
+        name: "Eliot"
+        password: "qwe123@h#4"
+
+    example2:
+      value:
+        password: "qwe123@h#4"
+
+    example3:
+      value:
+        name: "Eliot"
 
 ChangeUserRole:
   type: object
   description: "change user role"
   properties:
-    type: object
-    properties:
-      role:
-        type: string
-        enum:
-          - "ADMIN"
-          - "USER"
-        description: "The role of the user. Must be one of: 'ADMIN', or 'USER'."
-      required:
-        - role
+    role:
+      type: string
+      enum:
+        - "ADMIN"
+        - "USER"
+      description: "The role of the user. Must be one of: 'ADMIN', or 'USER'."
+  required:
+    - role
+
+  examples:
+    example1:
+      value:
+        role: "ADMIN"
+
+    example2:
+      value:
+        role: "USER"
