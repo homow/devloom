@@ -128,7 +128,7 @@ ChangeUserRole:
       enum:
         - "ADMIN"
         - "USER"
-      description: "The role of the user. Must be one of: 'ADMIN', or 'USER'."
+      description: "The role of the user. Must be one of: 'ADMIN' or 'USER'."
   required:
     - role
 
