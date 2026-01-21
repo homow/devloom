@@ -70,23 +70,15 @@ GetUserRequest:
       format: email
       description: "User email address"
 
+  minProperties: 1
+
   oneOf:
     - required: [ "id" ]
     - required: [ "email" ]
 
-  examples:
-    example1:
-      value:
-        id: "695d58f71e66bde9eb688a20"
-        email: "john@mail.co"
-
-      example2:
-        value:
-          id: "695d58f71e66bde9eb688a20"
-
-      example3:
-        value:
-          email: "john@mail.co"
+  example:
+    id: "695d58f71e66bde9eb688a20"
+    email: "john@mail.co"
 
 # update user request body
 UpdateUserRequest:
@@ -101,23 +93,16 @@ UpdateUserRequest:
       minLength: 6
       pattern: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$'
       description: "required, at least 6 chars, must contain at least one letter and one number"
-  oneOf:
+
+  minProperties: 1
+
+  anyOf:
     - required: [ "name" ]
     - required: [ "password" ]
 
-  examples:
-    example1:
-      value:
-        name: "Eliot"
-        password: "qwe123@h#4"
-
-    example2:
-      value:
-        password: "qwe123@h#4"
-
-    example3:
-      value:
-        name: "Eliot"
+  example:
+    name: "Eliot"
+    password: "qwe123@h#4"
 
 ChangeUserRole:
   type: object
@@ -132,11 +117,5 @@ ChangeUserRole:
   required:
     - role
 
-  examples:
-    example1:
-      value:
-        role: "ADMIN"
-
-    example2:
-      value:
-        role: "USER"
+  example:
+    role: "ADMIN"
