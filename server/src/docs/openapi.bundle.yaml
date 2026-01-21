@@ -425,6 +425,50 @@ paths:
                   id: 695ccd4520812fad88b856a2
                   createdAt: '2026-01-06T08:52:21.759Z'
                   updatedAt: '2026-01-06T08:52:21.759Z'
+  /auth/ban:
+    post:
+      operationId: banUser
+      summary: ban user
+      description: 'ban user **Access restricted to users with role: (SUPER_ADMIN or ADMIN) only.**'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetUserRequest'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              example:
+                ok: false
+                message: user banned successfully
+                user:
+                  name: Odell
+                  email: john@email.co
+                  role: USER
+                  id: 695ccd4520812fad88b856a2
+                  createdAt: '2026-01-06T08:52:21.759Z'
+                  updatedAt: '2026-01-06T08:52:21.759Z'
+        '403':
+          description: Forbidden - ACCESS_DENIED
+          content:
+            application/json:
+              example:
+                ok: false
+                message: you cannot ban a user with equal or higher role
+                code: ROLE_NOT_ALLOWED
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              example:
+                ok: false
+                message: The user is currently banned.
+                email: john@mail.co
 components:
   securitySchemes:
     bearerAuth:
@@ -492,15 +536,15 @@ components:
           type: string
           format: email
           description: User email address
+      minProperties: 1
       oneOf:
         - required:
             - id
         - required:
             - email
       example:
-        value:
-          id: 695d58f71e66bde9eb688a20
-          email: john@mail.co
+        id: 695d58f71e66bde9eb688a20
+        email: john@mail.co
     UpdateUserRequest:
       type: object
       description: Update user details.
