@@ -25,15 +25,24 @@ components:
 security:
   - bearerAuth: [ ]
 paths:
+  # Signup new user
   /auth/signup:
     $ref: "./path/auth.yaml#/signup"
+    # Login with email and password
   /auth/login:
     $ref: "./path/auth.yaml#/login"
+    # get safe-information user
   /auth/getMe:
     $ref: "./path/auth.yaml#/getMe"
+    # logout system
   /auth/logout:
     $ref: "./path/auth.yaml#/logout"
+    # refresh (get new accessToken)
   /auth/refresh:
     $ref: "./path/auth.yaml#/refresh"
+    # get all users list
   /auth/users:
     $ref: "./path/auth.yaml#/users"
+    # get one user with id or email
+  /auth/user:
+    $ref: "./path/auth.yaml#/user"
