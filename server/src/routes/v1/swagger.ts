@@ -14,7 +14,7 @@ const swaggerOptions: SwaggerUiOptions = {
     }
 };
 
-const swaggerYamlPath: string = createPath("src/docs/openapi.bundle.yaml");
+const swaggerYamlPath: string = createPath("src/docs/swagger.yaml");
 
 const swaggerYamlContent = fs.readFileSync(swaggerYamlPath, "utf8");
 const swaggerDocs = yaml.load(swaggerYamlContent) as object;
