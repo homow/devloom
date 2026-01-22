@@ -13,6 +13,7 @@ signup:
         application/json:
           schema:
             $ref: "../schema/auth.yaml#/SignupRequest"
+
     responses:
       # success
       201:
