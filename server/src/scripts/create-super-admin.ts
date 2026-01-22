@@ -31,6 +31,11 @@ async function askValidated<T extends keyof typeof UserSchema.shape>(
 
 /** create SUPER_ADMIN user if not exist on db collection(user) */
 async function main() {
+    if (process.env.NODE_ENV === "production") {
+        console.error("🚨 You cannot run this script in a production environment!");
+        process.exit(1);  // stop script in production mode!
+    }
+
     try {
         /** check URI in environment */
         if (!process.env.MONGODB_URI) {
