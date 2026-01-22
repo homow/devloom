@@ -495,7 +495,7 @@ banUser:
         content:
           application/json:
             example:
-              ok: false
+              ok: true
               message: "user banned successfully"
               "user":
                 name: "Odell"
