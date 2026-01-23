@@ -9,7 +9,7 @@ getCategory:
       - "Category"
     responses:
       # success
-      201:
+      200:
         description: "user created successfully"
         content:
           application/json:
