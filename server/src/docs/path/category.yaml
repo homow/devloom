@@ -1,4 +1,4 @@
-# get categories
+# get all categories
 getCategory:
   get:
     security: [ ]
@@ -32,3 +32,17 @@ getCategory:
                    id: "696a26be986aade549450346"
                    createdAt: "2026-01-16T11:53:34.241Z"
                    updatedAt: "2026-01-16T11:53:34.241Z"
+
+  # create new category
+  post:
+    operationId: "createCategory"
+    summary: "create categories"
+    description: "create new a category **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Category"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/category.yaml#/CreateCategory"
