@@ -55,6 +55,13 @@ getCategory:
           application/json:
             example:
               ok: true
+              message: "Successfully created"
+              category:
+                id: "6973776e5b217ce28616c176"
+                createdAt: "2026-01-23T13:28:14.013Z"
+                updatedAt: "2026-01-23T13:28:14.013Z"
+                title: "node js expert"
+                href: "node-js"
 
       # not allowed
       403:
