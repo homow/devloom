@@ -472,14 +472,14 @@ paths:
   /category:
     get:
       security: []
-      operationId: createUser
-      summary: create new user
-      description: Create a new user in db collection(users)
+      operationId: getCategory
+      summary: get categories
+      description: get all categories
       tags:
         - Category
       responses:
         '200':
-          description: user created successfully
+          description: get categories successfully
           content:
             application/json:
               example:
@@ -501,6 +501,18 @@ paths:
                     id: 696a26be986aade549450346
                     createdAt: '2026-01-16T11:53:34.241Z'
                     updatedAt: '2026-01-16T11:53:34.241Z'
+    post:
+      operationId: createCategory
+      summary: create categories
+      description: 'create new a category **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategory'
 components:
   securitySchemes:
     bearerAuth:
@@ -523,7 +535,7 @@ components:
         password:
           type: string
           minLength: 6
-          pattern: /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$/
+          pattern: ^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$
           description: password must be at least 6 characters and contain at least one letter and one number
       required:
         - email
@@ -590,11 +602,10 @@ components:
           pattern: ^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$
           description: required, at least 6 chars, must contain at least one letter and one number
       minProperties: 1
-      anyOf:
-        - required:
-            - name
-        - required:
-            - password
+      required:
+        anyOf:
+          - name
+          - password
       example:
         name: Eliot
         password: qwe123@h#4
@@ -612,3 +623,21 @@ components:
         - role
       example:
         role: ADMIN
+    CreateCategory:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 2
+          maxLength: 20
+        href:
+          type: string
+          minLength: 2
+          maxLength: 20
+          pattern: ^[a-zA-Z0-9-]+$
+      required:
+        - title
+        - href
+      example:
+        title: node js expert
+        href: node-js

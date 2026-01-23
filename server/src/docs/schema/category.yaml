@@ -2,3 +2,18 @@
 CreateCategory:
   type: object
   properties:
+    title:
+      type: string
+      minLength: 2
+      maxLength: 20
+    href:
+      type: string
+      minLength: 2
+      maxLength: 20
+      pattern: '^[a-zA-Z0-9-]+$'
+  required:
+    - title
+    - href
+  example:
+    title: node js expert
+    href: node-js

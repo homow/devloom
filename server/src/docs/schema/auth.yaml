@@ -13,7 +13,7 @@ SignupRequest:
     password:
       type: string
       minLength: 6
-      pattern: /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$/
+      pattern: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$'
       description: "password must be at least 6 characters and contain at least one letter and one number"
 
   required:
@@ -96,9 +96,10 @@ UpdateUserRequest:
 
   minProperties: 1
 
-  anyOf:
-    - required: [ "name" ]
-    - required: [ "password" ]
+  required:
+    anyOf:
+      - name
+      - password
 
   example:
     name: "Eliot"
