@@ -416,6 +416,12 @@ userRole:
     description: "change user role **Access restricted to users with role: SUPER_ADMIN only.**"
     tags:
       - "Auth"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
     requestBody:
       required: true
       content:
