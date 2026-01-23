@@ -1,8 +1,8 @@
 import z from "zod";
 
 export const CategorySchema = z.object({
-    title: z.string().min(2).max(20).regex(/^[a-zA-Z0-9-]+$/, {message: "href can only contain letters, numbers, and '-' (no spaces)"}),
-    href: z.string().min(2).max(20),
+    title: z.string().min(2).max(20),
+    href: z.string().min(2).max(20).regex(/^[a-zA-Z0-9-]+$/, {message: "href can only contain letters, numbers, and '-' (no spaces)"}),
 }).overwrite(data => {
         return {
             title: data.title.trim(),
@@ -14,8 +14,8 @@ export const CategorySchema = z.object({
 export type CategoryInput = z.infer<typeof CategorySchema>;
 
 export const EditCategorySchema = z.object({
-    title: z.string().min(2).max(20).regex(/^[a-zA-Z0-9-]+$/, {message: "href can only contain letters, numbers, and '-' (no spaces)",}).optional(),
-    href: z.string().min(2).max(20).optional(),
+    title: z.string().min(2).max(20).optional(),
+    href: z.string().min(2).max(20).regex(/^[a-zA-Z0-9-]+$/, {message: "href can only contain letters, numbers, and '-' (no spaces)"}).optional(),
 }).refine(
     data => data.title || data.href,
     {
