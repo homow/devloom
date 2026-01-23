@@ -2,15 +2,15 @@
 getCategory:
   get:
     security: [ ]
-    operationId: "createUser"
-    summary: "create new user"
-    description: "Create a new user in db collection(users)"
+    operationId: "getCategory"
+    summary: "get categories"
+    description: "get all categories"
     tags:
       - "Category"
     responses:
       # success
       200:
-        description: "user created successfully"
+        description: "get categories successfully"
         content:
           application/json:
             example:

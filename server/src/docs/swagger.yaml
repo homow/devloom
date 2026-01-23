@@ -478,12 +478,29 @@ paths:
       tags:
         - Category
       responses:
-        '201':
+        '200':
           description: user created successfully
           content:
             application/json:
               example:
+                message: categories successfully found.
                 ok: true
+                categories:
+                  - title: back-end
+                    href: backend
+                    id: 69637c4dac866fb23cac7b2a
+                    createdAt: '2026-01-11T10:32:45.831Z'
+                    updatedAt: '2026-01-11T10:32:45.831Z'
+                  - title: dev-ops
+                    href: devops
+                    id: 69649bc787299514688401f0
+                    createdAt: '2026-01-12T06:59:19.602Z'
+                    updatedAt: '2026-01-12T06:59:19.602Z'
+                  - title: front-end
+                    href: frontend
+                    id: 696a26be986aade549450346
+                    createdAt: '2026-01-16T11:53:34.241Z'
+                    updatedAt: '2026-01-16T11:53:34.241Z'
 components:
   securitySchemes:
     bearerAuth:
