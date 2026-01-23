@@ -75,3 +75,17 @@ getCategory:
               ok: false
               message: "Access token is required"
               code: "ACCESS_TOKEN_MISSING"
+      # conflict
+      409:
+        description: "Conflict - already exist"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Category Already exist: (href and title)"
+              category:
+                title: "back-end"
+                href: "backend"
+                id: "69637c4dac866fb23cac7b2a"
+                createdAt: "2026-01-11T10:32:45.831Z"
+                updatedAt: "2026-01-11T10:32:45.831Z"
