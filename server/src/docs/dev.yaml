@@ -25,6 +25,7 @@ components:
 security:
   - bearerAuth: [ ]
 paths:
+  # <=== Auth route ===>
   # Signup new user
   /auth/signup:
     $ref: "./path/auth.yaml#/signup"
@@ -50,5 +51,9 @@ paths:
     $ref: "./path/auth.yaml#/userRole"
   /auth/ban:
     $ref: "./path/auth.yaml#/banUser"
+
+    # <=== Category route ===>
   /category:
     $ref: "./path/category.yaml#/getCategory"
+  /category/{id}:
+    $ref: "./path/category.yaml#/getOneCateogry"
