@@ -1,5 +1,6 @@
-# get all categories
+# category route
 getCategory:
+  # get all categories
   get:
     security: [ ]
     operationId: "getCategory"
@@ -97,8 +98,9 @@ getCategory:
                 createdAt: "2026-01-11T10:32:45.831Z"
                 updatedAt: "2026-01-11T10:32:45.831Z"
 
-# get one category
+# one category route
 getOneCategory:
+  # get one category
   get:
     security: [ ]
     operationId: "getOneCategory"
@@ -106,6 +108,12 @@ getOneCategory:
     description: "get one category"
     tags:
       - "Category"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
     responses:
       # success
       200:

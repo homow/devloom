@@ -556,6 +556,28 @@ paths:
                   id: 69637c4dac866fb23cac7b2a
                   createdAt: '2026-01-11T10:32:45.831Z'
                   updatedAt: '2026-01-11T10:32:45.831Z'
+  /category/{id}:
+    get:
+      security: []
+      operationId: getOneCategory
+      summary: get category
+      description: get one category
+      tags:
+        - Category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get category successfully
+          content:
+            application/json:
+              example:
+                message: category successfully found.
+                ok: true
 components:
   securitySchemes:
     bearerAuth:
