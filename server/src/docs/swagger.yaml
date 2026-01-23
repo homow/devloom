@@ -111,7 +111,7 @@ paths:
               example:
                 ok: false
                 message: This account is banned. Login is not allowed. Please contact support if you think this is a mistake.
-                email: john@mail.com
+                email: john@mail.co
                 code: BANNED_EMAIL
   /auth/getMe:
     get:
@@ -469,6 +469,21 @@ paths:
                 ok: false
                 message: The user is currently banned.
                 email: john@mail.co
+  /category:
+    get:
+      security: []
+      operationId: createUser
+      summary: create new user
+      description: Create a new user in db collection(users)
+      tags:
+        - Category
+      responses:
+        '201':
+          description: user created successfully
+          content:
+            application/json:
+              example:
+                ok: true
 components:
   securitySchemes:
     bearerAuth:
