@@ -1,0 +1,9 @@
+# get categories
+getCategory:
+  get:
+    security: [ ]
+    operationId: "createUser"
+    summary: "create new user"
+    description: "Create a new user in db collection(users)"
+    tags:
+      - "Category"
