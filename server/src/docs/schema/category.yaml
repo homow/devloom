@@ -1,0 +1,4 @@
+# Create Category schema
+CreateCategory:
+  type: object
+  properties:
