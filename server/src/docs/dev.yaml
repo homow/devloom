@@ -56,4 +56,4 @@ paths:
   /category:
     $ref: "./path/category.yaml#/getCategory"
   /category/{id}:
-    $ref: "./path/category.yaml#/getOneCateogry"
+    $ref: "./path/category.yaml#/getOneCategory"
