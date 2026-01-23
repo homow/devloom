@@ -431,7 +431,7 @@ userRole:
     responses:
       # success
       200:
-        description: "user successfully found."
+        description: "user role successfully updated."
         content:
           application/json:
             example:
@@ -447,7 +447,7 @@ userRole:
 
       # Bad Request
       400:
-        description: "user successfully found."
+        description: "Bad Request"
         content:
           application/json:
             example:
