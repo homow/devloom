@@ -97,7 +97,7 @@ login:
             example:
               ok: false
               message: "This account is banned. Login is not allowed. Please contact support if you think this is a mistake."
-              email: "john@mail.com"
+              email: "john@mail.co"
               code: "BANNED_EMAIL"
 
       # invalid information
