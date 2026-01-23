@@ -56,6 +56,7 @@ getCategory:
             example:
               ok: true
 
+      # not allowed
       403:
         description: "Forbidden - error for role"
         content:
@@ -64,3 +65,13 @@ getCategory:
               ok: false
               code: "ACCESS_DENIED"
               message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
+
+      # missed accessToken
+      401:
+        description: "Unauthorized - missed access token"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Access token is required"
+              code: "ACCESS_TOKEN_MISSING"
