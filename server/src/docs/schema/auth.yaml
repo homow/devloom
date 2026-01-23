@@ -96,10 +96,9 @@ UpdateUserRequest:
 
   minProperties: 1
 
-  required:
-    anyOf:
-      - name
-      - password
+  anyOf:
+    - required: [ name ]
+    - required: [ password ]
 
   example:
     name: "Eliot"

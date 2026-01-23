@@ -46,3 +46,12 @@ getCategory:
         application/json:
           schema:
             $ref: "../schema/category.yaml#/CreateCategory"
+
+    responses:
+      # success
+      201:
+        description: "category successfully created."
+        content:
+          application/json:
+            example:
+              ok: true

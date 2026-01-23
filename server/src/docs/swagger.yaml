@@ -513,6 +513,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateCategory'
+      responses:
+        '201':
+          description: category successfully created.
+          content:
+            application/json:
+              example:
+                ok: true
 components:
   securitySchemes:
     bearerAuth:
@@ -602,10 +609,11 @@ components:
           pattern: ^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$
           description: required, at least 6 chars, must contain at least one letter and one number
       minProperties: 1
-      required:
-        anyOf:
-          - name
-          - password
+      anyOf:
+        - required:
+            - name
+        - required:
+            - password
       example:
         name: Eliot
         password: qwe123@h#4
