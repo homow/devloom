@@ -12,7 +12,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "seed:superadmin": "npx tsx src/scripts/create-super-admin.ts",
-    "swagger:bundle": "redocly bundle src/docs/openapi.yaml -o src/docs/swagger.yaml"
+    "swagger:bundle": "redocly bundle src/docs/dev.yaml -o src/docs/swagger.yaml"
   },
   "type": "module",
   "dependencies": {
