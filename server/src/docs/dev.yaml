@@ -50,3 +50,5 @@ paths:
     $ref: "./path/auth.yaml#/userRole"
   /auth/ban:
     $ref: "./path/auth.yaml#/banUser"
+  /category:
+    $ref: "./path/category.yaml#/getCategory"
