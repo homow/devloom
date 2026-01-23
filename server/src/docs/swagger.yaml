@@ -520,6 +520,42 @@ paths:
             application/json:
               example:
                 ok: true
+                message: Successfully created
+                category:
+                  id: 6973776e5b217ce28616c176
+                  createdAt: '2026-01-23T13:28:14.013Z'
+                  updatedAt: '2026-01-23T13:28:14.013Z'
+                  title: node js expert
+                  href: node-js
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '403':
+          description: Forbidden - error for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+        '409':
+          description: Conflict - already exist
+          content:
+            application/json:
+              example:
+                ok: false
+                message: 'Category Already exist: (href and title)'
+                category:
+                  title: back-end
+                  href: backend
+                  id: 69637c4dac866fb23cac7b2a
+                  createdAt: '2026-01-11T10:32:45.831Z'
+                  updatedAt: '2026-01-11T10:32:45.831Z'
 components:
   securitySchemes:
     bearerAuth:
