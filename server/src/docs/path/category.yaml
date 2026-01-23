@@ -123,6 +123,12 @@ getOneCategory:
             example:
               message: "category successfully found."
               ok: true
+              category:
+                id: "6973776e5b217ce28616c176"
+                createdAt: "2026-01-23T13:28:14.013Z"
+                updatedAt: "2026-01-23T13:28:14.013Z"
+                title: "node js expert"
+                href: "node-js"
 
       # invalid id
       400:
