@@ -153,10 +153,17 @@ getOneCategory:
         required: true
         schema:
           type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/category.yaml#/CreateCategory"
     responses:
       # success
       200:
-        description: "get category successfully"
+        description: "edit category successfully"
         content:
           application/json:
             example:
+              ok: true
