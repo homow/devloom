@@ -239,12 +239,18 @@ getOneCategory:
     responses:
       # success
       200:
-        description: "get category successfully"
+        description: "Category deleted successfully"
         content:
           application/json:
             example:
-              message: "category successfully found."
               ok: true
+              message: "Category deleted successfully."
+              category:
+                href: "node-js"
+                title: "node js expert"
+                id: "6973776e5b217ce28616c176"
+                createdAt: "2026-01-23T13:28:14.013Z"
+                updatedAt: "2026-01-23T13:28:14.013Z"
 
       # invalid id
       400:
