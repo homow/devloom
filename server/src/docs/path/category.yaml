@@ -221,3 +221,17 @@ getOneCategory:
               ok: false
               message: "Access token is required"
               code: "ACCESS_TOKEN_MISSING"
+
+  # delete category
+  delete:
+    operationId: "deleteOneCategory"
+    summary: "delete category"
+    description: "delete one category **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Category"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
