@@ -623,6 +623,71 @@ paths:
             application/json:
               example:
                 ok: true
+                message: Successfully updated category
+                category:
+                  href: network-ex
+                  title: network expert
+                  id: 696a26be986aade549450346
+                  createdAt: '2026-01-16T11:53:34.241Z'
+                  updatedAt: '2026-01-24T14:52:35.009Z'
+        '400':
+          description: Bad Request - invalid id
+          content:
+            application/json:
+              example:
+                ok: false
+                message: category ID is invalid.
+                code: CATEGORY_ID_OBJECT_INVALID
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '403':
+          description: Forbidden - error for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+        '409':
+          description: Conflict - new data must be different with this category data
+          content:
+            application/json:
+              example:
+                ok: false
+                code: CONFLICT_DATA
+                message: new data must be different with this category data
+                category:
+                  href: node-js
+                  title: node js expert
+                  id: 6973776e5b217ce28616c176
+                  createdAt: '2026-01-23T13:28:14.013Z'
+                  updatedAt: '2026-01-23T13:28:14.013Z'
+    delete:
+      operationId: deleteOneCategory
+      summary: delete category
+      description: 'delete one category **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get category successfully
+          content:
+            application/json:
+              example:
+                message: category successfully found.
+                ok: true
 components:
   securitySchemes:
     bearerAuth:

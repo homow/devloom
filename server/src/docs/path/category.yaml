@@ -235,3 +235,23 @@ getOneCategory:
         required: true
         schema:
           type: string
+
+    responses:
+      # success
+      200:
+        description: "get category successfully"
+        content:
+          application/json:
+            example:
+              message: "category successfully found."
+              ok: true
+
+      # invalid id
+      400:
+        description: "Bad Request - invalid id"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "category ID is invalid."
+              code: "CATEGORY_ID_OBJECT_INVALID"
