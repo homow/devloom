@@ -688,6 +688,30 @@ paths:
               example:
                 message: category successfully found.
                 ok: true
+        '400':
+          description: Bad Request - invalid id
+          content:
+            application/json:
+              example:
+                ok: false
+                message: category ID is invalid.
+                code: CATEGORY_ID_OBJECT_INVALID
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '403':
+          description: Forbidden - error for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
 components:
   securitySchemes:
     bearerAuth:

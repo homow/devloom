@@ -275,3 +275,12 @@ getOneCategory:
               ok: false
               code: "ACCESS_DENIED"
               message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
+
+      # not found
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Category not found."
