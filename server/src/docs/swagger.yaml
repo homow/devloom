@@ -610,12 +610,19 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditCategory'
       responses:
         '200':
           description: edit category successfully
           content:
             application/json:
-              example: null
+              example:
+                ok: true
 components:
   securitySchemes:
     bearerAuth:
@@ -745,3 +752,26 @@ components:
       example:
         title: node js expert
         href: node-js
+    EditCategory:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 2
+          maxLength: 20
+        href:
+          type: string
+          minLength: 2
+          maxLength: 20
+          pattern: ^[a-zA-Z0-9-]+$
+      required:
+        - title
+        - href
+      example:
+        title: node js expert
+        href: node-js
+      anyOf:
+        - required:
+            - title
+        - required:
+            - href

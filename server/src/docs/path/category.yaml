@@ -158,7 +158,7 @@ getOneCategory:
       content:
         application/json:
           schema:
-            $ref: "../schema/category.yaml#/CreateCategory"
+            $ref: "../schema/category.yaml#/EditCategory"
     responses:
       # success
       200:
