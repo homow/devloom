@@ -139,3 +139,24 @@ getOneCategory:
               ok: false
               message: "category ID is invalid."
               code: "CATEGORY_ID_OBJECT_INVALID"
+
+  # edit category
+  put:
+    operationId: "editOneCategory"
+    summary: "edit category"
+    description: "edit one category **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Category"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "get category successfully"
+        content:
+          application/json:
+            example:
