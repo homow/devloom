@@ -373,6 +373,12 @@ paths:
       description: 'change user role **Access restricted to users with role: SUPER_ADMIN only.**'
       tags:
         - Auth
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -381,7 +387,7 @@ paths:
               $ref: '#/components/schemas/ChangeUserRole'
       responses:
         '200':
-          description: user successfully found.
+          description: user role successfully updated.
           content:
             application/json:
               example:
@@ -395,7 +401,7 @@ paths:
                   createdAt: '2026-01-06T08:52:21.759Z'
                   updatedAt: '2026-01-06T08:52:21.759Z'
         '400':
-          description: user successfully found.
+          description: Bad Request
           content:
             application/json:
               example:
@@ -578,6 +584,38 @@ paths:
               example:
                 message: category successfully found.
                 ok: true
+                category:
+                  id: 6973776e5b217ce28616c176
+                  createdAt: '2026-01-23T13:28:14.013Z'
+                  updatedAt: '2026-01-23T13:28:14.013Z'
+                  title: node js expert
+                  href: node-js
+        '400':
+          description: Bad Request - invalid id
+          content:
+            application/json:
+              example:
+                ok: false
+                message: category ID is invalid.
+                code: CATEGORY_ID_OBJECT_INVALID
+    put:
+      operationId: editOneCategory
+      summary: edit category
+      description: 'edit one category **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: edit category successfully
+          content:
+            application/json:
+              example: null
 components:
   securitySchemes:
     bearerAuth:
