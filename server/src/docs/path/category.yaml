@@ -190,3 +190,13 @@ getOneCategory:
                 id: "6973776e5b217ce28616c176"
                 createdAt: "2026-01-23T13:28:14.013Z"
                 updatedAt: "2026-01-23T13:28:14.013Z"
+
+      # invalid id
+      400:
+        description: "Bad Request - invalid id"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "category ID is invalid."
+              code: "CATEGORY_ID_OBJECT_INVALID"
