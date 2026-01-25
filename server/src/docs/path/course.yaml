@@ -11,4 +11,4 @@ course:
       content:
         application/json:
           schema:
-            $ref: ""
+            $ref: "../schema/course.yaml#/CreateCourse"
