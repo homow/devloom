@@ -12,16 +12,22 @@ export async function get(
         ok: true,
         message: "",
         courses: undefined,
-        course: undefined
+        course: undefined,
+        code: undefined,
     };
 
+    let status: number = 200;
+
     if (req.params.courseHref) {
-        response.message = "course successfully found.";
-        response.course = courses;
+        response.ok = !!courses;
+        response.message = courses ? "course successfully found." : "course not found.";
+        response.course = courses ?? undefined;
+        (response.code as string | undefined) = courses ? undefined : "COURSE_NOT_FOUND";
+        status = 404;
     } else {
         response.message = "all courses successfully found.";
-        response.courses = courses;
+        response.courses = courses ?? [];
     }
 
-    return res.status(200).json(response);
+    return res.status(status).json(response);
 }
