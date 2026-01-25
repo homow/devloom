@@ -52,8 +52,9 @@ paths:
   /auth/ban:
     $ref: "./path/auth.yaml#/banUser"
 
-    # <=== Category route ===>
+  # <=== Category route ===>
+  #
   /category:
-    $ref: "./path/category.yaml#/getCategory"
+    $ref: "./path/category.yaml#/category"
   /category/{id}:
-    $ref: "./path/category.yaml#/getOneCategory"
+    $ref: "./path/category.yaml#/oneCategory"

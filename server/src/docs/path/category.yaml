@@ -1,5 +1,5 @@
 # category route
-getCategory:
+category:
   # get all categories
   get:
     security: [ ]
@@ -100,7 +100,7 @@ getCategory:
                 updatedAt: "2026-01-11T10:32:45.831Z"
 
 # one category route
-getOneCategory:
+oneCategory:
   # get one category
   get:
     security: [ ]
