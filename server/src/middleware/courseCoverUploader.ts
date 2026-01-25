@@ -44,7 +44,9 @@ export function courseCoverUploader(
                  * delete cover if invalid body
                  */
                 try {
-                    fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                    if (file?.filename) {
+                        fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                    }
                 } catch (e) {
                     console.log(e);
                 }
@@ -70,7 +72,9 @@ export function courseCoverUploader(
                  * delete cover if exist course
                  * */
                 try {
-                    fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                    if (file?.filename) {
+                        fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                    }
                 } catch (e) {
                     console.log(e);
                 }
