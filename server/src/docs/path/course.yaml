@@ -22,6 +22,14 @@ course:
               ok: true
               message: "Successfully created"
 
+      # invalid data
+      400:
+        description: "Bad Request - invalid body"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "body is invalid"
 
       # missed accessToken
       401:

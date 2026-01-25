@@ -964,3 +964,6 @@ components:
           type: string
           format: binary
           description: course cover
+      required:
+        - coursesData
+        - cover

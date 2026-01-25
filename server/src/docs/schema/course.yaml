@@ -1,7 +1,7 @@
 CreateCourse:
   type: object
   properties:
-    coursesData:
+    courseData:
       type: object
       description: "JSON payload - course data"
       properties:
@@ -31,9 +31,9 @@ CreateCourse:
         status:
           type: string
           enum:
-            - DRAFT
-            - PUBLISHED
-            - ARCHIVED
+            - COMPLETED
+            - PRE_SALE
+            - IN_PROGRESS
       required:
         - title
         - description
@@ -49,3 +49,6 @@ CreateCourse:
       type: string
       format: binary
       description: "course cover"
+  required:
+    - coursesData
+    - cover
