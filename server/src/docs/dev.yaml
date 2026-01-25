@@ -63,4 +63,4 @@ paths:
   # <=== Courses route ===>
   # get all and create one course
   /course:
-    $ref: "./path/course.yaml"
+    $ref: "./path/course.yaml#/course"
