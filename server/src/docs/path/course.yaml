@@ -177,3 +177,28 @@ course:
                   name: "Cecilia"
                   email: "garrick_ebert51@yahoo.com"
                   role: "ADMIN"
+
+getOneCourse:
+  # get one courses
+  get:
+    security: [ ]
+    operationId: "getCourse"
+    summary: "get course"
+    description: "get one course"
+    tags:
+      - "Course"
+    parameters:
+      - name: courseHref
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "get course successfully"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "course successfully found."

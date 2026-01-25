@@ -64,3 +64,5 @@ paths:
   # get all and create one course
   /course:
     $ref: "./path/course.yaml#/course"
+  /course/{courseHref}:
+    $ref: "./path/course.yaml#/getOneCourse"
