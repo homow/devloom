@@ -1,0 +1,14 @@
+course:
+  # create one course with cover
+  post:
+    operationId: "createCourse"
+    summary: "create courses"
+    description: "create new a course **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Course"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: ""
