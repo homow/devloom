@@ -141,6 +141,15 @@ oneCategory:
               message: "category ID is invalid."
               code: "CATEGORY_ID_OBJECT_INVALID"
 
+      # not found
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Category not found."
+
   # edit category
   put:
     operationId: "editOneCategory"
