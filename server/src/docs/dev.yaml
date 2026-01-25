@@ -53,8 +53,9 @@ paths:
     $ref: "./path/auth.yaml#/banUser"
 
   # <=== Category route ===>
-  #
+  # get all and create one category
   /category:
     $ref: "./path/category.yaml#/category"
+  # get, delete and edit one category
   /category/{id}:
     $ref: "./path/category.yaml#/oneCategory"
