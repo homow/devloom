@@ -35,80 +35,95 @@ export function courseCoverUploader(
             const file = req.file; // save file
 
             /** check body */
-            const body = JSON.parse(req.body[otherDataFieldName]);
-            const result = schema.safeParse(body);
+            try {
+                const body = JSON.parse(req.body[otherDataFieldName]);
+                const result = schema.safeParse(body);
 
-            /** return if invalid body */
-            if (!result.success) {
-                /**
-                 * delete cover if invalid body
-                 */
-                try {
-                    if (file?.filename) {
-                        fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                /** return if invalid body */
+                if (!result.success) {
+                    /**
+                     * delete cover if invalid body
+                     */
+                    try {
+                        if (file?.filename) {
+                            fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                        }
+                    } catch (e) {
+                        console.log(e);
                     }
-                } catch (e) {
-                    console.log(e);
-                }
 
-                return res.status(422).json({
-                    ok: false,
-                    errors: formatZodError(result.error),
-                    message: "body is invalid"
-                });
-            }
-
-            /** check exist */
-            const courseExist = await checkCourseExist({
-                data: {
-                    title: (result.data as CourseInput).title,
-                    href: (result.data as CourseInput).href,
-                }
-            });
-
-            /** return and delete file if exist */
-            if (courseExist) {
-                /**
-                 * delete cover if exist course
-                 * */
-                try {
-                    if (file?.filename) {
-                        fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
-                    }
-                } catch (e) {
-                    console.log(e);
-                }
-
-                return res.status(409).json({
-                    ok: false,
-                    message: "course already exists",
-                    code: "COURSE_EXIST",
-                    course: courseExist
-                });
-            }
-
-            /** save valid body */
-            req.body = result.data;
-
-            /** error handling for multer */
-            if (err) {
-                if (err.code === "LIMIT_FILE_SIZE") {
-                    return res.status(400).json({
+                    return res.status(422).json({
                         ok: false,
-                        message: "File size too large, must be less than 3MB",
-                        code: "LIMIT_FILE_SIZE"
+                        errors: formatZodError(result.error),
+                        message: "body is invalid"
                     });
                 }
+
+                /** check exist */
+                const courseExist = await checkCourseExist({
+                    data: {
+                        title: (result.data as CourseInput).title,
+                        href: (result.data as CourseInput).href,
+                    }
+                });
+
+                /** return and delete file if exist */
+                if (courseExist) {
+                    /**
+                     * delete cover if exist course
+                     * */
+                    try {
+                        if (file?.filename) {
+                            fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                        }
+                    } catch (e) {
+                        console.log(e);
+                    }
+
+                    return res.status(409).json({
+                        ok: false,
+                        message: "course already exists",
+                        code: "COURSE_EXIST",
+                        course: courseExist
+                    });
+                }
+
+                /** save valid body */
+                req.body = result.data;
+
+                /** error handling for multer */
+                if (err) {
+                    if (err.code === "LIMIT_FILE_SIZE") {
+                        return res.status(400).json({
+                            ok: false,
+                            message: "File size too large, must be less than 3MB",
+                            code: "LIMIT_FILE_SIZE"
+                        });
+                    }
+                    return res.status(400).json({
+                        ok: false,
+                        message: err?.message,
+                        code: err?.code,
+                    });
+                }
+
+                /** add filename to body */
+                req.body[fileFieldName] = file?.filename;
+                return next();
+            } catch (e) {
+                try {
+                    if (file?.filename) {
+                        fs.rmSync(`public/uploads/${pathDir}/${file?.filename}`);
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+                const msg = e instanceof SyntaxError ? "body is invalid" : "";
                 return res.status(400).json({
                     ok: false,
-                    message: err?.message,
-                    code: err?.code,
+                    message: msg || err?.message || (e as Error).message,
                 });
             }
-
-            /** add filename to body */
-            req.body[fileFieldName] = file?.filename;
-            return next();
         });
     };
 }
