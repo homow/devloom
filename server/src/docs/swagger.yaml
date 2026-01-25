@@ -894,11 +894,17 @@ paths:
   /course/{courseHref}:
     get:
       security: []
-      operationId: getCourse
-      summary: get course
+      operationId: getOneCourse
+      summary: get a course
       description: get one course
       tags:
         - Course
+      parameters:
+        - name: courseHref
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: get course successfully

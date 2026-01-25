@@ -182,8 +182,8 @@ getOneCourse:
   # get one courses
   get:
     security: [ ]
-    operationId: "getCourse"
-    summary: "get course"
+    operationId: "getOneCourse"
+    summary: "get a course"
     description: "get one course"
     tags:
       - "Course"
@@ -202,3 +202,29 @@ getOneCourse:
             example:
               ok: true
               message: "course successfully found."
+              course:
+                id: "6976403ed5a8d88d46496593"
+                createdAt: "2026-01-25T16:09:34.837Z"
+                updatedAt: "2026-01-25T16:09:34.837Z"
+                title: "ai expert"
+                href: "ai"
+                cover: "1769357374704_24.png"
+                price: 0
+                discount: 0
+                status: "COMPLETED"
+                support: "telegram"
+                description: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed vitae justo vel lorem facilisis placerat. Curabitur euismod nunc at sapien fermentum vel tincidunt urna ultricies."
+                category:
+                  id: "696a26be986aade549450346"
+                  createdAt: "2026-01-16T11:53:34.241Z"
+                  updatedAt: "2026-01-24T14:52:35.009Z"
+                  title: "network expert"
+                  href: "network-ex"
+                teacher:
+                  id: "695d0baeedf79cffd1f839ad"
+                  createdAt: "2026-01-06T13:18:38.576Z"
+                  updatedAt: "2026-01-07T12:18:22.832Z"
+                  name: "Cecilia"
+                  email: "garrick_ebert51@yahoo.com"
+                  role: "ADMIN"
+
