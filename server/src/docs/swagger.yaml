@@ -746,6 +746,13 @@ paths:
               example:
                 ok: true
                 message: Successfully created
+        '400':
+          description: Bad Request - invalid body
+          content:
+            application/json:
+              example:
+                ok: false
+                message: body is invalid
         '401':
           description: Unauthorized - missed access token
           content:
@@ -917,7 +924,7 @@ components:
     CreateCourse:
       type: object
       properties:
-        coursesData:
+        courseData:
           type: object
           description: JSON payload - course data
           properties:
@@ -947,9 +954,9 @@ components:
             status:
               type: string
               enum:
-                - DRAFT
-                - PUBLISHED
-                - ARCHIVED
+                - COMPLETED
+                - PRE_SALE
+                - IN_PROGRESS
           required:
             - title
             - description
@@ -965,5 +972,5 @@ components:
           format: binary
           description: course cover
       required:
-        - coursesData
+        - courseData
         - cover

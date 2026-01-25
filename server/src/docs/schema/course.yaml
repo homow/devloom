@@ -50,5 +50,5 @@ CreateCourse:
       format: binary
       description: "course cover"
   required:
-    - coursesData
+    - courseData
     - cover
