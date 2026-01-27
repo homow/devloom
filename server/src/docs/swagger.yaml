@@ -598,6 +598,13 @@ paths:
                 ok: false
                 message: category ID is invalid.
                 code: CATEGORY_ID_OBJECT_INVALID
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Category not found.
     put:
       operationId: editOneCategory
       summary: edit category
@@ -913,6 +920,74 @@ paths:
               example:
                 ok: true
                 message: course successfully found.
+                course:
+                  id: 6976403ed5a8d88d46496593
+                  createdAt: '2026-01-25T16:09:34.837Z'
+                  updatedAt: '2026-01-25T16:09:34.837Z'
+                  title: ai expert
+                  href: ai
+                  cover: 1769357374704_24.png
+                  price: 0
+                  discount: 0
+                  status: COMPLETED
+                  support: telegram
+                  description: Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed vitae justo vel lorem facilisis placerat. Curabitur euismod nunc at sapien fermentum vel tincidunt urna ultricies.
+                  category:
+                    id: 696a26be986aade549450346
+                    createdAt: '2026-01-16T11:53:34.241Z'
+                    updatedAt: '2026-01-24T14:52:35.009Z'
+                    title: network expert
+                    href: network-ex
+                  teacher:
+                    id: 695d0baeedf79cffd1f839ad
+                    createdAt: '2026-01-06T13:18:38.576Z'
+                    updatedAt: '2026-01-07T12:18:22.832Z'
+                    name: Cecilia
+                    email: garrick_ebert51@yahoo.com
+                    role: ADMIN
+        '404':
+          description: course not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course not found.
+                code: COURSE_NOT_FOUND
+  /course/{id}:
+    delete:
+      operationId: oneCourse
+      summary: delete course
+      description: 'delete one course **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Course
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: delete course successfully
+          content:
+            application/json:
+              example:
+                '401':
+                  description: Unauthorized - missed access token
+                  content:
+                    application/json:
+                      example:
+                        ok: false
+                        message: Access token is required
+                        code: ACCESS_TOKEN_MISSING
+                '403':
+                  description: Forbidden - error for role
+                  content:
+                    application/json:
+                      example:
+                        ok: false
+                        code: ACCESS_DENIED
+                        message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
 components:
   securitySchemes:
     bearerAuth:
