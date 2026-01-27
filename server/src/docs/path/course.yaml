@@ -241,10 +241,9 @@ getOneCourse:
 oneCourse:
   # delete one course
   delete:
-    security: [ ]
-    operationId: "deleteOneCategory"
+    operationId: "oneCourse"
     summary: "delete course"
-    description: "delete one course"
+    description: "delete one course **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
     tags:
       - "Course"
     parameters:
@@ -260,3 +259,12 @@ oneCourse:
         content:
           application/json:
             example:
+              # missed accessToken
+              401:
+                description: "Unauthorized - missed access token"
+                content:
+                  application/json:
+                    example:
+                      ok: false
+                      message: "Access token is required"
+                      code: "ACCESS_TOKEN_MISSING"
