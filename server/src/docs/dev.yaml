@@ -70,3 +70,5 @@ paths:
     $ref: "./path/course.yaml#/oneCourse"
   /course/{id}/lesson:
     $ref: "./path/course.yaml#/lesson"
+  /course/{courseHref}/lesson:
+    $ref: "./path/course.yaml#/oneLessonWithCourseHref"

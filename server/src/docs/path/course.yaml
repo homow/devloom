@@ -471,3 +471,26 @@ lesson:
                     status: "IN_PROGRESS"
                     title: "back-end"
                     href: "backend"
+
+oneLessonWithCourseHref:
+  get:
+    security: [ ]
+    operationId: "oneLessonWithCourseHref"
+    summary: "get lesson"
+    description: "get one lesson"
+    tags:
+      - "Course"
+    parameters:
+      - name: courseHref
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "lesson successfully found."
+        content:
+          application/json:
+            example:
+              ok: true
