@@ -428,3 +428,46 @@ lesson:
               ok: false
               message: "course not found."
               code: "COURSE_NOT_FOUND"
+
+      # Conflict
+      409:
+        description: "lesson already exist"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "lesson already exist"
+              code: 'LESSON_EXIST'
+              lesson:
+                title: "Linux info"
+                free: true
+                time: "10:20"
+                video: "linux_info.mp4"
+                course:
+                  title: "linux Expert Course"
+                  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                  price: 1000000
+                  cover: "1768564957042_79.png"
+                  support: "telegram and site"
+                  href: "linux-ex"
+                  discount: 10
+                  teacher:
+                    name: "Cecilia"
+                    email: "garrick_ebert51@yahoo.com"
+                    role: "ADMIN"
+                    id: "695d0baeedf79cffd1f839ad"
+                    createdAt: "2026-01-06T13:18:38.576Z"
+                    updatedAt: "2026-01-07T12:18:22.832Z"
+                  category:
+                    title: "back-end"
+                    href: "backend"
+                    id: "69637c4dac866fb23cac7b2a"
+                    createdAt: "2026-01-11T10:32:45.831Z"
+                    updatedAt: "2026-01-11T10:32:45.831Z"
+                    status: "IN_PROGRESS"
+                  id: "696a28dd3791130b18302457"
+                  createdAt: "2026-01-16T12:02:37.054Z"
+                  updatedAt: "2026-01-16T12:02:37.054Z"
+                id: "6978e02bf8bd444db971ea7b"
+                createdAt: "2026-01-27T15:56:27.060Z"
+                updatedAt: "2026-01-27T15:56:27.060Z"
