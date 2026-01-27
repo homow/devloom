@@ -52,3 +52,31 @@ CreateCourse:
   required:
     - courseData
     - cover
+
+CreateLesson:
+  type: object
+  properties:
+    title:
+      type: string
+      minLength: 3
+    free:
+      type: boolean
+      default: false
+    time:
+      type: string
+      minLength: 1
+    video:
+      type: string
+      minLength: 1
+
+  required:
+    - title
+    - free
+    - time
+    - video
+
+  example:
+    title: 'Linux info'
+    free: true
+    time: '10:20'
+    video: 'linux_info.mp4'
