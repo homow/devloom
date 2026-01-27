@@ -268,3 +268,13 @@ oneCourse:
                       ok: false
                       message: "Access token is required"
                       code: "ACCESS_TOKEN_MISSING"
+
+              # not allowed
+              403:
+                description: "Forbidden - error for role"
+                content:
+                  application/json:
+                    example:
+                      ok: false
+                      code: "ACCESS_DENIED"
+                      message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
