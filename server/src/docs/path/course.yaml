@@ -495,16 +495,6 @@ oneLessonWithCourseHref:
             example:
               ok: true
 
-      # invalid id
-      400:
-        description: "Bad Request - invalid id"
-        content:
-          application/json:
-            example:
-              ok: false
-              message: "course ID is invalid."
-              code: "COURSE_ID_OBJECT_INVALID"
-
       # course not found
       404:
         description: "course not found"
