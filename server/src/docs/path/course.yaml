@@ -383,3 +383,13 @@ lesson:
               ok: false
               code: "ACCESS_DENIED"
               message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
+
+      # course not found
+      404:
+        description: "course not found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "course not found."
+              code: "COURSE_NOT_FOUND"
