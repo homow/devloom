@@ -237,3 +237,26 @@ getOneCourse:
               ok: false
               message: "course not found."
               code: "COURSE_NOT_FOUND"
+
+oneCourse:
+  # delete one course
+  delete:
+    security: [ ]
+    operationId: "deleteOneCategory"
+    summary: "delete course"
+    description: "delete one course"
+    tags:
+      - "Course"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "delete course successfully"
+        content:
+          application/json:
+            example:
