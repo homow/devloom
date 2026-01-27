@@ -326,3 +326,30 @@ oneCourse:
               ok: false
               message: "course not found."
               code: "COURSE_NOT_FOUND"
+
+lesson:
+  post:
+    operationId: "createLesson"
+    summary: "create lesson"
+    description: "create new a lesson in a course **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Course"
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "../schema/course.yaml#/CreateLesson"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "delete course successfully"
+        content:
+          application/json:
+            example:
