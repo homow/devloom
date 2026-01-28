@@ -1,0 +1,21 @@
+lesson:
+  get:
+    operationId: "getOneLesson"
+    summary: "get lesson"
+    description: "get one lesson with id"
+    tags:
+      - "Lesson"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "delete course successfully"
+        content:
+          application/json:
+            example:
+              ok: true
