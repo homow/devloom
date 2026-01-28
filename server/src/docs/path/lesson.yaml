@@ -72,3 +72,25 @@ lesson:
               ok: false
               message: "lesson not found"
               code: "NOT_EXIST_LESSON"
+
+  delete:
+    operationId: "deleteOneLesson"
+    summary: "delete lesson"
+    description: "delete one lesson with id **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Lesson"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "lesson successfully deleted"
+        content:
+          application/json:
+            example:
+              message: "lesson successfully deleted"
+              ok: true
