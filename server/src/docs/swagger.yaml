@@ -1169,7 +1169,7 @@ paths:
       security: []
       operationId: oneLessonWithCourseHref
       summary: get lesson
-      description: get one lesson
+      description: get all lesson from a course
       tags:
         - Course
       parameters:
@@ -1180,11 +1180,85 @@ paths:
             type: string
       responses:
         '200':
-          description: lesson successfully found.
+          description: lessons successfully found
           content:
             application/json:
               example:
                 ok: true
+                message: lessons successfully found
+                lesson:
+                  - title: nest info
+                    id: 696a8518cc79aca5ef110350
+                    createdAt: '2026-01-16T18:36:08.742Z'
+                    updatedAt: '2026-01-16T18:36:08.742Z'
+                    free: true
+                    time: '20:21'
+                    video: next-info.mp4
+                    course:
+                      status: COMPLETED
+                      id: 696a84d2cc79aca5ef110344
+                      createdAt: '2026-01-16T18:34:58.786Z'
+                      updatedAt: '2026-01-16T18:34:58.786Z'
+                      title: nest.js Expert Course
+                      description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                      price: 800000
+                      cover: 1768588498783_27.jpg
+                      support: telegram and site
+                      href: nest-ex
+                      discount: 4
+                      teacher:
+                        id: 695d0babedf79cffd1f83999
+                        createdAt: '2026-01-06T13:18:35.169Z'
+                        updatedAt: '2026-01-06T13:18:35.169Z'
+                        name: Margarett
+                        email: liam_quitzon33@gmail.com
+                        role: USER
+                      category:
+                        id: 69649bc787299514688401f0
+                        createdAt: '2026-01-12T06:59:19.602Z'
+                        updatedAt: '2026-01-12T06:59:19.602Z'
+                        title: dev-ops
+                        href: devops
+                  - title: nest install
+                    id: 696bcc02fa633d8f8b7f118b
+                    createdAt: '2026-01-17T17:50:58.705Z'
+                    updatedAt: '2026-01-17T17:50:58.705Z'
+                    free: true
+                    time: '15:02'
+                    video: next-install.mp4
+                    course:
+                      id: 696a84d2cc79aca5ef110344
+                      status: COMPLETED
+                      createdAt: '2026-01-16T18:34:58.786Z'
+                      updatedAt: '2026-01-16T18:34:58.786Z'
+                      title: nest.js Expert Course
+                      description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                      price: 800000
+                      cover: 1768588498783_27.jpg
+                      support: telegram and site
+                      href: nest-ex
+                      discount: 4
+                      teacher:
+                        name: Margarett
+                        email: liam_quitzon33@gmail.com
+                        role: USER
+                        id: 695d0babedf79cffd1f83999
+                        createdAt: '2026-01-06T13:18:35.169Z'
+                        updatedAt: '2026-01-06T13:18:35.169Z'
+                      category:
+                        title: dev-ops
+                        href: devops
+                        id: 69649bc787299514688401f0
+                        createdAt: '2026-01-12T06:59:19.602Z'
+                        updatedAt: '2026-01-12T06:59:19.602Z'
+        '404':
+          description: course not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course not found.
+                code: NOT_EXIST_COURSE
 components:
   securitySchemes:
     bearerAuth:
