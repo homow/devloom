@@ -8,7 +8,7 @@ export const CommentSchema = z.object({
     score: z.number().min(0).max(5).default(5),
     course: checkZodObjectId("course"),
     isReply: z.boolean().default(false),
-    mainComment: checkZodObjectId("comment"),
+    parentComment: checkZodObjectId("comment"),
 }).overwrite(data => {
     return {
         body: data.body.trim(),
@@ -17,7 +17,7 @@ export const CommentSchema = z.object({
         score: data.score,
         course: data.course,
         isReply: data.isReply,
-        mainComment: data.mainComment,
+        parentComment: data.parentComment,
     };
 });
 

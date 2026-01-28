@@ -8,5 +8,5 @@ export interface CommentDB extends BaseDB {
     writer: Types.ObjectId;
     course: Types.ObjectId;
     isReply: boolean;
-    mainComment: null | Types.ObjectId;
+    parentComment: null | Types.ObjectId;
 }
