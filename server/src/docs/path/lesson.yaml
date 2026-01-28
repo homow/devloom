@@ -92,8 +92,8 @@ lesson:
         content:
           application/json:
             example:
-              message: "lesson successfully deleted"
               ok: true
+              message: "lesson successfully deleted"
 
       # invalid id
       400:
