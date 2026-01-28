@@ -20,6 +20,8 @@ const CommentModelShema: Schema<CommentDB> = new mongoose.Schema(
         score: {
             type: Number,
             default: 5,
+            min: 0,
+            max: 5,
         },
         course: {
             type: Types.ObjectId,
