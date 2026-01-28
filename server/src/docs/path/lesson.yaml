@@ -102,8 +102,8 @@ lesson:
           application/json:
             example:
               ok: false
-              message: "course ID is invalid."
-              code: "COURSE_ID_OBJECT_INVALID"
+              message: "lesson ID is invalid."
+              code: "LESSON_ID_OBJECT_INVALID"
 
       # missed accessToken
       401:
@@ -125,12 +125,12 @@ lesson:
               code: "ACCESS_DENIED"
               message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
 
-      # course not found
+      # lesson not found
       404:
-        description: "course not found"
+        description: "lesson not found"
         content:
           application/json:
             example:
               ok: false
-              message: "course not found."
-              code: "COURSE_NOT_FOUND"
+              message: "lesson not found."
+              code: "LESSON_NOT_FOUND"

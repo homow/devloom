@@ -1330,6 +1330,58 @@ paths:
                 ok: false
                 message: lesson not found
                 code: NOT_EXIST_LESSON
+    delete:
+      operationId: deleteOneLesson
+      summary: delete lesson
+      description: 'delete one lesson with id **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Lesson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: lesson successfully deleted
+          content:
+            application/json:
+              example:
+                message: lesson successfully deleted
+                ok: true
+        '400':
+          description: Bad Request - invalid id
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course ID is invalid.
+                code: COURSE_ID_OBJECT_INVALID
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '403':
+          description: Forbidden - error for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+        '404':
+          description: course not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course not found.
+                code: COURSE_NOT_FOUND
 components:
   securitySchemes:
     bearerAuth:
