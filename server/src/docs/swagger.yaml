@@ -1348,16 +1348,16 @@ paths:
           content:
             application/json:
               example:
-                message: lesson successfully deleted
                 ok: true
+                message: lesson successfully deleted
         '400':
           description: Bad Request - invalid id
           content:
             application/json:
               example:
                 ok: false
-                message: course ID is invalid.
-                code: COURSE_ID_OBJECT_INVALID
+                message: lesson ID is invalid.
+                code: LESSON_ID_OBJECT_INVALID
         '401':
           description: Unauthorized - missed access token
           content:
@@ -1375,13 +1375,13 @@ paths:
                 code: ACCESS_DENIED
                 message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
         '404':
-          description: course not found
+          description: lesson not found
           content:
             application/json:
               example:
                 ok: false
-                message: course not found.
-                code: COURSE_NOT_FOUND
+                message: lesson not found.
+                code: LESSON_NOT_FOUND
 components:
   securitySchemes:
     bearerAuth:
