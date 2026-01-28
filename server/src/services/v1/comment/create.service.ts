@@ -5,8 +5,7 @@ import type {CommentInput} from "@validators/comment.js";
 export async function createService(
     commentData: CommentInput
 ): Promise<ServiceResponse> {
-    const newComment = await CommentModel.create(commentData);
-    const comment = newComment as CommentDB;
+    const newComment = await CommentModel.create(commentData) as CommentDB;
 
     return {
         status: 201,
@@ -14,15 +13,15 @@ export async function createService(
             ok: true,
             message: "comment created successfully",
             comment: {
-                ...commentData,
+                ...newComment,
                 _id: undefined,
                 __v: undefined,
-                id: comment._id.toString(),
-                course: comment.course.toString(),
-                writer: comment.writer.toString(),
-                parentComment: comment.parentComment ? comment.parentComment?.toString() : undefined,
-                createdAt: comment.createdAt.toISOString(),
-                updatedAt: comment.updatedAt.toISOString(),
+                id: newComment._id.toString(),
+                course: newComment.course.toString(),
+                writer: newComment.writer.toString(),
+                parentComment: newComment.parentComment ? newComment.parentComment?.toString() : undefined,
+                createdAt: newComment.createdAt.toISOString(),
+                updatedAt: newComment.updatedAt.toISOString(),
             },
         }
     };
