@@ -54,3 +54,12 @@ lesson:
                     status: "IN_PROGRESS"
                     title: "back-end"
                     href: "backend"
+
+      400:
+        description: "invalid id"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "ID is invalid."
+              code: "ID_OBJECT_INVALID"
