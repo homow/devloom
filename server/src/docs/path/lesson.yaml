@@ -63,3 +63,12 @@ lesson:
               ok: false
               message: "ID is invalid."
               code: "ID_OBJECT_INVALID"
+
+      404:
+        description: "lesson not found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "lesson not found"
+              code: "NOT_EXIST_LESSON"
