@@ -34,6 +34,7 @@ const CommentModelShema: Schema<CommentDB> = new mongoose.Schema(
         mainComment: {
             type: Types.ObjectId,
             default: null,
+            ref: "Comment",
         },
     },
     {
@@ -41,7 +42,8 @@ const CommentModelShema: Schema<CommentDB> = new mongoose.Schema(
     }
 );
 
-CommentModelShema.index({course: 1});
+CommentModelShema.index({course: 1, isReply: 1});
+CommentModelShema.index({mainComment: 1, createdAt: -1});
 
 const CommentModel: Model<CommentDB> = mongoose.models.Comment || mongoose.model<CommentDB>("Comment", CommentModelShema, "comments");
 
