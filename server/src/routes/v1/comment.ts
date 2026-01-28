@@ -1,4 +1,5 @@
 import express from "express";
+import * as validator from "@validators/index.js";
 import * as middleware from "@middleware/index.js";
 import type {IgnoredRoutesKeys} from "@utils/route.js";
 
@@ -12,6 +13,9 @@ commentRouter.use(middleware.checkAccessToken(ignoredRoutes), middleware.checkBa
 
 commentRouter
     .route("/")
-    .post();
+    .post(
+        middleware.validateRequestBody(validator.CommentSchema),
+
+    );
 
 export {commentRouter};
