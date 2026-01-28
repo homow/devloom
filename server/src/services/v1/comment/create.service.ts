@@ -1,6 +1,6 @@
 import CommentModel from "@models/Comment.model.js";
-import type {CommentDB, ServiceResponse} from "@src/types/index.js";
 import type {CommentInput} from "@validators/comment.js";
+import type {CommentDB, ServiceResponse} from "@src/types/index.js";
 
 export async function createService(
     commentData: CommentInput
