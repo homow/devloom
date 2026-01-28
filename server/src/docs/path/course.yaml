@@ -472,7 +472,7 @@ lesson:
                     title: "back-end"
                     href: "backend"
 
-oneLessonWithCourseHref:
+lessonsWithCourseHref:
   get:
     security: [ ]
     operationId: "oneLessonWithCourseHref"

@@ -1259,6 +1259,27 @@ paths:
                 ok: false
                 message: course not found.
                 code: NOT_EXIST_COURSE
+  /lesson/{id}:
+    get:
+      security: []
+      operationId: getOneLesson
+      summary: get lesson
+      description: get one lesson with id
+      tags:
+        - Lesson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get lesson successfully
+          content:
+            application/json:
+              example:
+                ok: true
 components:
   securitySchemes:
     bearerAuth:
