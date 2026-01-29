@@ -9,7 +9,8 @@ export async function create(
     res: Response
 ) {
     /** get safe data */
-    const {writer, course, isReply, score, parentComment, body} = req.body;
+    const {course, isReply, score, parentComment, body} = req.body;
+    const writer = req.userPayload?.id as string;
     const result = await createService({writer, course, isReply, score, parentComment, body});
     return res.status(result.status).json(result.data);
 }
