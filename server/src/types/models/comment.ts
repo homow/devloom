@@ -1,5 +1,5 @@
 import {Types} from "mongoose";
-import type {BaseDB, SafeBaseDB} from "./index.js";
+import type {BaseDB, SafeBaseDB, SafeCourseDB, SafeUserDB} from "./index.js";
 
 export type BaseComment = {
     body: string;
@@ -13,8 +13,11 @@ export type BaseComment = {
 
 export type CommentDB = BaseDB & BaseComment;
 
-export type SafeCommentDB = SafeBaseDB & Omit<BaseComment, "parentComment" | "writer" | "course"> & {
-    writer: string;
-    course: string;
-    parentComment: string | null;
+type BaseSafeCommentDB = Omit<BaseComment, "parentComment" | "writer" | "course">;
+
+
+export type SafeCommentDB = SafeBaseDB & BaseSafeCommentDB & {
+    writer: SafeUserDB;
+    course: SafeCourseDB;
+    parentComment: SafeCommentDB | null;
 };
