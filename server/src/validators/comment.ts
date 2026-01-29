@@ -5,7 +5,7 @@ export const CommentSchema = z.object({
     body: z.string().min(3),
     writer: checkZodObjectId("user"),
     isConfirm: z.boolean().default(false),
-    score: z.number().min(0).max(5).default(5),
+    score: z.number().min(0).max(5).optional().default(5),
     course: checkZodObjectId("course"),
     isReply: z.boolean().default(false),
     parentComment: checkZodObjectId("comment"),
