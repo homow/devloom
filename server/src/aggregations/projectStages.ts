@@ -1,8 +1,5 @@
-import {baseStage} from "./index.js";
 import type {PipelineStage} from "mongoose";
-
-// type-safe for lookup and join
-type SafePipelineStage = Exclude<PipelineStage, PipelineStage.Merge | PipelineStage.Out>[];
+import {baseStage, createLookup, type SafePipelineStage} from "./index.js";
 
 export const categoryProjectStage: SafePipelineStage = [{
     $project: {
@@ -22,30 +19,11 @@ export const userProjectStage: SafePipelineStage = [{
 }];
 
 export const courseProjectStage: SafePipelineStage = [
-    {
-        // look and join teacher form users collection
-        $lookup: {
-            from: "users",
-            let: {teacher: "$teacher"},
-            pipeline: [
-                {$match: {$expr: {$eq: ["$_id", "$$teacher"]}}},
-                ...userProjectStage
-            ],
-            as: "teacher"
-        }
-    },
-    {
-        // look and join category form users collection
-        $lookup: {
-            from: "category",
-            let: {category: "$category"},
-            pipeline: [
-                {$match: {$expr: {$eq: ["$_id", "$$category"]}}},
-                ...categoryProjectStage
-            ],
-            as: "category"
-        }
-    },
+    // look and join teacher form users collection
+    createLookup("users", "teacher", "teacher", userProjectStage),
+    // look and join category form users collection
+    createLookup("category", "category", "category", categoryProjectStage),
+
     // flatten arrays
     {$unwind: "$teacher"},
     {$unwind: "$category"},
@@ -67,17 +45,7 @@ export const courseProjectStage: SafePipelineStage = [
 ];
 
 export const lessonProjectStage: SafePipelineStage = [
-    {
-        $lookup: {
-            from: "courses",
-            let: {course: "$course"},
-            pipeline: [
-                {$match: {$expr: {$eq: ["$_id", "$$course"]}}},
-                ...courseProjectStage
-            ],
-            as: "course"
-        }
-    },
+    createLookup("courses", "course", "course", courseProjectStage),
     {$unwind: "$course"},
     {
         $project: {
@@ -104,40 +72,14 @@ const commentProject: PipelineStage.Project = {
 };
 
 export const commentProjectStage: SafePipelineStage = [
-    {
-        // look and join writer form users collection
-        $lookup: {
-            from: "users",
-            let: {writer: "$writer"},
-            pipeline: [
-                {$match: {$expr: {$eq: ["$_id", "$$writer"]}}},
-                ...userProjectStage
-            ],
-            as: "writer"
-        }
-    },
-    {
-        $lookup: {
-            from: "courses",
-            let: {course: "$course"},
-            pipeline: [
-                {$match: {$expr: {$eq: ["$_id", "$$course"]}}},
-                ...courseProjectStage
-            ],
-            as: "course"
-        }
-    },
+    // look and join writer form users collection
+    createLookup("users", "writer", "writer", userProjectStage),
+    // look and join course form courses collection
+    createLookup("courses", "course", "course", courseProjectStage),
     {$unwind: "$course"},
     {$unwind: "writer"},
     commentProject
 ];
-
-const commentProjectWithParent: PipelineStage.Project = {
-    $project: {
-        ...commentProject.$project,
-        parentComment: 1,
-    }
-};
 
 export const commentWithParentStage: SafePipelineStage = [
     {
@@ -153,5 +95,10 @@ export const commentWithParentStage: SafePipelineStage = [
     },
     ...commentProjectStage,
     {$unwind: "$parentComment"},
-    commentProjectWithParent
+    {
+        $project: {
+            ...commentProject.$project,
+            parentComment: 1,
+        }
+    }
 ];
