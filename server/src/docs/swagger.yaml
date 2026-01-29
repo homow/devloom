@@ -1405,6 +1405,22 @@ paths:
               example:
                 ok: true
                 message: ''
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '404':
+          description: course not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course not found.
+                code: COURSE_NOT_FOUND
 components:
   securitySchemes:
     bearerAuth:
