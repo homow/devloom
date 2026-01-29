@@ -21,3 +21,13 @@ comment:
             example:
               ok: true
               message: ""
+
+      # missed accessToken
+      401:
+        description: "Unauthorized - missed access token"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Access token is required"
+              code: "ACCESS_TOKEN_MISSING"
