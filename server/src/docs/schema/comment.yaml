@@ -1,0 +1,44 @@
+CreateCommentSchema:
+  type: object
+  properties:
+    body:
+      type: string
+      minLength: 3
+      description: "body must be at least 3 characters"
+    writer:
+      type: string
+      pattern: '^[0-9a-fA-F]{24}$'
+      description: "writer must be a valid MongoDB ObjectId for a user"
+    isConfirm:
+      type: boolean
+      default: false
+    score:
+      type: number
+      minimum: 0
+      maximum: 5
+      default: 5
+    course:
+      type: string
+      pattern: '^[0-9a-fA-F]{24}$'
+      description: "course must be a valid MongoDB ObjectId"
+    isReply:
+      type: boolean
+      default: false
+    parentComment:
+      type: string
+      pattern: '^[0-9a-fA-F]{24}$'
+      description: "parentComment must be a valid MongoDB ObjectId for a comment"
+  required:
+    - body
+    - writer
+    - course
+    - isReply
+    - parentComment
+  example:
+    body: "This is a great course!"
+    writer: "507f1f77bcf86cd799439011"
+    isConfirm: false
+    score: 5
+    course: "64d4f5e3b4c2d85a1f7a2c3e"
+    isReply: true
+    parentComment: "64d4f5e3b4c2d85a1f7a2c3a"
