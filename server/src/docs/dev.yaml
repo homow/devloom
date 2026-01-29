@@ -15,6 +15,9 @@ tags:
     description: "courses"
   - name: "Lesson"
     description: "lessons of Course"
+  - name: "comment"
+    description: "comment users"
+
 components:
   securitySchemes:
     bearerAuth:
