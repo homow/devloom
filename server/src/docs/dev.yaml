@@ -74,3 +74,8 @@ paths:
     $ref: "./path/course.yaml#/lessonsWithCourseHref"
   /lesson/{id}:
     $ref: "./path/lesson.yaml#/lesson"
+
+  # <=== Courses route ===>
+  # post comment
+  /comment:
+    $ref: "./path/comment.yaml"
