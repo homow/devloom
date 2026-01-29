@@ -90,3 +90,68 @@ export const lessonProjectStage: SafePipelineStage = [
         }
     }
 ];
+
+const commentProject: PipelineStage.Project = {
+    $project: {
+        ...baseStage,
+        body: 1,
+        score: 1,
+        isConfirm: 1,
+        isReply: 1,
+        writer: {$toString: "$writer"},
+        course: {$toString: "$course"},
+    }
+};
+
+export const commentProjectStage: SafePipelineStage = [
+    {
+        // look and join writer form users collection
+        $lookup: {
+            from: "users",
+            let: {writer: "$writer"},
+            pipeline: [
+                {$match: {$expr: {$eq: ["$_id", "$$writer"]}}},
+                ...userProjectStage
+            ],
+            as: "writer"
+        }
+    },
+    {
+        $lookup: {
+            from: "courses",
+            let: {course: "$course"},
+            pipeline: [
+                {$match: {$expr: {$eq: ["$_id", "$$course"]}}},
+                ...courseProjectStage
+            ],
+            as: "course"
+        }
+    },
+    {$unwind: "$course"},
+    {$unwind: "writer"},
+    commentProject
+];
+
+const commentProjectWithParent: PipelineStage.Project = {
+    $project: {
+        ...commentProject.$project,
+        parentComment: 1,
+    }
+};
+
+export const commentWithParentStage: SafePipelineStage = [
+    {
+        $lookup: {
+            from: "comments",
+            let: {parentComment: "$parentComment"},
+            pipeline: [
+                {$match: {$expr: {$eq: ["$_id", "$$parentComment"]}}},
+                ...commentProjectStage
+            ],
+            as: "parentComment"
+        }
+    },
+    ...commentProjectStage,
+    {$unwind: "$parentComment"},
+    commentProjectWithParent
+];
