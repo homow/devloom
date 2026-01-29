@@ -1382,6 +1382,27 @@ paths:
                 ok: false
                 message: lesson not found.
                 code: LESSON_NOT_FOUND
+  /comment:
+    post:
+      operationId: createComment
+      summary: create new comment
+      description: Create a new comment in db collection(comments) **Need to login**
+      tags:
+        - Comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCommentSchema'
+      responses:
+        '201':
+          description: comment created successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: ''
 components:
   securitySchemes:
     bearerAuth:
@@ -1612,3 +1633,41 @@ components:
         free: true
         time: '10:20'
         video: linux_info.mp4
+    CreateCommentSchema:
+      type: object
+      properties:
+        body:
+          type: string
+          minLength: 3
+          description: body must be at least 3 characters
+        writer:
+          type: string
+          pattern: ^[0-9a-fA-F]{24}$
+          description: writer must be a valid MongoDB ObjectId for a user
+        score:
+          type: number
+          minimum: 0
+          maximum: 5
+          default: 5
+        course:
+          type: string
+          pattern: ^[0-9a-fA-F]{24}$
+          description: course must be a valid MongoDB ObjectId
+        isReply:
+          type: boolean
+          default: false
+        parentComment:
+          type: string
+          pattern: ^[0-9a-fA-F]{24}$
+          description: parentComment must be a valid MongoDB ObjectId for a comment
+      required:
+        - body
+        - writer
+        - course
+      example:
+        course: 64d4f5e3b4c2d85a1f7a2c3e
+        body: yes, This is a good course!
+        writer: 507f1f77bcf86cd799439011
+        score: 4
+        isReply: true
+        parentComment: 64d4f5e3b4c2d85a1f7a2c3a

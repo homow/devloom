@@ -78,4 +78,4 @@ paths:
   # <=== Courses route ===>
   # post comment
   /comment:
-    $ref: "./path/comment.yaml"
+    $ref: "./path/comment.yaml#/comment"

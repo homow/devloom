@@ -10,7 +10,7 @@ comment:
       content:
         application/json:
           schema:
-            $ref: "../schema/comment.yaml"
+            $ref: "../schema/comment.yaml#/CreateCommentSchema"
 
     responses:
       # success
@@ -20,3 +20,4 @@ comment:
           application/json:
             example:
               ok: true
+              message: ""
