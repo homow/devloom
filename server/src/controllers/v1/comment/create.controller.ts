@@ -7,7 +7,7 @@ export async function create(
     req: AuthRequest<{}, {}, CommentInput>,
     res: Response
 ) {
-    const {writer, course, isReply, isConfirm, score, parentComment, body} = req.body;
-    const result = await createService({writer, course, isReply, isConfirm, score, parentComment, body});
+    const {writer, course, isReply, score, parentComment, body} = req.body;
+    const result = await createService({writer, course, isReply, score, parentComment, body});
     return res.status(result.status).json(result.data);
 }
