@@ -82,18 +82,13 @@ export const commentProjectStage: SafePipelineStage = [
 ];
 
 export const commentWithParentStage: SafePipelineStage = [
-    {
-        $lookup: {
-            from: "comments",
-            let: {parentComment: "$parentComment"},
-            pipeline: [
-                {$match: {$expr: {$eq: ["$_id", "$$parentComment"]}}},
-                ...commentProjectStage
-            ],
-            as: "parentComment"
-        }
-    },
-    ...commentProjectStage,
+    // look and join writer form users collection
+    createLookup("users", "writer", "writer", userProjectStage),
+    // look and join course form courses collection
+    createLookup("courses", "course", "course", courseProjectStage),
+    createLookup("comments", "parentComment", "parentComment", commentProjectStage),
+    {$unwind: "$course"},
+    {$unwind: "writer"},
     {$unwind: "$parentComment"},
     {
         $project: {
