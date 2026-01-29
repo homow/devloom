@@ -1,7 +1,7 @@
 import {Types} from "mongoose";
-import type {BaseDB} from "./index.js";
+import type {BaseDB, SafeBaseDB} from "./index.js";
 
-export interface CommentDB extends BaseDB {
+export type BaseComment = {
     body: string;
     score: number;
     isConfirm: boolean;
@@ -9,4 +9,12 @@ export interface CommentDB extends BaseDB {
     course: Types.ObjectId;
     isReply: boolean;
     parentComment: null | Types.ObjectId;
-}
+};
+
+export type CommentDB = BaseDB & BaseComment;
+
+export type SafeCommentDB = SafeBaseDB & Omit<BaseComment, "parentComment" | "writer" | "course"> & {
+    writer: string;
+    course: string;
+    parentComment: string | null;
+};
