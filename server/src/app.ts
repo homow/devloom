@@ -51,7 +51,7 @@ app.use(`${BASE_URL}/auth`, routes.authRouter);
 app.use(`${BASE_URL}/category`, routes.categoryRouter);
 app.use(`${BASE_URL}/course`, routes.courseRouter);
 app.use(`${BASE_URL}/lesson`, routes.lessonRouter);
-app.use(`${BASE_URL}/lesson`, routes.commentRouter);
+app.use(`${BASE_URL}/comment`, routes.commentRouter);
 /**
  * swagger api documents
  */
