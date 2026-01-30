@@ -23,6 +23,9 @@ const CourseUserModelSchema = new mongoose.Schema<CourseUserDB>(
     }
 );
 
+CourseUserModelSchema.index({user: 1, course: 1}, {unique: true});
+CourseUserModelSchema.index({user: 1});
+CourseUserModelSchema.index({course: 1});
 
 const CourseUserModel: Model<CourseUserDB> = mongoose.models.CourseUser || mongoose.model("CourseUser", CourseUserModelSchema, "course_user");
 
