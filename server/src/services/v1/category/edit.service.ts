@@ -1,17 +1,7 @@
 import {getSafeCategory} from "@src/lib/index.js";
 import CategoryModel from "@models/Category.model.js";
-import type {ServiceResponse} from "@src/types/index.js";
 import type {EditCategoryInput} from "@validators/category.js";
-
-interface CustomError extends Error {
-    errorResponse: {
-        ok: number;
-        code: number;
-        codeName: string;
-        keyPattern: { title: number, href: number };
-        keyValue: object;
-    }
-}
+import type {CustomError, ServiceResponse} from "@src/types/index.js";
 
 export async function editService(
     id: string,

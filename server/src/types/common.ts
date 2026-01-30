@@ -34,3 +34,13 @@ export interface AuthRequest<
 > extends Request<P, ResBody, ReqBody, ReqQuery> {
     userPayload?: AuthPayload;
 }
+
+export interface CustomError extends Error {
+    errorResponse: {
+        ok: number;
+        code: number;
+        codeName: string;
+        keyPattern: { title: number, href: number };
+        keyValue: object;
+    }
+}
