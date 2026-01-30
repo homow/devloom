@@ -20,7 +20,47 @@ comment:
           application/json:
             example:
               ok: true
-              message: ""
+              message: "comment created successfully"
+              comment:
+                id: "697c6dde97df7b727d17c83f"
+                createdAt: "2026-01-30T08:37:50.269Z"
+                updatedAt: "2026-01-30T08:37:50.269Z"
+                body: "yes, This is a good course!"
+                isConfirm: false
+                score: 4
+                isReply: false
+                writer:
+                  id: "696f96416bd22d439cf79d3f"
+                  name: "john"
+                  email: "john@mail.co"
+                  role: "USER"
+                  createdAt: "2026-01-20T14:50:41.946Z"
+                  updatedAt: "2026-01-20T14:50:41.946Z"
+                course:
+                  id: "696a28dd3791130b18302457"
+                  title: "linux Expert Course"
+                  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel, dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                  price: 1000000
+                  cover: "1768564957042_79.png"
+                  support: "telegram and site"
+                  href: "linux-ex"
+                  discount: 10
+                  status: "IN_PROGRESS"
+                  createdAt: "2026-01-16T12:02:37.054Z"
+                  updatedAt: "2026-01-16T12:02:37.054Z"
+                  teacher:
+                    id: "695d0baeedf79cffd1f839ad"
+                    name: "Cecilia"
+                    email: "garrick_ebert51@yahoo.com"
+                    role: "ADMIN"
+                    createdAt: "2026-01-06T13:18:38.576Z"
+                    updatedAt: "2026-01-07T12:18:22.832Z"
+                  category:
+                    id: "69637c4dac866fb23cac7b2a"
+                    title: "back-end"
+                    href: "backend"
+                    createdAt: "2026-01-11T10:32:45.831Z"
+                    updatedAt: "2026-01-11T10:32:45.831Z"
 
       # missed accessToken
       401:
