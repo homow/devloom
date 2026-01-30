@@ -66,8 +66,8 @@ const commentProject: PipelineStage.Project = {
         score: 1,
         isConfirm: 1,
         isReply: 1,
-        writer: {$toString: "$writer"},
-        course: {$toString: "$course"},
+        writer: 1,
+        course: 1,
     }
 };
 
@@ -77,7 +77,7 @@ export const commentProjectStage: SafePipelineStage = [
     // look and join course form courses collection
     createLookup("courses", "course", "course", courseProjectStage),
     {$unwind: "$course"},
-    {$unwind: "writer"},
+    {$unwind: "$writer"},
     commentProject
 ];
 
@@ -88,7 +88,7 @@ export const commentWithParentStage: SafePipelineStage = [
     createLookup("courses", "course", "course", courseProjectStage),
     createLookup("comments", "parentComment", "parentComment", commentProjectStage),
     {$unwind: "$course"},
-    {$unwind: "writer"},
+    {$unwind: "$writer"},
     {$unwind: "$parentComment"},
     {
         $project: {
