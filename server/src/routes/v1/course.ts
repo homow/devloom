@@ -68,4 +68,9 @@ courseRouter
     .route("/:courseHref/lesson")
     .get(lessonController.get);
 
+/** register in courses */
+courseRouter
+    .route("/:id/register")
+    .post();
+
 export {courseRouter};
