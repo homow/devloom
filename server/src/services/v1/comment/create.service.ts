@@ -10,6 +10,7 @@ export async function createService(
 ): Promise<ServiceResponse> {
     const course = await checkCourseExist({id: commentData.course});
 
+    /** if not Exist course */
     if (!course) return {
         status: 404,
         data: {
@@ -22,11 +23,13 @@ export async function createService(
     const newComment = await CommentModel.create(commentData);
 
     if (newComment) {
+        /** create Pipeline Stage for comment */
         const commentStage = createPipelineStage({
             filter: [{_id: newComment._id}],
             stage: newComment.isReply ? commentWithParentStage : commentProjectStage,
         });
 
+        /** get comment and populated all data with Pipeline */
         const [comment] = await CommentModel.aggregate(commentStage);
 
         return {
