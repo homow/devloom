@@ -58,7 +58,7 @@ export async function registerService(
         };
 
         return {
-            status: customError.errorResponse.code,
+            status: customError.errorResponse.code || 500,
             data: {
                 ok: false,
                 message: customError.message || "Something went wrong",
