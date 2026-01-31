@@ -21,7 +21,7 @@ export async function registerService(
         const course = courseExist as CoursePopulate;
 
         const courseUserRegister = await CourseUserModel.create({
-            course: course._id,
+            course: courseID,
             user: userPayload.id,
             price: course.price,
         });
@@ -38,8 +38,6 @@ export async function registerService(
                 course,
                 registerData: {
                     id: courseUserRegister.id,
-                    user: userPayload.user.toString(),
-                    course: courseUserRegister.course.toString(),
                     createdAt: courseUserRegister.createdAt.toISOString(),
                     updatedAt: courseUserRegister.updatedAt.toISOString(),
                 },
@@ -48,7 +46,7 @@ export async function registerService(
     } catch (e) {
         const customError = e as CustomError;
 
-        if (customError.errorResponse.code === 1100) return {
+        if (customError?.errorResponse?.code != undefined && customError?.errorResponse?.code === 11000) return {
             status: 409,
             data: {
                 ok: false,
