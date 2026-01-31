@@ -50,12 +50,14 @@ paths:
     # get one user with id or email
   /auth/user:
     $ref: "./path/auth.yaml#/user"
+  # change user role
   /auth/user/{id}/role:
     $ref: "./path/auth.yaml#/userRole"
+  # ban users
   /auth/ban:
     $ref: "./path/auth.yaml#/banUser"
 
-  # <=== Category route ===>
+  # <=== Categories route ===>
   # get all and create one category
   /category:
     $ref: "./path/category.yaml#/category"
@@ -67,21 +69,28 @@ paths:
   # get all and create one course
   /course:
     $ref: "./path/course.yaml#/course"
+  # get one course
   /course/{courseHref}:
     $ref: "./path/course.yaml#/getOneCourse"
+  # delete one course
   /course/{id}:
     $ref: "./path/course.yaml#/oneCourse"
+  # post one lesson
   /course/{id}/lesson:
     $ref: "./path/course.yaml#/lesson"
+  # get all lessons with course href in one course
   /course/{courseHref}/lesson:
     $ref: "./path/course.yaml#/lessonsWithCourseHref"
-  /lesson/{id}:
-    $ref: "./path/lesson.yaml#/lesson"
-  # register in courses
-  /{id}/register:
+    # register in courses
+  /course/{id}/register:
     $ref: "./path/lesson.yaml#/register"
 
-  # <=== Courses route ===>
+  # <=== Lessons route ===>
+  # delete and get one lesson with lesson id
+  /lesson/{id}:
+    $ref: "./path/lesson.yaml#/lesson"
+
+  # <=== Comments route ===>
   # post comment
   /comment:
     $ref: "./path/comment.yaml#/comment"
