@@ -83,7 +83,7 @@ paths:
     $ref: "./path/course.yaml#/lessonsWithCourseHref"
     # register in courses
   /course/{id}/register:
-    $ref: "./path/lesson.yaml#/register"
+    $ref: "./path/course.yaml#/register"
 
   # <=== Lessons route ===>
   # delete and get one lesson with lesson id
