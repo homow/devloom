@@ -37,7 +37,7 @@ export async function registerService(
                 },
                 course,
                 registerData: {
-                    id: courseUserRegister.id,
+                    id: courseUserRegister.id.toString(),
                     createdAt: courseUserRegister.createdAt.toISOString(),
                     updatedAt: courseUserRegister.updatedAt.toISOString(),
                 },
