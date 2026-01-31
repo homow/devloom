@@ -60,7 +60,7 @@ export async function registerService(
             data: {
                 ok: false,
                 message: customError.message || "Something went wrong",
-                code: "INTERNAL_SERVER_ERROR",
+                code: "UNKNOWN_ERROR",
             }
         };
     }
