@@ -1261,6 +1261,26 @@ paths:
                 ok: false
                 message: course not found.
                 code: NOT_EXIST_COURSE
+  /course/{id}/register:
+    post:
+      operationId: registerInCourses
+      summary: register in courses
+      description: register in course with course id
+      tags:
+        - Course
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: lessons successfully found
+          content:
+            application/json:
+              example:
+                ok: true
   /lesson/{id}:
     get:
       security: []
