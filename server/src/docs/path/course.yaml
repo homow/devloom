@@ -624,3 +624,13 @@ register:
               ok: false
               message: "course not found."
               code: "COURSE_NOT_FOUND"
+
+      # Conflict
+      409:
+        description: "Conflict - user already register on this course"
+        content:
+          application/json:
+            example:
+              ok: false,
+              message: "user already registered in this course",
+              code: "CONFLICT"
