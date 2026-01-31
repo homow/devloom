@@ -71,6 +71,6 @@ courseRouter
 /** register in courses */
 courseRouter
     .route("/:id/register")
-    .post();
+    .post(courseController.register);
 
 export {courseRouter};
