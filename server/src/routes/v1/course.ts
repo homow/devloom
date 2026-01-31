@@ -71,6 +71,9 @@ courseRouter
 /** register in courses */
 courseRouter
     .route("/:id/register")
-    .post(courseController.register);
+    .post(
+        middleware.isValidParamId("course"),
+        courseController.register
+    );
 
 export {courseRouter};
