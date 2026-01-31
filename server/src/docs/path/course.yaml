@@ -589,11 +589,44 @@ register:
     responses:
       # success
       201:
-        description: "lessons successfully found"
+        description: "user registered successfully."
         content:
           application/json:
             example:
-              ok: true
+                ok: true
+                message: "Course Register Success"
+                user:
+                  id: "696f96416bd22d439cf79d3f"
+                  role: "USER"
+                course:
+                  id: "696a28dd3791130b18302457"
+                  createdAt: "2026-01-16T12:02:37.054Z"
+                  updatedAt: "2026-01-16T12:02:37.054Z"
+                  title: "linux Expert Course"
+                  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                  price: 1000000
+                  cover: "1768564957042_79.png"
+                  support: "telegram and site"
+                  href: "linux-ex"
+                  discount: 10
+                  status: "IN_PROGRESS"
+                  teacher:
+                    id: "695d0baeedf79cffd1f839ad"
+                    createdAt: "2026-01-06T13:18:38.576Z"
+                    updatedAt: "2026-01-07T12:18:22.832Z"
+                    name: "Cecilia"
+                    email: "garrick_ebert51@yahoo.com"
+                    role: "ADMIN"
+                  category:
+                    id: "69637c4dac866fb23cac7b2a"
+                    createdAt: "2026-01-11T10:32:45.831Z"
+                    updatedAt: "2026-01-11T10:32:45.831Z"
+                    title: "back-end"
+                    href: "backend"
+                registerData:
+                  id: "697e44857988ef21440861f1"
+                  createdAt: "2026-01-31T18:05:57.185Z"
+                  updatedAt: "2026-01-31T18:05:57.185Z"
 
       # invalid id
       400:
@@ -631,6 +664,6 @@ register:
         content:
           application/json:
             example:
-              ok: false,
-              message: "user already registered in this course",
+              ok: false
+              message: "user already registered in this course"
               code: "CONFLICT"
