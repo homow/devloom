@@ -16,6 +16,7 @@ const ignoreRoutes: IgnoredRoutesKeys[] = [
 
 categoryRouter.use(middleware.checkAccessToken(ignoreRoutes), middleware.checkBanned(ignoreRoutes));
 
+/** create one and get all categories */
 categoryRouter
     .route("/")
     .post(
@@ -25,6 +26,11 @@ categoryRouter
     )
     .get(categoryController.get);
 
+/**
+ @get one category
+ @edit one category
+ @delete one category
+ */
 categoryRouter
     .route("/:id")
     .put(
@@ -46,6 +52,6 @@ categoryRouter
 /** get all courses with a category */
 categoryRouter
     .route("/:href")
-    .get(categoryController.getCoursesByCategory);
+    .get(categoryController.get);
 
 export {categoryRouter};
