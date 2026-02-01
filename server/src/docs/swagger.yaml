@@ -703,7 +703,7 @@ paths:
     get:
       operationId: getCoursesWithCategory
       summary: get courses with category
-      description: get all courses with one category successfully.
+      description: get all courses with one category.
       tags:
         - Category
       parameters:
@@ -714,6 +714,7 @@ paths:
             type: string
       responses:
         '200':
+          description: get all courses with one category successfully.
           content:
             application/json:
               example:
