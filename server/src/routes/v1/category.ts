@@ -26,6 +26,11 @@ categoryRouter
     )
     .get(categoryController.get);
 
+/** get all courses with a category */
+categoryRouter
+    .route("/:href")
+    .get(categoryController.get);
+
 /**
  @get one category
  @edit one category
@@ -48,10 +53,5 @@ categoryRouter
         middleware.isValidParamId("category"),
         categoryController.get
     );
-
-/** get all courses with a category */
-categoryRouter
-    .route("/:href")
-    .get(categoryController.get);
 
 export {categoryRouter};
