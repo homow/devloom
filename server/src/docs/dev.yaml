@@ -61,9 +61,11 @@ paths:
   # get all and create one category
   /category:
     $ref: "./path/category.yaml#/category"
-  # get, delete and edit one category
+  # delete and edit one category
   /category/{id}:
     $ref: "./path/category.yaml#/oneCategory"
+  /category/{href}:
+    $ref: "./path/category.yaml#/getCoursesWithCategory"
 
   # <=== Courses route ===>
   # get all and create one course
