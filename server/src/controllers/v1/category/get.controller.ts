@@ -19,17 +19,14 @@ export async function get(
 
     if (href) {
         const courses = await getCoursesByCategoryService(href);
-
         result.data = courses.data;
         result.status = courses.status;
+    } else {
+        const course = await getService();
+        result.status = course.status;
+        result.data = course.data;
     }
 
-    const course = await getService();
-
-    result.status = course.status;
-    result.data = course.data;
-
-    console.log(result);
 
     return res.status(result.status).json(result.data);
 }
