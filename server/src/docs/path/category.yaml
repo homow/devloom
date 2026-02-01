@@ -275,7 +275,7 @@ getCoursesWithCategory:
   responses:
     # success
     200:
-      description: "Category deleted successfully"
+      description: "get all courses with one category successfully."
       content:
         application/json:
           example:

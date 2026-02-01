@@ -565,48 +565,6 @@ paths:
                   createdAt: '2026-01-11T10:32:45.831Z'
                   updatedAt: '2026-01-11T10:32:45.831Z'
   /category/{id}:
-    get:
-      security: []
-      operationId: getOneCategory
-      summary: get category
-      description: get one category
-      tags:
-        - Category
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: get category successfully
-          content:
-            application/json:
-              example:
-                message: category successfully found.
-                ok: true
-                category:
-                  id: 6973776e5b217ce28616c176
-                  createdAt: '2026-01-23T13:28:14.013Z'
-                  updatedAt: '2026-01-23T13:28:14.013Z'
-                  title: node js expert
-                  href: node-js
-        '400':
-          description: Bad Request - invalid id
-          content:
-            application/json:
-              example:
-                ok: false
-                message: category ID is invalid.
-                code: CATEGORY_ID_OBJECT_INVALID
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              example:
-                ok: false
-                message: Category not found.
     put:
       operationId: editOneCategory
       summary: edit category
@@ -663,6 +621,13 @@ paths:
                 ok: false
                 code: ACCESS_DENIED
                 message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Category not found.
         '409':
           description: Conflict - new data must be different with this category data
           content:
@@ -734,6 +699,82 @@ paths:
               example:
                 ok: false
                 message: Category not found.
+  /category/{href}:
+    operationId: getCoursesWithCategory
+    summary: get courses with category
+    description: get all courses in one category
+    tags:
+      - Category
+    parameters:
+      - name: href
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: get all courses with one category successfully.
+        content:
+          application/json:
+            example:
+              ok: true
+              message: courses get successfully in devops category.
+              courses:
+                - id: 696a84d2cc79aca5ef110344
+                  createdAt: '2026-01-16T18:34:58.786Z'
+                  updatedAt: '2026-01-16T18:34:58.786Z'
+                  title: nest.js Expert Course
+                  description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel, dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                  price: 800000
+                  cover: 1768588498783_27.jpg
+                  support: telegram and site
+                  href: nest-ex
+                  discount: 4
+                  status: COMPLETED
+                  teacher:
+                    id: 695d0babedf79cffd1f83999
+                    name: Margarett
+                    email: liam_quitzon33@gmail.com
+                    role: USER
+                    createdAt: '2026-01-06T13:18:35.169Z'
+                    updatedAt: '2026-01-06T13:18:35.169Z'
+                  category:
+                    id: 69649bc787299514688401f0
+                    title: dev-ops
+                    href: devops
+                    createdAt: '2026-01-12T06:59:19.602Z'
+                    updatedAt: '2026-01-12T06:59:19.602Z'
+                - id: 696a89a5f3f2bc5a2b4b9c6f
+                  createdAt: '2026-01-16T18:55:33.187Z'
+                  updatedAt: '2026-01-16T18:55:33.187Z'
+                  title: express.js Expert Course
+                  description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel, dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                  price: 800000
+                  cover: 1768589733181_4.png
+                  support: telegram and site
+                  href: express-ex
+                  discount: 4
+                  status: COMPLETED
+                  teacher:
+                    id: 695d0babedf79cffd1f83999
+                    name: Margarett
+                    email: liam_quitzon33@gmail.com
+                    role: USER
+                    createdAt: '2026-01-06T13:18:35.169Z'
+                    updatedAt: '2026-01-06T13:18:35.169Z'
+                  category:
+                    id: 69649bc787299514688401f0
+                    title: dev-ops
+                    href: devops
+                    createdAt: '2026-01-12T06:59:19.602Z'
+                    updatedAt: '2026-01-12T06:59:19.602Z'
+      '404':
+        description: Not Found
+        content:
+          application/json:
+            example:
+              ok: false
+              message: Category not found.
   /course:
     get:
       security: []
