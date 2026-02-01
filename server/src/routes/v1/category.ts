@@ -23,7 +23,8 @@ categoryRouter
         middleware.checkRole({requiredRole: UserRole.ADMIN}),
         middleware.validateRequestBody(validator.CategorySchema),
         categoryController.create
-    );
+    )
+    .get(categoryController.get);
 
 /** get all courses with a category */
 categoryRouter
