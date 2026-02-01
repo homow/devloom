@@ -136,6 +136,45 @@ oneCategory:
                 createdAt: "2026-01-16T11:53:34.241Z"
                 updatedAt: "2026-01-24T14:52:35.009Z"
 
+      # invalid id
+      400:
+        description: "Bad Request - invalid id"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "category ID is invalid."
+              code: "CATEGORY_ID_OBJECT_INVALID"
+
+      # missed accessToken
+      401:
+        description: "Unauthorized - missed access token"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Access token is required"
+              code: "ACCESS_TOKEN_MISSING"
+
+      # not allowed
+      403:
+        description: "Forbidden - error for role"
+        content:
+          application/json:
+            example:
+              ok: false
+              code: "ACCESS_DENIED"
+              message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
+
+      # not found
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Category not found."
+
       # conflict
       409:
         description: "Conflict - new data must be different with this category data"
@@ -151,36 +190,6 @@ oneCategory:
                 id: "6973776e5b217ce28616c176"
                 createdAt: "2026-01-23T13:28:14.013Z"
                 updatedAt: "2026-01-23T13:28:14.013Z"
-
-      # invalid id
-      400:
-        description: "Bad Request - invalid id"
-        content:
-          application/json:
-            example:
-              ok: false
-              message: "category ID is invalid."
-              code: "CATEGORY_ID_OBJECT_INVALID"
-
-      # not allowed
-      403:
-        description: "Forbidden - error for role"
-        content:
-          application/json:
-            example:
-              ok: false
-              code: "ACCESS_DENIED"
-              message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
-
-      # missed accessToken
-      401:
-        description: "Unauthorized - missed access token"
-        content:
-          application/json:
-            example:
-              ok: false
-              message: "Access token is required"
-              code: "ACCESS_TOKEN_MISSING"
 
   # delete category
   delete:
