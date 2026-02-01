@@ -43,4 +43,9 @@ categoryRouter
         categoryController.get
     );
 
+/** get all courses with a category */
+categoryRouter
+    .route("/:href")
+    .get(categoryController.getCoursesByCategory);
+
 export {categoryRouter};
