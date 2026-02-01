@@ -4,7 +4,7 @@ interface ErrorResponse extends Error {
     status: number;
 }
 
-export default function internalServerError(
+export function internalServerError(
     err: ErrorResponse,
     _req: Request,
     res: Response,
@@ -15,4 +15,4 @@ export default function internalServerError(
         ok: false,
         message: err.message || "Internal Server Error",
     });
-};
+}

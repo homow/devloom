@@ -1,0 +1,8 @@
+/* for Swagger-JsDocs */
+* {
+    font-family: Segoe UI, "JetBrains Mono Light", Arial, SansSerif, serif !important;
+}
+
+pre, code {
+    font-family: "JetBrains Mono", Consolas, monospace !important;
+}

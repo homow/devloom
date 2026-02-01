@@ -1,0 +1,82 @@
+CreateCourse:
+  type: object
+  properties:
+    courseData:
+      type: object
+      description: "JSON payload - course data"
+      properties:
+        title:
+          type: string
+          minLength: 2
+        description:
+          type: string
+          minLength: 10
+        price:
+          type: number
+          minimum: 0
+        discount:
+          type: number
+          minimum: 0
+        support:
+          type: string
+        href:
+          type: string
+          pattern: "^[a-zA-Z0-9_-]+$"
+        teacher:
+          type: string
+          description: "MongoDB ObjectId"
+        category:
+          type: string
+          description: "MongoDB ObjectId"
+        status:
+          type: string
+          enum:
+            - COMPLETED
+            - PRE_SALE
+            - IN_PROGRESS
+      required:
+        - title
+        - description
+        - price
+        - discount
+        - support
+        - href
+        - teacher
+        - category
+        - status
+
+    cover:
+      type: string
+      format: binary
+      description: "course cover"
+  required:
+    - courseData
+    - cover
+
+CreateLesson:
+  type: object
+  properties:
+    title:
+      type: string
+      minLength: 3
+    free:
+      type: boolean
+      default: false
+    time:
+      type: string
+      minLength: 1
+    video:
+      type: string
+      minLength: 1
+
+  required:
+    - title
+    - free
+    - time
+    - video
+
+  example:
+    title: 'Linux info'
+    free: true
+    time: '10:20'
+    video: 'linux_info.mp4'

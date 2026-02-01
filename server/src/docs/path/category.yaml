@@ -1,0 +1,343 @@
+# category route
+category:
+  # get all categories
+  get:
+    security: [ ]
+    operationId: "getCategory"
+    summary: "get categories"
+    description: "get all categories"
+    tags:
+      - "Category"
+    responses:
+      # success
+      200:
+        description: "get categories successfully"
+        content:
+          application/json:
+            example:
+              message: "categories successfully found."
+              ok: true
+              categories:
+                - title: "back-end"
+                  href: "backend"
+                  id: "69637c4dac866fb23cac7b2a"
+                  createdAt: "2026-01-11T10:32:45.831Z"
+                  updatedAt: "2026-01-11T10:32:45.831Z"
+                - title: "dev-ops"
+                  href: "DevOps"
+                  id: "69649bc787299514688401f0"
+                  createdAt: "2026-01-12T06:59:19.602Z"
+                  updatedAt: "2026-01-12T06:59:19.602Z"
+                - title: "front-end"
+                  href: "frontend"
+                  id: "696a26be986aade549450346"
+                  createdAt: "2026-01-16T11:53:34.241Z"
+                  updatedAt: "2026-01-16T11:53:34.241Z"
+
+  # create new category
+  post:
+    operationId: "createCategory"
+    summary: "create categories"
+    description: "create new a category **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Category"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/category.yaml#/CreateCategory"
+
+    responses:
+      # success
+      201:
+        description: "category successfully created."
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "Successfully created"
+              category:
+                id: "6973776e5b217ce28616c176"
+                createdAt: "2026-01-23T13:28:14.013Z"
+                updatedAt: "2026-01-23T13:28:14.013Z"
+                title: "node js expert"
+                href: "node-js"
+
+      # not allowed
+      403:
+        description: "Forbidden - error for role"
+        content:
+          application/json:
+            example:
+              ok: false
+              code: "ACCESS_DENIED"
+              message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
+
+      # missed accessToken
+      401:
+        description: "Unauthorized - missed access token"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Access token is required"
+              code: "ACCESS_TOKEN_MISSING"
+
+      # conflict
+      409:
+        description: "Conflict - already exist"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Category Already exist: (href and title)"
+              category:
+                title: "back-end"
+                href: "backend"
+                id: "69637c4dac866fb23cac7b2a"
+                createdAt: "2026-01-11T10:32:45.831Z"
+                updatedAt: "2026-01-11T10:32:45.831Z"
+
+# one category route
+oneCategory:
+  # edit category
+  put:
+    operationId: "editOneCategory"
+    summary: "edit category"
+    description: "edit one category **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Category"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/category.yaml#/EditCategory"
+    responses:
+      # success
+      200:
+        description: "edit category successfully"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "Successfully updated category"
+              category:
+                href: "network-ex"
+                title: "network expert"
+                id: "696a26be986aade549450346"
+                createdAt: "2026-01-16T11:53:34.241Z"
+                updatedAt: "2026-01-24T14:52:35.009Z"
+
+      # invalid id
+      400:
+        description: "Bad Request - invalid id"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "category ID is invalid."
+              code: "CATEGORY_ID_OBJECT_INVALID"
+
+      # missed accessToken
+      401:
+        description: "Unauthorized - missed access token"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Access token is required"
+              code: "ACCESS_TOKEN_MISSING"
+
+      # not allowed
+      403:
+        description: "Forbidden - error for role"
+        content:
+          application/json:
+            example:
+              ok: false
+              code: "ACCESS_DENIED"
+              message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
+
+      # not found
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Category not found."
+
+      # conflict
+      409:
+        description: "Conflict - new data must be different with this category data"
+        content:
+          application/json:
+            example:
+              ok: false
+              code: 'CONFLICT_DATA'
+              message: "new data must be different with this category data"
+              category:
+                href: "node-js"
+                title: "node js expert"
+                id: "6973776e5b217ce28616c176"
+                createdAt: "2026-01-23T13:28:14.013Z"
+                updatedAt: "2026-01-23T13:28:14.013Z"
+
+  # delete category
+  delete:
+    operationId: "deleteOneCategory"
+    summary: "delete category"
+    description: "delete one category **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Category"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    responses:
+      # success
+      200:
+        description: "Category deleted successfully"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "Category deleted successfully."
+              category:
+                href: "node-js"
+                title: "node js expert"
+                id: "6973776e5b217ce28616c176"
+                createdAt: "2026-01-23T13:28:14.013Z"
+                updatedAt: "2026-01-23T13:28:14.013Z"
+
+      # invalid id
+      400:
+        description: "Bad Request - invalid id"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "category ID is invalid."
+              code: "CATEGORY_ID_OBJECT_INVALID"
+
+      # missed accessToken
+      401:
+        description: "Unauthorized - missed access token"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Access token is required"
+              code: "ACCESS_TOKEN_MISSING"
+
+      # not allowed
+      403:
+        description: "Forbidden - error for role"
+        content:
+          application/json:
+            example:
+              ok: false
+              code: "ACCESS_DENIED"
+              message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
+
+      # not found
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Category not found."
+
+getCoursesWithCategory:
+  get:
+    operationId: "getCoursesWithCategory"
+    summary: "get courses with category"
+    description: "get all courses with one category."
+    tags:
+      - "Category"
+    parameters:
+      - name: href
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "get all courses with one category successfully."
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "courses get successfully in devops category."
+              courses:
+                - id: "696a84d2cc79aca5ef110344"
+                  createdAt: "2026-01-16T18:34:58.786Z"
+                  updatedAt: "2026-01-16T18:34:58.786Z"
+                  title: "nest.js Expert Course"
+                  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel, dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                  price: 800000
+                  cover: "1768588498783_27.jpg"
+                  support: "telegram and site"
+                  href: "nest-ex"
+                  discount: 4
+                  status: "COMPLETED"
+                  teacher:
+                    id: "695d0babedf79cffd1f83999"
+                    name: "Margarett"
+                    email: "liam_quitzon33@gmail.com"
+                    role: "USER"
+                    createdAt: "2026-01-06T13:18:35.169Z"
+                    updatedAt: "2026-01-06T13:18:35.169Z"
+                  category:
+                    id: "69649bc787299514688401f0"
+                    title: "dev-ops"
+                    href: "devops"
+                    createdAt: "2026-01-12T06:59:19.602Z"
+                    updatedAt: "2026-01-12T06:59:19.602Z"
+
+                - id: "696a89a5f3f2bc5a2b4b9c6f"
+                  createdAt: "2026-01-16T18:55:33.187Z"
+                  updatedAt: "2026-01-16T18:55:33.187Z"
+                  title: "express.js Expert Course"
+                  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel, dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                  price: 800000
+                  cover: "1768589733181_4.png"
+                  support: "telegram and site"
+                  href: "express-ex"
+                  discount: 4
+                  status: "COMPLETED"
+                  teacher:
+                    id: "695d0babedf79cffd1f83999"
+                    name: "Margarett"
+                    email: "liam_quitzon33@gmail.com"
+                    role: "USER"
+                    createdAt: "2026-01-06T13:18:35.169Z"
+                    updatedAt: "2026-01-06T13:18:35.169Z"
+                  category:
+                    id: "69649bc787299514688401f0"
+                    title: "dev-ops"
+                    href: "devops"
+                    createdAt: "2026-01-12T06:59:19.602Z"
+                    updatedAt: "2026-01-12T06:59:19.602Z"
+
+      # not found
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Category not found."

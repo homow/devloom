@@ -1,0 +1,1852 @@
+openapi: 3.0.0
+info:
+  title: Devloom - Programming Education
+  description: Devloom is a modular, scalable API designed for building a modern programming education platform. Built with TypeScript + Express + MongoDB + Zod, focusing on clarity, structure, and long‑term maintainability.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api/v1/
+    description: base url
+security:
+  - bearerAuth: []
+tags:
+  - name: Auth
+    description: User Auth
+  - name: Category
+    description: category of courses
+  - name: Course
+    description: courses
+  - name: Lesson
+    description: lessons of Course
+  - name: comment
+    description: comment users
+paths:
+  /auth/signup:
+    post:
+      security: []
+      operationId: createUser
+      summary: create new user
+      description: Create a new user in db collection(users)
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+      responses:
+        '201':
+          description: user created successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Sign up successfully
+                user:
+                  id: 695d0babedf79cffd1f83999
+                  name: john
+                  email: john@mail.co
+                  createdAt: '2026-01-19T19:22:20.707Z'
+                  updatedAt: '2026-01-19T19:22:20.707Z'
+                  role: USER
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              example:
+                ok: false
+                message: email already exist
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              example:
+                ok: false
+                errors:
+                  - fields: name
+                    message: name must be at least 3 characters
+                  - fields: password
+                    message: password must be at least 6 characters
+                  - fields: email
+                    message: Invalid email address
+  /auth/login:
+    post:
+      security: []
+      operationId: login
+      summary: login users
+      description: login user with email and password
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: user logged in successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: login successfully
+                accessToken: <accessToken Value>
+                user:
+                  id: 695d0babedf79cffd1f83999
+                  name: john
+                  email: john@mail.co
+                  createdAt: '2026-01-19T19:22:20.707Z'
+                  updatedAt: '2026-01-19T19:22:20.707Z'
+                  role: USER
+        '401':
+          description: Unauthorized. invalid password or email.
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Invalid Credentials
+        '403':
+          description: Forbidden. This account is banned. Login is not allowed.
+          content:
+            application/json:
+              example:
+                ok: false
+                message: This account is banned. Login is not allowed. Please contact support if you think this is a mistake.
+                email: john@mail.co
+                code: BANNED_EMAIL
+  /auth/getMe:
+    get:
+      operationId: getMe
+      summary: get user info
+      description: get user safe-information in db collection(users)
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: successfully get user info
+          content:
+            application/json:
+              example:
+                ok: true
+                message: user successfully found
+                user:
+                  name: john
+                  email: john@mail.co
+                  role: USER
+                  id: 696e846cdd939b376e89608b
+                  createdAt: '2026-01-19T19:22:20.707Z'
+                  updatedAt: '2026-01-19T19:22:20.707Z'
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+  /auth/logout:
+    post:
+      operationId: logout
+      summary: logout system
+      description: logout user in the current system.
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: user logged out in the system successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Logged out successfully
+        '401':
+          description: Unauthorized - not login
+          content:
+            application/json:
+              example:
+                ok: false
+                message: refresh token is missing or expired
+                code: REFRESH_TOKEN_NOT_FOUND
+  /auth/refresh:
+    post:
+      operationId: refresh
+      summary: refresh accessToken
+      description: get a new accessToken with refreshToken
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: new accessToken created successfully.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: success
+                accessToken: <AccessTokenValue>
+                user:
+                  name: john
+                  email: john@mail.co
+                  role: USER
+                  id: 696f96416bd22d439cf79d3f
+                  createdAt: '2026-01-20T14:50:41.946Z'
+                  updatedAt: '2026-01-20T14:50:41.946Z'
+        '401':
+          description: missed or expired refresh token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: refresh token is missing or expired
+                code: REFRESH_TOKEN_NOT_FOUND
+  /auth/users:
+    get:
+      operationId: users
+      summary: get users list
+      description: 'get all users list **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: get users list successfully.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: users found
+                users:
+                  - name: Bridie
+                    email: alfredo.little@gmail.com
+                    role: USER
+                    id: 695b5d0267a06ae7f2afb9f2
+                    createdAt: '2026-01-05T06:41:06.376Z'
+                    updatedAt: '2026-01-05T06:41:06.376Z'
+                  - name: Destin
+                    email: felton47@gmail.com
+                    role: USER
+                    id: 695b5d0567a06ae7f2afb9f6
+                    createdAt: '2026-01-05T06:41:09.937Z'
+                    updatedAt: '2026-01-05T06:41:09.937Z'
+                  - name: Braulio
+                    email: johnfsdf@email.co
+                    role: USER
+                    id: 695b7e95df07650a9c0784ca
+                    createdAt: '2026-01-05T09:04:21.031Z'
+                    updatedAt: '2026-01-05T09:04:21.031Z'
+                  - name: Odell
+                    email: john@email.co
+                    role: ADMIN
+                    id: 695ccd4520812fad88b856a2
+                    createdAt: '2026-01-06T08:52:21.759Z'
+                    updatedAt: '2026-01-06T08:52:21.759Z'
+        '403':
+          description: Forbidden - not allowed for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+  /auth/user:
+    get:
+      operationId: getUser
+      summary: get one user
+      description: 'get one user **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetUserRequest'
+      responses:
+        '200':
+          description: user successfully found.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: user found
+                user:
+                  name: Odell
+                  email: john@email.co
+                  role: ADMIN
+                  id: 695ccd4520812fad88b856a2
+                  createdAt: '2026-01-06T08:52:21.759Z'
+                  updatedAt: '2026-01-06T08:52:21.759Z'
+        '403':
+          description: Forbidden - not allowed for role
+          content:
+            application/json:
+              example:
+                ok: false
+                message: You are not authorized to access this route.
+                code: ACCESS_DENIED
+        '404':
+          description: Not found - User not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: user not found in database
+                code: USER_NOT_FOUND
+    delete:
+      operationId: deleteUser
+      summary: delete one user
+      description: Delete one user. **Access restricted to users with roles higher than the target user (ADMIN | SUPER_ADMIN) only.**
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetUserRequest'
+      responses:
+        '200':
+          description: user successfully deleted
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Successfully updated user
+                user:
+                  id: 695d58f71e66bde9eb688a20
+                  name: john
+                  email: john@mail.co
+                  role: USER
+                  createdAt: '2026-01-06T18:48:23.495Z'
+                  updatedAt: '2026-01-08T13:31:48.981Z'
+        '403':
+          description: Forbidden - not allowed for role
+          content:
+            application/json:
+              example:
+                ok: false
+                message: you cannot delete a user with equal or higher role
+                code: ROLE_NOT_ALLOWED
+    patch:
+      operationId: updateUser
+      summary: update one user
+      description: Update user details by themselves.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: user updated successfully.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Successfully updated user
+                user:
+                  id: 695d58f71e66bde9eb688a20
+                  name: john
+                  email: john@mail.co
+                  role: USER
+                  createdAt: '2026-01-06T18:48:23.495Z'
+                  updatedAt: '2026-01-08T13:31:48.981Z'
+        '422':
+          description: Unprocessable Entity - invalid body
+          content:
+            application/json:
+              example:
+                ok: false
+                errors:
+                  - fields: name
+                    message: name must be at least 3 characters
+                  - fields: password
+                    message: password must be at least 6 characters
+                  - fields: password
+                    message: password must contain at least one letter and one number
+                  - fields: name, password
+                    message: At least one of 'name' or 'password' must be provided
+  /auth/user/{id}/role:
+    patch:
+      operationId: changeUserRole
+      summary: change user role
+      description: 'change user role **Access restricted to users with role: SUPER_ADMIN only.**'
+      tags:
+        - Auth
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeUserRole'
+      responses:
+        '200':
+          description: user role successfully updated.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: User role updated successfully
+                userTarget:
+                  name: Odell
+                  email: john@email.co
+                  role: ADMIN
+                  id: 695ccd4520812fad88b856a2
+                  createdAt: '2026-01-06T08:52:21.759Z'
+                  updatedAt: '2026-01-06T08:52:21.759Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                ok: false
+                message: You are not allowed to change your own role.
+                code: CANNOT_CHANGE_OWN_ROLE
+        '403':
+          description: Forbidden - ACCESS_DENIED
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Your role (ADMIN) is not allowed to access a route requiring ADMIN (higher)
+                code: ACCESS_DENIED
+        '409':
+          description: Conflict role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ROLE_ALREADY_ASSIGNED
+                message: The user already has the role USER
+                userTarget:
+                  name: Odell
+                  email: john@email.co
+                  role: USER
+                  id: 695ccd4520812fad88b856a2
+                  createdAt: '2026-01-06T08:52:21.759Z'
+                  updatedAt: '2026-01-06T08:52:21.759Z'
+  /auth/ban:
+    post:
+      operationId: banUser
+      summary: ban user
+      description: 'ban user **Access restricted to users with role: (SUPER_ADMIN or ADMIN) only.**'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetUserRequest'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              example:
+                ok: true
+                message: user banned successfully
+                user:
+                  name: Odell
+                  email: john@email.co
+                  role: USER
+                  id: 695ccd4520812fad88b856a2
+                  createdAt: '2026-01-06T08:52:21.759Z'
+                  updatedAt: '2026-01-06T08:52:21.759Z'
+        '403':
+          description: Forbidden - ACCESS_DENIED
+          content:
+            application/json:
+              example:
+                ok: false
+                message: you cannot ban a user with equal or higher role
+                code: ROLE_NOT_ALLOWED
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              example:
+                ok: false
+                message: The user is currently banned.
+                email: john@mail.co
+  /category:
+    get:
+      security: []
+      operationId: getCategory
+      summary: get categories
+      description: get all categories
+      tags:
+        - Category
+      responses:
+        '200':
+          description: get categories successfully
+          content:
+            application/json:
+              example:
+                message: categories successfully found.
+                ok: true
+                categories:
+                  - title: back-end
+                    href: backend
+                    id: 69637c4dac866fb23cac7b2a
+                    createdAt: '2026-01-11T10:32:45.831Z'
+                    updatedAt: '2026-01-11T10:32:45.831Z'
+                  - title: dev-ops
+                    href: DevOps
+                    id: 69649bc787299514688401f0
+                    createdAt: '2026-01-12T06:59:19.602Z'
+                    updatedAt: '2026-01-12T06:59:19.602Z'
+                  - title: front-end
+                    href: frontend
+                    id: 696a26be986aade549450346
+                    createdAt: '2026-01-16T11:53:34.241Z'
+                    updatedAt: '2026-01-16T11:53:34.241Z'
+    post:
+      operationId: createCategory
+      summary: create categories
+      description: 'create new a category **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategory'
+      responses:
+        '201':
+          description: category successfully created.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Successfully created
+                category:
+                  id: 6973776e5b217ce28616c176
+                  createdAt: '2026-01-23T13:28:14.013Z'
+                  updatedAt: '2026-01-23T13:28:14.013Z'
+                  title: node js expert
+                  href: node-js
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '403':
+          description: Forbidden - error for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+        '409':
+          description: Conflict - already exist
+          content:
+            application/json:
+              example:
+                ok: false
+                message: 'Category Already exist: (href and title)'
+                category:
+                  title: back-end
+                  href: backend
+                  id: 69637c4dac866fb23cac7b2a
+                  createdAt: '2026-01-11T10:32:45.831Z'
+                  updatedAt: '2026-01-11T10:32:45.831Z'
+  /category/{id}:
+    put:
+      operationId: editOneCategory
+      summary: edit category
+      description: 'edit one category **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditCategory'
+      responses:
+        '200':
+          description: edit category successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Successfully updated category
+                category:
+                  href: network-ex
+                  title: network expert
+                  id: 696a26be986aade549450346
+                  createdAt: '2026-01-16T11:53:34.241Z'
+                  updatedAt: '2026-01-24T14:52:35.009Z'
+        '400':
+          description: Bad Request - invalid id
+          content:
+            application/json:
+              example:
+                ok: false
+                message: category ID is invalid.
+                code: CATEGORY_ID_OBJECT_INVALID
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '403':
+          description: Forbidden - error for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Category not found.
+        '409':
+          description: Conflict - new data must be different with this category data
+          content:
+            application/json:
+              example:
+                ok: false
+                code: CONFLICT_DATA
+                message: new data must be different with this category data
+                category:
+                  href: node-js
+                  title: node js expert
+                  id: 6973776e5b217ce28616c176
+                  createdAt: '2026-01-23T13:28:14.013Z'
+                  updatedAt: '2026-01-23T13:28:14.013Z'
+    delete:
+      operationId: deleteOneCategory
+      summary: delete category
+      description: 'delete one category **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Category deleted successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Category deleted successfully.
+                category:
+                  href: node-js
+                  title: node js expert
+                  id: 6973776e5b217ce28616c176
+                  createdAt: '2026-01-23T13:28:14.013Z'
+                  updatedAt: '2026-01-23T13:28:14.013Z'
+        '400':
+          description: Bad Request - invalid id
+          content:
+            application/json:
+              example:
+                ok: false
+                message: category ID is invalid.
+                code: CATEGORY_ID_OBJECT_INVALID
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '403':
+          description: Forbidden - error for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Category not found.
+  /category/{href}:
+    get:
+      operationId: getCoursesWithCategory
+      summary: get courses with category
+      description: get all courses with one category.
+      tags:
+        - Category
+      parameters:
+        - name: href
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get all courses with one category successfully.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: courses get successfully in devops category.
+                courses:
+                  - id: 696a84d2cc79aca5ef110344
+                    createdAt: '2026-01-16T18:34:58.786Z'
+                    updatedAt: '2026-01-16T18:34:58.786Z'
+                    title: nest.js Expert Course
+                    description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel, dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                    price: 800000
+                    cover: 1768588498783_27.jpg
+                    support: telegram and site
+                    href: nest-ex
+                    discount: 4
+                    status: COMPLETED
+                    teacher:
+                      id: 695d0babedf79cffd1f83999
+                      name: Margarett
+                      email: liam_quitzon33@gmail.com
+                      role: USER
+                      createdAt: '2026-01-06T13:18:35.169Z'
+                      updatedAt: '2026-01-06T13:18:35.169Z'
+                    category:
+                      id: 69649bc787299514688401f0
+                      title: dev-ops
+                      href: devops
+                      createdAt: '2026-01-12T06:59:19.602Z'
+                      updatedAt: '2026-01-12T06:59:19.602Z'
+                  - id: 696a89a5f3f2bc5a2b4b9c6f
+                    createdAt: '2026-01-16T18:55:33.187Z'
+                    updatedAt: '2026-01-16T18:55:33.187Z'
+                    title: express.js Expert Course
+                    description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel, dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                    price: 800000
+                    cover: 1768589733181_4.png
+                    support: telegram and site
+                    href: express-ex
+                    discount: 4
+                    status: COMPLETED
+                    teacher:
+                      id: 695d0babedf79cffd1f83999
+                      name: Margarett
+                      email: liam_quitzon33@gmail.com
+                      role: USER
+                      createdAt: '2026-01-06T13:18:35.169Z'
+                      updatedAt: '2026-01-06T13:18:35.169Z'
+                    category:
+                      id: 69649bc787299514688401f0
+                      title: dev-ops
+                      href: devops
+                      createdAt: '2026-01-12T06:59:19.602Z'
+                      updatedAt: '2026-01-12T06:59:19.602Z'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Category not found.
+  /course:
+    get:
+      security: []
+      operationId: getCourse
+      summary: get courses
+      description: get all courses
+      tags:
+        - Course
+      responses:
+        '200':
+          description: get courses successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: all courses successfully found.
+                courses:
+                  - title: Linux Expert Course
+                    description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                    price: 1000000
+                    cover: 1768564957042_79.png
+                    support: telegram and site
+                    href: linux-ex
+                    discount: 10
+                    teacher:
+                      name: Cecilia
+                      email: garrick_ebert51@yahoo.com
+                      role: ADMIN
+                      id: 695d0baeedf79cffd1f839ad
+                      createdAt: '2026-01-06T13:18:38.576Z'
+                      updatedAt: '2026-01-07T12:18:22.832Z'
+                    category:
+                      title: back-end
+                      href: backend
+                      id: 69637c4dac866fb23cac7b2a
+                      createdAt: '2026-01-11T10:32:45.831Z'
+                      updatedAt: '2026-01-11T10:32:45.831Z'
+                    status: IN_PROGRESS
+                    id: 696a28dd3791130b18302457
+                    createdAt: '2026-01-16T12:02:37.054Z'
+                    updatedAt: '2026-01-16T12:02:37.054Z'
+                  - title: nest.js Expert Course
+                    description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                    price: 800000
+                    cover: 1768588498783_27.jpg
+                    support: telegram and site
+                    href: nest-ex
+                    discount: 4
+                    teacher:
+                      name: Margarett
+                      email: liam_quitzon33@gmail.com
+                      role: USER
+                      id: 695d0babedf79cffd1f83999
+                      createdAt: '2026-01-06T13:18:35.169Z'
+                      updatedAt: '2026-01-06T13:18:35.169Z'
+                    category:
+                      title: dev-ops
+                      href: devops
+                      id: 69649bc787299514688401f0
+                      createdAt: '2026-01-12T06:59:19.602Z'
+                      updatedAt: '2026-01-12T06:59:19.602Z'
+                    status: COMPLETED
+                    id: 696a84d2cc79aca5ef110344
+                    createdAt: '2026-01-16T18:34:58.786Z'
+                    updatedAt: '2026-01-16T18:34:58.786Z'
+    post:
+      operationId: createCourse
+      summary: create courses
+      description: 'create new a course **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Course
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateCourse'
+      responses:
+        '201':
+          description: course successfully created.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Course successfully created
+                course:
+                  id: 6976403ed5a8d88d46496593
+                  createdAt: '2026-01-25T16:09:34.837Z'
+                  updatedAt: '2026-01-25T16:09:34.837Z'
+                  title: ai expert
+                  href: ai
+                  cover: 1769357374704_24.png
+                  price: 0
+                  discount: 0
+                  status: COMPLETED
+                  support: telegram
+                  description: Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed vitae justo vel lorem facilisis placerat. Curabitur euismod nunc at sapien fermentum vel tincidunt urna ultricies.
+                  category:
+                    id: 696a26be986aade549450346
+                    createdAt: '2026-01-16T11:53:34.241Z'
+                    updatedAt: '2026-01-24T14:52:35.009Z'
+                    title: network expert
+                    href: network-ex
+                  teacher:
+                    id: 695d0baeedf79cffd1f839ad
+                    createdAt: '2026-01-06T13:18:38.576Z'
+                    updatedAt: '2026-01-07T12:18:22.832Z'
+                    name: Cecilia
+                    email: garrick_ebert51@yahoo.com
+                    role: ADMIN
+        '400':
+          description: Bad Request - invalid body
+          content:
+            application/json:
+              example:
+                ok: false
+                message: body is invalid
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '403':
+          description: Forbidden - error for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+        '409':
+          description: course already exist
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course already exists
+                code: COURSE_EXIST
+                course:
+                  id: 6976403ed5a8d88d46496593
+                  createdAt: '2026-01-25T16:09:34.837Z'
+                  updatedAt: '2026-01-25T16:09:34.837Z'
+                  title: ai expert
+                  href: ai
+                  cover: 1769357374704_24.png
+                  price: 0
+                  discount: 0
+                  status: COMPLETED
+                  support: telegram
+                  description: Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed vitae justo vel lorem facilisis placerat. Curabitur euismod nunc at sapien fermentum vel tincidunt urna ultricies.
+                  category:
+                    id: 696a26be986aade549450346
+                    createdAt: '2026-01-16T11:53:34.241Z'
+                    updatedAt: '2026-01-24T14:52:35.009Z'
+                    title: network expert
+                    href: network-ex
+                  teacher:
+                    id: 695d0baeedf79cffd1f839ad
+                    createdAt: '2026-01-06T13:18:38.576Z'
+                    updatedAt: '2026-01-07T12:18:22.832Z'
+                    name: Cecilia
+                    email: garrick_ebert51@yahoo.com
+                    role: ADMIN
+  /course/{courseHref}:
+    get:
+      security: []
+      operationId: getOneCourse
+      summary: get a course
+      description: get one course
+      tags:
+        - Course
+      parameters:
+        - name: courseHref
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get course successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: course successfully found.
+                course:
+                  id: 6976403ed5a8d88d46496593
+                  createdAt: '2026-01-25T16:09:34.837Z'
+                  updatedAt: '2026-01-25T16:09:34.837Z'
+                  title: ai expert
+                  href: ai
+                  cover: 1769357374704_24.png
+                  price: 0
+                  discount: 0
+                  status: COMPLETED
+                  support: telegram
+                  description: Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed vitae justo vel lorem facilisis placerat. Curabitur euismod nunc at sapien fermentum vel tincidunt urna ultricies.
+                  category:
+                    id: 696a26be986aade549450346
+                    createdAt: '2026-01-16T11:53:34.241Z'
+                    updatedAt: '2026-01-24T14:52:35.009Z'
+                    title: network expert
+                    href: network-ex
+                  teacher:
+                    id: 695d0baeedf79cffd1f839ad
+                    createdAt: '2026-01-06T13:18:38.576Z'
+                    updatedAt: '2026-01-07T12:18:22.832Z'
+                    name: Cecilia
+                    email: garrick_ebert51@yahoo.com
+                    role: ADMIN
+        '404':
+          description: course not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course not found.
+                code: COURSE_NOT_FOUND
+  /course/{id}:
+    delete:
+      operationId: oneCourse
+      summary: delete course
+      description: 'delete one course **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Course
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: delete course successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: course successfully deleted
+                course:
+                  id: 6976403ed5a8d88d46496593
+                  createdAt: '2026-01-25T16:09:34.837Z'
+                  updatedAt: '2026-01-25T16:09:34.837Z'
+                  title: ai expert
+                  href: ai
+                  cover: 1769357374704_24.png
+                  price: 0
+                  discount: 0
+                  status: COMPLETED
+                  support: telegram
+                  description: Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed vitae justo vel lorem facilisis placerat. Curabitur euismod nunc at sapien fermentum vel tincidunt urna ultricies.
+                  category:
+                    id: 696a26be986aade549450346
+                    createdAt: '2026-01-16T11:53:34.241Z'
+                    updatedAt: '2026-01-24T14:52:35.009Z'
+                    title: network expert
+                    href: network-ex
+                  teacher:
+                    id: 695d0baeedf79cffd1f839ad
+                    createdAt: '2026-01-06T13:18:38.576Z'
+                    updatedAt: '2026-01-07T12:18:22.832Z'
+                    name: Cecilia
+                    email: garrick_ebert51@yahoo.com
+                    role: ADMIN
+        '400':
+          description: Bad Request - invalid id
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course ID is invalid.
+                code: COURSE_ID_OBJECT_INVALID
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '403':
+          description: Forbidden - error for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+        '404':
+          description: course not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course not found.
+                code: COURSE_NOT_FOUND
+  /course/{id}/lesson:
+    post:
+      operationId: createLesson
+      summary: create lesson
+      description: 'create new a lesson in a course **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLesson'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: lesson successfully created
+          content:
+            application/json:
+              example:
+                message: lesson successfully created
+                ok: true
+                lesson:
+                  id: 6978e02bf8bd444db971ea7b
+                  createdAt: '2026-01-27T15:56:27.060Z'
+                  updatedAt: '2026-01-27T15:56:27.060Z'
+                  title: Linux info
+                  free: true
+                  time: '10:20'
+                  video: linux_info.mp4
+                  course:
+                    id: 696a28dd3791130b18302457
+                    createdAt: '2026-01-16T12:02:37.054Z'
+                    updatedAt: '2026-01-16T12:02:37.054Z'
+                    title: linux Expert Course
+                    description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                    price: 1000000
+                    cover: 1768564957042_79.png
+                    support: telegram and site
+                    href: linux-ex
+                    discount: 10
+                    teacher:
+                      id: 695d0baeedf79cffd1f839ad
+                      createdAt: '2026-01-06T13:18:38.576Z'
+                      updatedAt: '2026-01-07T12:18:22.832Z'
+                      name: Cecilia
+                      email: garrick_ebert51@yahoo.com
+                      role: ADMIN
+                    category:
+                      id: 69637c4dac866fb23cac7b2a
+                      createdAt: '2026-01-11T10:32:45.831Z'
+                      updatedAt: '2026-01-11T10:32:45.831Z'
+                      title: back-end
+                      href: backend
+                      status: IN_PROGRESS
+        '400':
+          description: Bad Request - invalid id
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course ID is invalid.
+                code: COURSE_ID_OBJECT_INVALID
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '403':
+          description: Forbidden - error for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+        '404':
+          description: course not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course not found.
+                code: COURSE_NOT_FOUND
+        '409':
+          description: lesson already exist
+          content:
+            application/json:
+              example:
+                ok: false
+                message: lesson already exist
+                code: LESSON_EXIST
+                lesson:
+                  id: 6978e02bf8bd444db971ea7b
+                  createdAt: '2026-01-27T15:56:27.060Z'
+                  updatedAt: '2026-01-27T15:56:27.060Z'
+                  title: Linux info
+                  free: true
+                  time: '10:20'
+                  video: linux_info.mp4
+                  course:
+                    id: 696a28dd3791130b18302457
+                    createdAt: '2026-01-16T12:02:37.054Z'
+                    updatedAt: '2026-01-16T12:02:37.054Z'
+                    title: linux Expert Course
+                    description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                    price: 1000000
+                    cover: 1768564957042_79.png
+                    support: telegram and site
+                    href: linux-ex
+                    discount: 10
+                    teacher:
+                      id: 695d0baeedf79cffd1f839ad
+                      createdAt: '2026-01-06T13:18:38.576Z'
+                      updatedAt: '2026-01-07T12:18:22.832Z'
+                      name: Cecilia
+                      email: garrick_ebert51@yahoo.com
+                      role: ADMIN
+                    category:
+                      id: 69637c4dac866fb23cac7b2a
+                      createdAt: '2026-01-11T10:32:45.831Z'
+                      updatedAt: '2026-01-11T10:32:45.831Z'
+                      status: IN_PROGRESS
+                      title: back-end
+                      href: backend
+  /course/{courseHref}/lesson:
+    get:
+      security: []
+      operationId: oneLessonWithCourseHref
+      summary: get lesson
+      description: get all lesson from a course
+      tags:
+        - Course
+      parameters:
+        - name: courseHref
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: lessons successfully found
+          content:
+            application/json:
+              example:
+                ok: true
+                message: lessons successfully found
+                lesson:
+                  - title: nest info
+                    id: 696a8518cc79aca5ef110350
+                    createdAt: '2026-01-16T18:36:08.742Z'
+                    updatedAt: '2026-01-16T18:36:08.742Z'
+                    free: true
+                    time: '20:21'
+                    video: next-info.mp4
+                    course:
+                      status: COMPLETED
+                      id: 696a84d2cc79aca5ef110344
+                      createdAt: '2026-01-16T18:34:58.786Z'
+                      updatedAt: '2026-01-16T18:34:58.786Z'
+                      title: nest.js Expert Course
+                      description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                      price: 800000
+                      cover: 1768588498783_27.jpg
+                      support: telegram and site
+                      href: nest-ex
+                      discount: 4
+                      teacher:
+                        id: 695d0babedf79cffd1f83999
+                        createdAt: '2026-01-06T13:18:35.169Z'
+                        updatedAt: '2026-01-06T13:18:35.169Z'
+                        name: Margarett
+                        email: liam_quitzon33@gmail.com
+                        role: USER
+                      category:
+                        id: 69649bc787299514688401f0
+                        createdAt: '2026-01-12T06:59:19.602Z'
+                        updatedAt: '2026-01-12T06:59:19.602Z'
+                        title: dev-ops
+                        href: devops
+                  - title: nest install
+                    id: 696bcc02fa633d8f8b7f118b
+                    createdAt: '2026-01-17T17:50:58.705Z'
+                    updatedAt: '2026-01-17T17:50:58.705Z'
+                    free: true
+                    time: '15:02'
+                    video: next-install.mp4
+                    course:
+                      id: 696a84d2cc79aca5ef110344
+                      status: COMPLETED
+                      createdAt: '2026-01-16T18:34:58.786Z'
+                      updatedAt: '2026-01-16T18:34:58.786Z'
+                      title: nest.js Expert Course
+                      description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                      price: 800000
+                      cover: 1768588498783_27.jpg
+                      support: telegram and site
+                      href: nest-ex
+                      discount: 4
+                      teacher:
+                        name: Margarett
+                        email: liam_quitzon33@gmail.com
+                        role: USER
+                        id: 695d0babedf79cffd1f83999
+                        createdAt: '2026-01-06T13:18:35.169Z'
+                        updatedAt: '2026-01-06T13:18:35.169Z'
+                      category:
+                        title: dev-ops
+                        href: devops
+                        id: 69649bc787299514688401f0
+                        createdAt: '2026-01-12T06:59:19.602Z'
+                        updatedAt: '2026-01-12T06:59:19.602Z'
+        '404':
+          description: course not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course not found.
+                code: NOT_EXIST_COURSE
+  /course/{id}/register:
+    post:
+      operationId: registerInCourses
+      summary: register in courses
+      description: register in course with course id
+      tags:
+        - Course
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: user registered successfully.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: Course Register Success
+                user:
+                  id: 696f96416bd22d439cf79d3f
+                  role: USER
+                course:
+                  id: 696a28dd3791130b18302457
+                  createdAt: '2026-01-16T12:02:37.054Z'
+                  updatedAt: '2026-01-16T12:02:37.054Z'
+                  title: linux Expert Course
+                  description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                  price: 1000000
+                  cover: 1768564957042_79.png
+                  support: telegram and site
+                  href: linux-ex
+                  discount: 10
+                  status: IN_PROGRESS
+                  teacher:
+                    id: 695d0baeedf79cffd1f839ad
+                    createdAt: '2026-01-06T13:18:38.576Z'
+                    updatedAt: '2026-01-07T12:18:22.832Z'
+                    name: Cecilia
+                    email: garrick_ebert51@yahoo.com
+                    role: ADMIN
+                  category:
+                    id: 69637c4dac866fb23cac7b2a
+                    createdAt: '2026-01-11T10:32:45.831Z'
+                    updatedAt: '2026-01-11T10:32:45.831Z'
+                    title: back-end
+                    href: backend
+                registerData:
+                  id: 697e44857988ef21440861f1
+                  createdAt: '2026-01-31T18:05:57.185Z'
+                  updatedAt: '2026-01-31T18:05:57.185Z'
+        '400':
+          description: Bad Request - invalid id
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course ID is invalid.
+                code: COURSE_ID_OBJECT_INVALID
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '404':
+          description: course not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course not found.
+                code: COURSE_NOT_FOUND
+        '409':
+          description: Conflict - user already register on this course
+          content:
+            application/json:
+              example:
+                ok: false
+                message: user already registered in this course
+                code: CONFLICT
+  /lesson/{id}:
+    get:
+      security: []
+      operationId: getOneLesson
+      summary: get lesson
+      description: get one lesson with id
+      tags:
+        - Lesson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get lesson successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: lesson successfully found
+                lesson:
+                  id: 6978e02bf8bd444db971ea7b
+                  createdAt: '2026-01-27T15:56:27.060Z'
+                  updatedAt: '2026-01-27T15:56:27.060Z'
+                  title: Linux info
+                  free: true
+                  time: '10:20'
+                  video: linux_info.mp4
+                  course:
+                    id: 696a28dd3791130b18302457
+                    createdAt: '2026-01-16T12:02:37.054Z'
+                    updatedAt: '2026-01-16T12:02:37.054Z'
+                    title: linux Expert Course
+                    description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                    price: 1000000
+                    cover: 1768564957042_79.png
+                    support: telegram and site
+                    href: linux-ex
+                    discount: 10
+                    teacher:
+                      id: 695d0baeedf79cffd1f839ad
+                      createdAt: '2026-01-06T13:18:38.576Z'
+                      updatedAt: '2026-01-07T12:18:22.832Z'
+                      name: Cecilia
+                      email: garrick_ebert51@yahoo.com
+                      role: ADMIN
+                    category:
+                      id: 69637c4dac866fb23cac7b2a
+                      createdAt: '2026-01-11T10:32:45.831Z'
+                      updatedAt: '2026-01-11T10:32:45.831Z'
+                      status: IN_PROGRESS
+                      title: back-end
+                      href: backend
+        '400':
+          description: invalid id
+          content:
+            application/json:
+              example:
+                ok: false
+                message: ID is invalid.
+                code: ID_OBJECT_INVALID
+        '404':
+          description: lesson not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: lesson not found
+                code: NOT_EXIST_LESSON
+    delete:
+      operationId: deleteOneLesson
+      summary: delete lesson
+      description: 'delete one lesson with id **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**'
+      tags:
+        - Lesson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: lesson successfully deleted
+          content:
+            application/json:
+              example:
+                ok: true
+                message: lesson successfully deleted
+        '400':
+          description: Bad Request - invalid id
+          content:
+            application/json:
+              example:
+                ok: false
+                message: lesson ID is invalid.
+                code: LESSON_ID_OBJECT_INVALID
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '403':
+          description: Forbidden - error for role
+          content:
+            application/json:
+              example:
+                ok: false
+                code: ACCESS_DENIED
+                message: Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher).
+        '404':
+          description: lesson not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: lesson not found.
+                code: LESSON_NOT_FOUND
+  /comment:
+    post:
+      operationId: createComment
+      summary: create new comment
+      description: Create a new comment in db collection(comments) **Need to login**
+      tags:
+        - Comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCommentSchema'
+      responses:
+        '201':
+          description: comment created successfully
+          content:
+            application/json:
+              example:
+                ok: true
+                message: comment created successfully
+                comment:
+                  id: 697c6dde97df7b727d17c83f
+                  createdAt: '2026-01-30T08:37:50.269Z'
+                  updatedAt: '2026-01-30T08:37:50.269Z'
+                  body: yes, This is a good course!
+                  isConfirm: false
+                  score: 4
+                  isReply: false
+                  writer:
+                    id: 696f96416bd22d439cf79d3f
+                    name: john
+                    email: john@mail.co
+                    role: USER
+                    createdAt: '2026-01-20T14:50:41.946Z'
+                    updatedAt: '2026-01-20T14:50:41.946Z'
+                  course:
+                    id: 696a28dd3791130b18302457
+                    title: linux Expert Course
+                    description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel, dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!
+                    price: 1000000
+                    cover: 1768564957042_79.png
+                    support: telegram and site
+                    href: linux-ex
+                    discount: 10
+                    status: IN_PROGRESS
+                    createdAt: '2026-01-16T12:02:37.054Z'
+                    updatedAt: '2026-01-16T12:02:37.054Z'
+                    teacher:
+                      id: 695d0baeedf79cffd1f839ad
+                      name: Cecilia
+                      email: garrick_ebert51@yahoo.com
+                      role: ADMIN
+                      createdAt: '2026-01-06T13:18:38.576Z'
+                      updatedAt: '2026-01-07T12:18:22.832Z'
+                    category:
+                      id: 69637c4dac866fb23cac7b2a
+                      title: back-end
+                      href: backend
+                      createdAt: '2026-01-11T10:32:45.831Z'
+                      updatedAt: '2026-01-11T10:32:45.831Z'
+        '401':
+          description: Unauthorized - missed access token
+          content:
+            application/json:
+              example:
+                ok: false
+                message: Access token is required
+                code: ACCESS_TOKEN_MISSING
+        '404':
+          description: course not found
+          content:
+            application/json:
+              example:
+                ok: false
+                message: course not found.
+                code: COURSE_NOT_FOUND
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token
+  schemas:
+    SignupRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 20
+          description: name must be at least 3 characters and less than 20 characters
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6
+          pattern: ^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$
+          description: password must be at least 6 characters and contain at least one letter and one number
+      required:
+        - email
+        - password
+      example:
+        name: john
+        email: john@mail.co
+        password: 123qwe
+    LoginRequest:
+      type: object
+      description: User login request payload
+      properties:
+        remember:
+          type: boolean
+          description: Keep user logged in (remember me)
+        email:
+          type: string
+          format: email
+          description: User email address
+        password:
+          type: string
+          format: password
+          minLength: 6
+          pattern: ^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$
+          description: Password must contain at least one letter and one number
+      required:
+        - email
+        - password
+      example:
+        remember: true
+        email: john@mail.co
+        password: 123qwe
+    GetUserRequest:
+      type: object
+      description: Get one User
+      properties:
+        id:
+          type: string
+          format: ObjectId
+          description: User MongoDB ObjectId
+        email:
+          type: string
+          format: email
+          description: User email address
+      minProperties: 1
+      oneOf:
+        - required:
+            - id
+        - required:
+            - email
+      example:
+        id: 695d58f71e66bde9eb688a20
+        email: john@mail.co
+    UpdateUserRequest:
+      type: object
+      description: Update user details.
+      properties:
+        name:
+          type: string
+          minLength: 3
+        password:
+          type: string
+          minLength: 6
+          pattern: ^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$
+          description: required, at least 6 chars, must contain at least one letter and one number
+      minProperties: 1
+      anyOf:
+        - required:
+            - name
+        - required:
+            - password
+      example:
+        name: Eliot
+        password: qwe123@h#4
+    ChangeUserRole:
+      type: object
+      description: change user role
+      properties:
+        role:
+          type: string
+          enum:
+            - ADMIN
+            - USER
+          description: 'The role of the user. Must be one of: ''ADMIN'' or ''USER''.'
+      required:
+        - role
+      example:
+        role: ADMIN
+    CreateCategory:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 2
+          maxLength: 20
+        href:
+          type: string
+          minLength: 2
+          maxLength: 20
+          pattern: ^[a-zA-Z0-9-]+$
+      required:
+        - title
+        - href
+      example:
+        title: node js expert
+        href: node-js
+    EditCategory:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 2
+          maxLength: 20
+        href:
+          type: string
+          minLength: 2
+          maxLength: 20
+          pattern: ^[a-zA-Z0-9-]+$
+      required:
+        - title
+        - href
+      example:
+        title: node js expert
+        href: node-js
+      anyOf:
+        - required:
+            - title
+        - required:
+            - href
+    CreateCourse:
+      type: object
+      properties:
+        courseData:
+          type: object
+          description: JSON payload - course data
+          properties:
+            title:
+              type: string
+              minLength: 2
+            description:
+              type: string
+              minLength: 10
+            price:
+              type: number
+              minimum: 0
+            discount:
+              type: number
+              minimum: 0
+            support:
+              type: string
+            href:
+              type: string
+              pattern: ^[a-zA-Z0-9_-]+$
+            teacher:
+              type: string
+              description: MongoDB ObjectId
+            category:
+              type: string
+              description: MongoDB ObjectId
+            status:
+              type: string
+              enum:
+                - COMPLETED
+                - PRE_SALE
+                - IN_PROGRESS
+          required:
+            - title
+            - description
+            - price
+            - discount
+            - support
+            - href
+            - teacher
+            - category
+            - status
+        cover:
+          type: string
+          format: binary
+          description: course cover
+      required:
+        - courseData
+        - cover
+    CreateLesson:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 3
+        free:
+          type: boolean
+          default: false
+        time:
+          type: string
+          minLength: 1
+        video:
+          type: string
+          minLength: 1
+      required:
+        - title
+        - free
+        - time
+        - video
+      example:
+        title: Linux info
+        free: true
+        time: '10:20'
+        video: linux_info.mp4
+    CreateCommentSchema:
+      type: object
+      properties:
+        body:
+          type: string
+          minLength: 3
+          description: body must be at least 3 characters
+        score:
+          type: number
+          minimum: 0
+          maximum: 5
+          default: 5
+        course:
+          type: string
+          pattern: ^[0-9a-fA-F]{24}$
+          description: course must be a valid MongoDB ObjectId
+        isReply:
+          type: boolean
+          default: false
+        parentComment:
+          type: string
+          pattern: ^[0-9a-fA-F]{24}$
+          description: parentComment must be a valid MongoDB ObjectId for a comment
+      required:
+        - body
+        - course
+      example:
+        course: 64d4f5e3b4c2d85a1f7a2c3e
+        body: yes, This is a good course!
+        score: 4
+        isReply: true
+        parentComment: 64d4f5e3b4c2d85a1f7a2c3a

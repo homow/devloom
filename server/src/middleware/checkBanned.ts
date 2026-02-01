@@ -1,20 +1,35 @@
-import {checkBannedUser} from "@src/lib/index.js";
-import type {NextFunction, Request, Response} from "express";
+import type {NextFunction, Response} from "express";
+import type {AuthRequest} from "@src/types/index.js";
+import {checkBannedUser, checkIgnoredRoute, checkUserDB, type IgnoredRoutesKeys} from "@src/lib/index.js";
 
-export default function checkBanned(message?: string) {
+export function checkBanned(
+    ignoreRoutes: IgnoredRoutesKeys[] = [],
+    message?: string
+) {
     return async (
-        req: Request,
+        req: AuthRequest,
         res: Response,
         next: NextFunction
     ) => {
-        const bannedUser = await checkBannedUser(
-            req.body.email,
-            message
-        );
+        const isIgnored: boolean = checkIgnoredRoute({path: req.originalUrl, method: req.method, ignoreRoutes});
 
-        if (bannedUser) return res
-            .status(bannedUser.status)
-            .json(bannedUser.data);
+        if (isIgnored) {
+            return next();
+        }
+
+        const id = req.userPayload?.id;
+        const user = await checkUserDB({id});
+
+        if (!user) {
+            return res.status(404).json({
+                ok: false,
+                message: "User not found",
+                code: "USER_NOT_FOUND"
+            });
+        }
+
+        const bannedUser = await checkBannedUser(user.email, message);
+        if (bannedUser) return res.status(bannedUser.status).json(bannedUser.data);
 
         return next();
     };

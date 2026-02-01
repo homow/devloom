@@ -118,7 +118,19 @@ Frontend runs on: **http://localhost:5173**
 
 # 👥 Contributors
 
-| Name         | GitHub                       |
-|--------------|------------------------------|
-| **Homayoun** | https://github.com/homow     |
-| **Bita**     | https://github.com/bitazarei |
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/homow">
+        <img src="https://github.com/homow.png" width="80" height="80" style="border-radius:50%;" alt="Homayoun"/><br/>
+        <sub><b>Homayoun</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/bitazarei">
+        <img src="https://github.com/bitazarei.png" width="80" height="80" style="border-radius:50%;" alt="Bita"/><br/>
+        <sub><b>Bita</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>

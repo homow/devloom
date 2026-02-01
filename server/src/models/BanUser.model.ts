@@ -5,21 +5,22 @@ export type BanUserDB = Omit<UserDB, "name" | "password" | "role"> & {
     reason: string;
 };
 
-export const BanUserModelShema: Schema<BanUserDB> = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true,
-        lowercase: true,
+export const BanUserModelShema: Schema<BanUserDB> = new mongoose.Schema(
+    {
+        email: {
+            type: String,
+            required: true,
+            lowercase: true,
+        },
+        reason: {
+            type: String,
+        }
     },
-    reason: {
-        type: String,
+    {
+        timestamps: true
     }
-}, {
-    timestamps: true
-});
+);
 
 BanUserModelShema.index({email: 1}, {unique: true});
 
-export const BanUserModel: Model<BanUserDB> =
-    mongoose.models.BanUser
-    || mongoose.model<BanUserDB>("BanUser", BanUserModelShema, "banned_users");
+export const BanUserModel: Model<BanUserDB> = mongoose.models.BanUser || mongoose.model<BanUserDB>("BanUser", BanUserModelShema, "banned_users");

@@ -1,13 +1,14 @@
 import z from "zod";
+import {UserRole} from "@src/types/index.js";
 import {checkZodObjectId} from "@src/lib/index.js";
 
-// <==== Signup Schema ===>
+// <=== Signup Schema ===>
 
 export const UserSchema = z.object({
     name: z
         .string()
         .min(3, {error: "name must be at least 3 characters"})
-        .max(10, {error: "name must be less than 10 characters"})
+        .max(20, {error: "name must be less than 20 characters"})
         .optional(),
     password: z
         .string()
@@ -36,7 +37,7 @@ export type InputLogin = z.infer<typeof LoginSchema>;
 
 export const BaseUserSchema = z.object({
     email: z.email().optional(),
-    id: checkZodObjectId().optional()
+    id: checkZodObjectId("user").optional()
 }).refine(
     data => data.email || data.id,
     {
@@ -46,3 +47,43 @@ export const BaseUserSchema = z.object({
 );
 
 export type BaseUserInput = z.infer<typeof BaseUserSchema>;
+
+// <=== ChangeRole Schema ===>
+
+export const ChangeRoleSchema = z.object({
+    role: z.enum([UserRole.ADMIN, UserRole.USER] as const),
+});
+
+export type ChangeRoleInput = z.infer<typeof ChangeRoleSchema>;
+
+// <=== UpdateUser Schema ===>
+
+export const UpdateUserSchema = z.object({
+    name: UserSchema.shape.name.optional(),
+    password: UserSchema.shape.password.optional()
+}).refine(
+    data => data.name || data.password,
+    {
+        error: "At least one of 'name' or 'password' must be provided",
+        path: ["name", "password"],
+    }
+).overwrite(data => {
+        return {
+            name: data.name?.trim(),
+            password: data.password,
+        };
+    }
+);
+
+export type UpdateUserInput = z.infer<typeof UpdateUserSchema>;
+
+// <=== refine ===>
+
+UserSchema.overwrite(data => {
+        return {
+            name: data.name?.trim(),
+            password: data.password,
+            email: data.email,
+        };
+    }
+);

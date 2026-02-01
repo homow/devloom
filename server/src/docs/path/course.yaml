@@ -1,0 +1,669 @@
+course:
+  # get all courses
+  get:
+    security: [ ]
+    operationId: "getCourse"
+    summary: "get courses"
+    description: "get all courses"
+    tags:
+      - "Course"
+    responses:
+      # success
+      200:
+        description: "get courses successfully"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "all courses successfully found."
+              courses:
+                - title: "Linux Expert Course"
+                  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                  price: 1000000
+                  cover: "1768564957042_79.png"
+                  support: "telegram and site"
+                  href: "linux-ex"
+                  discount: 10
+                  teacher:
+                    name: "Cecilia"
+                    email: "garrick_ebert51@yahoo.com"
+                    role: "ADMIN"
+                    id: "695d0baeedf79cffd1f839ad"
+                    createdAt: "2026-01-06T13:18:38.576Z"
+                    updatedAt: "2026-01-07T12:18:22.832Z"
+                  category:
+                    title: "back-end"
+                    href: "backend"
+                    id: "69637c4dac866fb23cac7b2a"
+                    createdAt: "2026-01-11T10:32:45.831Z"
+                    updatedAt: "2026-01-11T10:32:45.831Z"
+                  status: "IN_PROGRESS"
+                  id: "696a28dd3791130b18302457"
+                  createdAt: "2026-01-16T12:02:37.054Z"
+                  updatedAt: "2026-01-16T12:02:37.054Z"
+                - title: "nest.js Expert Course"
+                  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                  price: 800000
+                  cover: "1768588498783_27.jpg"
+                  support: "telegram and site"
+                  href: "nest-ex"
+                  discount: 4
+                  teacher:
+                    name: "Margarett"
+                    email: "liam_quitzon33@gmail.com"
+                    role: "USER"
+                    id: "695d0babedf79cffd1f83999"
+                    createdAt: "2026-01-06T13:18:35.169Z"
+                    updatedAt: "2026-01-06T13:18:35.169Z"
+                  category:
+                    title: "dev-ops"
+                    href: "devops"
+                    id: "69649bc787299514688401f0"
+                    createdAt: "2026-01-12T06:59:19.602Z"
+                    updatedAt: "2026-01-12T06:59:19.602Z"
+                  status: "COMPLETED"
+                  id: "696a84d2cc79aca5ef110344"
+                  createdAt: "2026-01-16T18:34:58.786Z"
+                  updatedAt: "2026-01-16T18:34:58.786Z"
+
+  # create one course with cover
+  post:
+    operationId: "createCourse"
+    summary: "create courses"
+    description: "create new a course **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Course"
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "../schema/course.yaml#/CreateCourse"
+    responses:
+      # success
+      201:
+        description: "course successfully created."
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "Course successfully created"
+              course:
+                id: "6976403ed5a8d88d46496593"
+                createdAt: "2026-01-25T16:09:34.837Z"
+                updatedAt: "2026-01-25T16:09:34.837Z"
+                title: "ai expert"
+                href: "ai"
+                cover: "1769357374704_24.png"
+                price: 0
+                discount: 0
+                status: "COMPLETED"
+                support: "telegram"
+                description: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed vitae justo vel lorem facilisis placerat. Curabitur euismod nunc at sapien fermentum vel tincidunt urna ultricies."
+                category:
+                  id: "696a26be986aade549450346"
+                  createdAt: "2026-01-16T11:53:34.241Z"
+                  updatedAt: "2026-01-24T14:52:35.009Z"
+                  title: "network expert"
+                  href: "network-ex"
+                teacher:
+                  id: "695d0baeedf79cffd1f839ad"
+                  createdAt: "2026-01-06T13:18:38.576Z"
+                  updatedAt: "2026-01-07T12:18:22.832Z"
+                  name: "Cecilia"
+                  email: "garrick_ebert51@yahoo.com"
+                  role: "ADMIN"
+
+      # invalid data
+      400:
+        description: "Bad Request - invalid body"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "body is invalid"
+
+      # missed accessToken
+      401:
+        description: "Unauthorized - missed access token"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Access token is required"
+              code: "ACCESS_TOKEN_MISSING"
+
+      # not allowed
+      403:
+        description: "Forbidden - error for role"
+        content:
+          application/json:
+            example:
+              ok: false
+              code: "ACCESS_DENIED"
+              message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
+
+      # Conflict
+      409:
+        description: "course already exist"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "course already exists"
+              code: "COURSE_EXIST"
+              course:
+                id: "6976403ed5a8d88d46496593"
+                createdAt: "2026-01-25T16:09:34.837Z"
+                updatedAt: "2026-01-25T16:09:34.837Z"
+                title: "ai expert"
+                href: "ai"
+                cover: "1769357374704_24.png"
+                price: 0
+                discount: 0
+                status: "COMPLETED"
+                support: "telegram"
+                description: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed vitae justo vel lorem facilisis placerat. Curabitur euismod nunc at sapien fermentum vel tincidunt urna ultricies."
+                category:
+                  id: "696a26be986aade549450346"
+                  createdAt: "2026-01-16T11:53:34.241Z"
+                  updatedAt: "2026-01-24T14:52:35.009Z"
+                  title: "network expert"
+                  href: "network-ex"
+                teacher:
+                  id: "695d0baeedf79cffd1f839ad"
+                  createdAt: "2026-01-06T13:18:38.576Z"
+                  updatedAt: "2026-01-07T12:18:22.832Z"
+                  name: "Cecilia"
+                  email: "garrick_ebert51@yahoo.com"
+                  role: "ADMIN"
+
+getOneCourse:
+  # get one courses
+  get:
+    security: [ ]
+    operationId: "getOneCourse"
+    summary: "get a course"
+    description: "get one course"
+    tags:
+      - "Course"
+    parameters:
+      - name: courseHref
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "get course successfully"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "course successfully found."
+              course:
+                id: "6976403ed5a8d88d46496593"
+                createdAt: "2026-01-25T16:09:34.837Z"
+                updatedAt: "2026-01-25T16:09:34.837Z"
+                title: "ai expert"
+                href: "ai"
+                cover: "1769357374704_24.png"
+                price: 0
+                discount: 0
+                status: "COMPLETED"
+                support: "telegram"
+                description: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed vitae justo vel lorem facilisis placerat. Curabitur euismod nunc at sapien fermentum vel tincidunt urna ultricies."
+                category:
+                  id: "696a26be986aade549450346"
+                  createdAt: "2026-01-16T11:53:34.241Z"
+                  updatedAt: "2026-01-24T14:52:35.009Z"
+                  title: "network expert"
+                  href: "network-ex"
+                teacher:
+                  id: "695d0baeedf79cffd1f839ad"
+                  createdAt: "2026-01-06T13:18:38.576Z"
+                  updatedAt: "2026-01-07T12:18:22.832Z"
+                  name: "Cecilia"
+                  email: "garrick_ebert51@yahoo.com"
+                  role: "ADMIN"
+
+      # course not found
+      404:
+        description: "course not found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "course not found."
+              code: "COURSE_NOT_FOUND"
+
+oneCourse:
+  # delete one course
+  delete:
+    operationId: "oneCourse"
+    summary: "delete course"
+    description: "delete one course **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Course"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "delete course successfully"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "course successfully deleted"
+              course:
+                id: "6976403ed5a8d88d46496593"
+                createdAt: "2026-01-25T16:09:34.837Z"
+                updatedAt: "2026-01-25T16:09:34.837Z"
+                title: "ai expert"
+                href: "ai"
+                cover: "1769357374704_24.png"
+                price: 0
+                discount: 0
+                status: "COMPLETED"
+                support: "telegram"
+                description: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed vitae justo vel lorem facilisis placerat. Curabitur euismod nunc at sapien fermentum vel tincidunt urna ultricies."
+                category:
+                  id: "696a26be986aade549450346"
+                  createdAt: "2026-01-16T11:53:34.241Z"
+                  updatedAt: "2026-01-24T14:52:35.009Z"
+                  title: "network expert"
+                  href: "network-ex"
+                teacher:
+                  id: "695d0baeedf79cffd1f839ad"
+                  createdAt: "2026-01-06T13:18:38.576Z"
+                  updatedAt: "2026-01-07T12:18:22.832Z"
+                  name: "Cecilia"
+                  email: "garrick_ebert51@yahoo.com"
+                  role: "ADMIN"
+
+      # invalid id
+      400:
+        description: "Bad Request - invalid id"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "course ID is invalid."
+              code: "COURSE_ID_OBJECT_INVALID"
+
+      # missed accessToken
+      401:
+        description: "Unauthorized - missed access token"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Access token is required"
+              code: "ACCESS_TOKEN_MISSING"
+
+      # not allowed
+      403:
+        description: "Forbidden - error for role"
+        content:
+          application/json:
+            example:
+              ok: false
+              code: "ACCESS_DENIED"
+              message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
+
+      # course not found
+      404:
+        description: "course not found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "course not found."
+              code: "COURSE_NOT_FOUND"
+
+lesson:
+  post:
+    operationId: "createLesson"
+    summary: "create lesson"
+    description: "create new a lesson in a course **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Course"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/course.yaml#/CreateLesson"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      201:
+        description: "lesson successfully created"
+        content:
+          application/json:
+            example:
+              message: "lesson successfully created"
+              ok: true
+              lesson:
+                id: "6978e02bf8bd444db971ea7b"
+                createdAt: "2026-01-27T15:56:27.060Z"
+                updatedAt: "2026-01-27T15:56:27.060Z"
+                title: "Linux info"
+                free: true
+                time: "10:20"
+                video: "linux_info.mp4"
+                course:
+                  id: "696a28dd3791130b18302457"
+                  createdAt: "2026-01-16T12:02:37.054Z"
+                  updatedAt: "2026-01-16T12:02:37.054Z"
+                  title: "linux Expert Course"
+                  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                  price: 1000000
+                  cover: "1768564957042_79.png"
+                  support: "telegram and site"
+                  href: "linux-ex"
+                  discount: 10
+                  teacher:
+                    id: "695d0baeedf79cffd1f839ad"
+                    createdAt: "2026-01-06T13:18:38.576Z"
+                    updatedAt: "2026-01-07T12:18:22.832Z"
+                    name: "Cecilia"
+                    email: "garrick_ebert51@yahoo.com"
+                    role: "ADMIN"
+                  category:
+                    id: "69637c4dac866fb23cac7b2a"
+                    createdAt: "2026-01-11T10:32:45.831Z"
+                    updatedAt: "2026-01-11T10:32:45.831Z"
+                    title: "back-end"
+                    href: "backend"
+                    status: "IN_PROGRESS"
+
+      # invalid id
+      400:
+        description: "Bad Request - invalid id"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "course ID is invalid."
+              code: "COURSE_ID_OBJECT_INVALID"
+
+      # missed accessToken
+      401:
+        description: "Unauthorized - missed access token"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Access token is required"
+              code: "ACCESS_TOKEN_MISSING"
+
+      # not allowed
+      403:
+        description: "Forbidden - error for role"
+        content:
+          application/json:
+            example:
+              ok: false
+              code: "ACCESS_DENIED"
+              message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
+
+      # course not found
+      404:
+        description: "course not found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "course not found."
+              code: "COURSE_NOT_FOUND"
+
+      # Conflict
+      409:
+        description: "lesson already exist"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "lesson already exist"
+              code: 'LESSON_EXIST'
+              lesson:
+                id: "6978e02bf8bd444db971ea7b"
+                createdAt: "2026-01-27T15:56:27.060Z"
+                updatedAt: "2026-01-27T15:56:27.060Z"
+                title: "Linux info"
+                free: true
+                time: "10:20"
+                video: "linux_info.mp4"
+                course:
+                  id: "696a28dd3791130b18302457"
+                  createdAt: "2026-01-16T12:02:37.054Z"
+                  updatedAt: "2026-01-16T12:02:37.054Z"
+                  title: "linux Expert Course"
+                  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                  price: 1000000
+                  cover: "1768564957042_79.png"
+                  support: "telegram and site"
+                  href: "linux-ex"
+                  discount: 10
+                  teacher:
+                    id: "695d0baeedf79cffd1f839ad"
+                    createdAt: "2026-01-06T13:18:38.576Z"
+                    updatedAt: "2026-01-07T12:18:22.832Z"
+                    name: "Cecilia"
+                    email: "garrick_ebert51@yahoo.com"
+                    role: "ADMIN"
+                  category:
+                    id: "69637c4dac866fb23cac7b2a"
+                    createdAt: "2026-01-11T10:32:45.831Z"
+                    updatedAt: "2026-01-11T10:32:45.831Z"
+                    status: "IN_PROGRESS"
+                    title: "back-end"
+                    href: "backend"
+
+lessonsWithCourseHref:
+  get:
+    security: [ ]
+    operationId: "oneLessonWithCourseHref"
+    summary: "get lesson"
+    description: "get all lesson from a course"
+    tags:
+      - "Course"
+    parameters:
+      - name: courseHref
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "lessons successfully found"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "lessons successfully found"
+              lesson:
+                - title: "nest info"
+                  id: "696a8518cc79aca5ef110350"
+                  createdAt: "2026-01-16T18:36:08.742Z"
+                  updatedAt: "2026-01-16T18:36:08.742Z"
+                  free: true
+                  time: "20:21"
+                  video: "next-info.mp4"
+                  course:
+                    status: "COMPLETED"
+                    id: "696a84d2cc79aca5ef110344"
+                    createdAt: "2026-01-16T18:34:58.786Z"
+                    updatedAt: "2026-01-16T18:34:58.786Z"
+                    title: "nest.js Expert Course"
+                    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                    price: 800000
+                    cover: "1768588498783_27.jpg"
+                    support: "telegram and site"
+                    href: "nest-ex"
+                    discount: 4
+                    teacher:
+                      id: "695d0babedf79cffd1f83999"
+                      createdAt: "2026-01-06T13:18:35.169Z"
+                      updatedAt: "2026-01-06T13:18:35.169Z"
+                      name: "Margarett"
+                      email: "liam_quitzon33@gmail.com"
+                      role: "USER"
+                    category:
+                      id: "69649bc787299514688401f0"
+                      createdAt: "2026-01-12T06:59:19.602Z"
+                      updatedAt: "2026-01-12T06:59:19.602Z"
+                      title: "dev-ops"
+                      href: "devops"
+
+                - title: "nest install"
+                  id: "696bcc02fa633d8f8b7f118b"
+                  createdAt: "2026-01-17T17:50:58.705Z"
+                  updatedAt: "2026-01-17T17:50:58.705Z"
+                  free: true
+                  time: "15:02"
+                  video: "next-install.mp4"
+                  course:
+                    id: "696a84d2cc79aca5ef110344"
+                    status: "COMPLETED"
+                    createdAt: "2026-01-16T18:34:58.786Z"
+                    updatedAt: "2026-01-16T18:34:58.786Z"
+                    title: "nest.js Expert Course"
+                    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                    price: 800000
+                    cover: "1768588498783_27.jpg"
+                    support: "telegram and site"
+                    href: "nest-ex"
+                    discount: 4
+                    teacher:
+                      name: "Margarett"
+                      email: "liam_quitzon33@gmail.com"
+                      role: "USER"
+                      id: "695d0babedf79cffd1f83999"
+                      createdAt: "2026-01-06T13:18:35.169Z"
+                      updatedAt: "2026-01-06T13:18:35.169Z"
+                    category:
+                      title: "dev-ops"
+                      href: "devops"
+                      id: "69649bc787299514688401f0"
+                      createdAt: "2026-01-12T06:59:19.602Z"
+                      updatedAt: "2026-01-12T06:59:19.602Z"
+
+      # course not found
+      404:
+        description: "course not found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "course not found."
+              code: "NOT_EXIST_COURSE"
+
+# register in courses
+register:
+  post:
+    operationId: "registerInCourses"
+    summary: "register in courses"
+    description: "register in course with course id"
+    tags:
+      - "Course"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      201:
+        description: "user registered successfully."
+        content:
+          application/json:
+            example:
+                ok: true
+                message: "Course Register Success"
+                user:
+                  id: "696f96416bd22d439cf79d3f"
+                  role: "USER"
+                course:
+                  id: "696a28dd3791130b18302457"
+                  createdAt: "2026-01-16T12:02:37.054Z"
+                  updatedAt: "2026-01-16T12:02:37.054Z"
+                  title: "linux Expert Course"
+                  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                  price: 1000000
+                  cover: "1768564957042_79.png"
+                  support: "telegram and site"
+                  href: "linux-ex"
+                  discount: 10
+                  status: "IN_PROGRESS"
+                  teacher:
+                    id: "695d0baeedf79cffd1f839ad"
+                    createdAt: "2026-01-06T13:18:38.576Z"
+                    updatedAt: "2026-01-07T12:18:22.832Z"
+                    name: "Cecilia"
+                    email: "garrick_ebert51@yahoo.com"
+                    role: "ADMIN"
+                  category:
+                    id: "69637c4dac866fb23cac7b2a"
+                    createdAt: "2026-01-11T10:32:45.831Z"
+                    updatedAt: "2026-01-11T10:32:45.831Z"
+                    title: "back-end"
+                    href: "backend"
+                registerData:
+                  id: "697e44857988ef21440861f1"
+                  createdAt: "2026-01-31T18:05:57.185Z"
+                  updatedAt: "2026-01-31T18:05:57.185Z"
+
+      # invalid id
+      400:
+        description: "Bad Request - invalid id"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "course ID is invalid."
+              code: "COURSE_ID_OBJECT_INVALID"
+
+      # missed accessToken
+      401:
+        description: "Unauthorized - missed access token"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Access token is required"
+              code: "ACCESS_TOKEN_MISSING"
+
+      # course not found
+      404:
+        description: "course not found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "course not found."
+              code: "COURSE_NOT_FOUND"
+
+      # Conflict
+      409:
+        description: "Conflict - user already register on this course"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "user already registered in this course"
+              code: "CONFLICT"

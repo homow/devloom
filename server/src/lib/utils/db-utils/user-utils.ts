@@ -1,7 +1,6 @@
 import {UserModel} from "@src/models/User.model.js";
 import {BanUserModel} from "@models/BanUser.model.js";
-import {userAggregate} from "@src/aggregations/user.js";
-import mongoose from "mongoose";
+import {createPipelineStage, userProjectStage} from "@src/aggregations/index.js";
 
 interface CheckUserDBParams {
     id?: string;
@@ -18,22 +17,17 @@ export async function checkUserDB(
 ) {
     if (!email && !id) return null;
 
-    const aggregate = userAggregate([
-        {
-            _id: id && new mongoose.Types.ObjectId(id)
-        },
+    const aggregate = createPipelineStage({filter: [
+        {_id: id},
         {email}
-    ], useAnd);
+    ], useAnd, stage: userProjectStage});
 
-    const user = await UserModel
-        .aggregate(aggregate);
+    const user = await UserModel.aggregate(aggregate);
     return user[0] || null;
 }
 
 export async function checkBannedUser(email: string, message?: string) {
-    const userBanned = await BanUserModel
-        .findOne({email})
-        .lean();
+    const userBanned = await BanUserModel.findOne({email}).lean();
 
     if (!userBanned) return null;
 
@@ -42,8 +36,9 @@ export async function checkBannedUser(email: string, message?: string) {
         data: {
             ok: false,
             message: message ||
-                "This user is banned. Please contact support if you think this is a mistake.",
-            email
+                "Access denied: Your account is banned. Contact support for assistance.",
+            email,
+            code: "BANNED_EMAIL"
         },
     };
 }

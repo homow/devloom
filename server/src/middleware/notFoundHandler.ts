@@ -1,11 +1,12 @@
 import type {Request, Response} from "express";
 
-export default function notFoundHandler(
+export function notFoundHandler(
     _req: Request,
     res: Response,
 ) {
     return res.status(404).json({
         ok: false,
-        message: "Not Found",
+        message: "Not Found endpoint and method",
+        code: "METHOD_AND_ENDPOINT_NOT_FOUND",
     });
-};
+}

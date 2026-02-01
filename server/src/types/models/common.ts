@@ -4,3 +4,9 @@ export interface BaseDB {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export interface SafeBaseDB {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+}

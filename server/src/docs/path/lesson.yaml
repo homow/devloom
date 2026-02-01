@@ -1,0 +1,136 @@
+lesson:
+  get:
+    security: [ ]
+    operationId: "getOneLesson"
+    summary: "get lesson"
+    description: "get one lesson with id"
+    tags:
+      - "Lesson"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "get lesson successfully"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "lesson successfully found"
+              lesson:
+                id: "6978e02bf8bd444db971ea7b"
+                createdAt: "2026-01-27T15:56:27.060Z"
+                updatedAt: "2026-01-27T15:56:27.060Z"
+                title: "Linux info"
+                free: true
+                time: "10:20"
+                video: "linux_info.mp4"
+                course:
+                  id: "696a28dd3791130b18302457"
+                  createdAt: "2026-01-16T12:02:37.054Z"
+                  updatedAt: "2026-01-16T12:02:37.054Z"
+                  title: "linux Expert Course"
+                  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ad vel dolores beatae eligendi pariatur accusantium esse laborum neque dignissimos!"
+                  price: 1000000
+                  cover: "1768564957042_79.png"
+                  support: "telegram and site"
+                  href: "linux-ex"
+                  discount: 10
+                  teacher:
+                    id: "695d0baeedf79cffd1f839ad"
+                    createdAt: "2026-01-06T13:18:38.576Z"
+                    updatedAt: "2026-01-07T12:18:22.832Z"
+                    name: "Cecilia"
+                    email: "garrick_ebert51@yahoo.com"
+                    role: "ADMIN"
+                  category:
+                    id: "69637c4dac866fb23cac7b2a"
+                    createdAt: "2026-01-11T10:32:45.831Z"
+                    updatedAt: "2026-01-11T10:32:45.831Z"
+                    status: "IN_PROGRESS"
+                    title: "back-end"
+                    href: "backend"
+
+      400:
+        description: "invalid id"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "ID is invalid."
+              code: "ID_OBJECT_INVALID"
+
+      404:
+        description: "lesson not found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "lesson not found"
+              code: "NOT_EXIST_LESSON"
+
+  delete:
+    operationId: "deleteOneLesson"
+    summary: "delete lesson"
+    description: "delete one lesson with id **Access restricted to users with role: (ADMIN | SUPER_ADMIN) only.**"
+    tags:
+      - "Lesson"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      # success
+      200:
+        description: "lesson successfully deleted"
+        content:
+          application/json:
+            example:
+              ok: true
+              message: "lesson successfully deleted"
+
+      # invalid id
+      400:
+        description: "Bad Request - invalid id"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "lesson ID is invalid."
+              code: "LESSON_ID_OBJECT_INVALID"
+
+      # missed accessToken
+      401:
+        description: "Unauthorized - missed access token"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "Access token is required"
+              code: "ACCESS_TOKEN_MISSING"
+
+      # not allowed
+      403:
+        description: "Forbidden - error for role"
+        content:
+          application/json:
+            example:
+              ok: false
+              code: "ACCESS_DENIED"
+              message: "Your role (USER) is not allowed to access a route requiring ADMIN (equal or higher)."
+
+      # lesson not found
+      404:
+        description: "lesson not found"
+        content:
+          application/json:
+            example:
+              ok: false
+              message: "lesson not found."
+              code: "LESSON_NOT_FOUND"

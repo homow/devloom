@@ -1,4 +1,5 @@
 export * from "./crypto.js";
+export * from "./route.js";
 export * from "./tokens.js";
 export * from "./validate.js";
 export * from "./db-utils/index.js";

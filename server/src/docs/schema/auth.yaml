@@ -1,0 +1,121 @@
+# Request body and response for user signup
+SignupRequest:
+  type: object
+  properties:
+    name:
+      type: string
+      minLength: 3
+      maxLength: 20
+      description: "name must be at least 3 characters and less than 20 characters"
+    email:
+      type: string
+      format: email
+    password:
+      type: string
+      minLength: 6
+      pattern: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$'
+      description: "password must be at least 6 characters and contain at least one letter and one number"
+
+  required:
+    - email
+    - password
+
+  example:
+    name: "john"
+    email: "john@mail.co"
+    password: "123qwe"
+
+# Request body and response for user login
+LoginRequest:
+  type: object
+  description: "User login request payload"
+  properties:
+    remember:
+      type: boolean
+      description: "Keep user logged in (remember me)"
+
+    email:
+      type: string
+      format: email
+      description: "User email address"
+
+    password:
+      type: string
+      format: password
+      minLength: 6
+      pattern: '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$'
+      description: "Password must contain at least one letter and one number"
+
+  required:
+    - email
+    - password
+
+  example:
+    remember: true
+    email: "john@mail.co"
+    password: "123qwe"
+
+# get user request body
+GetUserRequest:
+  type: object
+  description: "Get one User"
+  properties:
+    id:
+      type: string
+      format: ObjectId
+      description: "User MongoDB ObjectId"
+
+    email:
+      type: string
+      format: email
+      description: "User email address"
+
+  minProperties: 1
+
+  oneOf:
+    - required: [ "id" ]
+    - required: [ "email" ]
+
+  example:
+    id: "695d58f71e66bde9eb688a20"
+    email: "john@mail.co"
+
+# update user request body
+UpdateUserRequest:
+  type: object
+  description: "Update user details."
+  properties:
+    name:
+      type: string
+      minLength: 3
+    password:
+      type: string
+      minLength: 6
+      pattern: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$'
+      description: "required, at least 6 chars, must contain at least one letter and one number"
+
+  minProperties: 1
+
+  anyOf:
+    - required: [ name ]
+    - required: [ password ]
+
+  example:
+    name: "Eliot"
+    password: "qwe123@h#4"
+
+ChangeUserRole:
+  type: object
+  description: "change user role"
+  properties:
+    role:
+      type: string
+      enum:
+        - "ADMIN"
+        - "USER"
+      description: "The role of the user. Must be one of: 'ADMIN' or 'USER'."
+  required:
+    - role
+
+  example:
+    role: "ADMIN"

@@ -1,26 +1,28 @@
-import {isAllowedToAction} from "@utils/auth.js";
 import type {NextFunction, Response} from "express";
 import {type AuthRequest, UserRole} from "@src/types/index.js";
+import {type Comparison, isAllowedToAction} from "@utils/auth.js";
 
-interface Params {
+interface CheckRoleParams {
     requiredRole: UserRole;
-    comparison?: "equal" | "higher";
+    comparison?: Comparison;
     message?: string;
 }
 
-export default function checkRole(
+export function checkRole(
     {
         requiredRole,
         comparison = "equal",
-        message
-    }: Params
+        message,
+    }: CheckRoleParams
 ) {
     return (
         req: AuthRequest,
         res: Response,
         next: NextFunction
     ) => {
-        if (!req.userPayload) {
+        const userPayload = req.userPayload;
+
+        if (!userPayload) {
             return res.status(401).json({
                 ok: false,
                 code: "UNAUTHORIZED",
@@ -28,23 +30,22 @@ export default function checkRole(
             });
         }
 
-        const userRole = req.userPayload.role as UserRole;
+        const userRole: UserRole = userPayload.role;
 
         const isAllowed: boolean = isAllowedToAction({
             actionRole: userRole,
             targetRole: requiredRole,
-            roleComparison: "equal"
+            roleComparison: comparison
         });
 
         if (!isAllowed) {
             return res.status(403).json({
                 ok: false,
                 code: "ACCESS_DENIED",
-                message: message ||
-                    `Your role (${userRole}) is not allowed to access a route requiring ${requiredRole} (${comparison}).`,
+                message: message || `Your role (${userRole}) is not allowed to access a route requiring ${requiredRole} (${comparison === "equal" ? "equal or higher" : comparison}).`,
             });
         }
 
         return next();
     };
-};
+}

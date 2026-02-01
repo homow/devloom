@@ -1,67 +1,104 @@
-import {
-    banUserController,
-    deleteUserController,
-    getUsersController,
-    loginController,
-    signUpController
-} from "@controllers/v1/index.js";
 import express from 'express';
 import {UserRole} from "@src/types/index.js";
-import checkRole from "@middleware/checkRole.js";
-import checkBanned from "@middleware/checkBanned.js";
-import checkAccessToken from "@middleware/checkAccessToken.js";
-import {validateRequestBody} from "@middleware/validateRequestBody.js";
-import {BaseUserSchema, LoginSchema, UserSchema} from "@validators/user.js";
+import * as validator from "@validators/index.js";
+import * as middleware from "@middleware/index.js";
+import type {IgnoredRoutesKeys} from "@utils/route.js";
+import * as authController from "@controllers/v1/auth/index.js";
+
+/** ignore routes */
+const ignoreRoutes: IgnoredRoutesKeys[] = [
+    {method: "POST", path: "/auth/refresh"},
+    {method: "POST", path: "/auth/login"},
+    {method: "POST", path: "/auth/logout"},
+    {method: "POST", path: "/auth/signup"},
+];
 
 const authRouter = express.Router();
 
+/** global middlewares */
+authRouter.use(middleware.checkAccessToken(ignoreRoutes), middleware.checkBanned(ignoreRoutes));
+
+/** create new user(Signup) */
 authRouter
     .route("/signup")
     .post(
-        validateRequestBody(UserSchema),
-        checkBanned(),
-        signUpController
+        middleware.validateRequestBody(validator.UserSchema),
+        middleware.checkBannedInBody("You cannot sign up because this email is banned. Please contact support if you believe this is an error."),
+        authController.signUp
     );
 
+/** login user */
 authRouter
     .route("/login")
     .post(
-        validateRequestBody(LoginSchema),
-        checkBanned(),
-        loginController
+        middleware.validateRequestBody(validator.LoginSchema),
+        middleware.checkBannedInBody("This account is banned. Login is not allowed. Please contact support if you think this is a mistake."),
+        authController.login
     );
 
+/** get safe-information user */
 authRouter
-    .route("/banUser")
+    .route("/getMe")
+    .get(authController.getMe);
+
+/** logout */
+authRouter
+    .route("/logout")
+    .post(authController.logout);
+
+/** refresh accessToken */
+authRouter
+    .route("/refresh")
+    .post(authController.refresh);
+
+/** banned user */
+authRouter
+    .route("/ban")
     .post(
-        checkAccessToken,
-        checkRole({requiredRole: UserRole.ADMIN}),
-        validateRequestBody(BaseUserSchema),
-        checkBanned("The user is currently banned."),
-        banUserController
+        middleware.checkRole({requiredRole: UserRole.ADMIN}),
+        middleware.validateRequestBody(validator.BaseUserSchema),
+        middleware.checkBannedInBody("The user is currently banned."),
+        authController.ban
     );
 
+/** get all users */
 authRouter
     .route("/users")
     .get(
-        checkAccessToken,
-        checkRole({requiredRole: UserRole.ADMIN}),
-        getUsersController
+        middleware.checkRole({requiredRole: UserRole.ADMIN}),
+        authController.get
     );
 
+/**
+ * 1. get one user
+ * 2. delete one user
+ * 3. update information user
+ */
 authRouter
     .route("/user")
     .get(
-        checkAccessToken,
-        checkRole({requiredRole: UserRole.ADMIN}),
-        validateRequestBody(BaseUserSchema),
-        getUsersController
+        middleware.checkRole({requiredRole: UserRole.ADMIN}),
+        middleware.validateRequestBody(validator.BaseUserSchema),
+        authController.get
     )
     .delete(
-        checkAccessToken,
-        checkRole({requiredRole: UserRole.ADMIN}),
-        validateRequestBody(BaseUserSchema),
-        deleteUserController
+        middleware.checkRole({requiredRole: UserRole.ADMIN}),
+        middleware.validateRequestBody(validator.BaseUserSchema),
+        authController.deleteUser
+    )
+    .patch(
+        middleware.validateRequestBody(validator.UpdateUserSchema),
+        authController.update
+    );
+
+/** update user role */
+authRouter
+    .route("/user/:id/role")
+    .patch(
+        middleware.checkRole({requiredRole: UserRole.ADMIN, comparison: "higher"}),
+        middleware.isValidParamId("user"),
+        middleware.validateRequestBody(validator.ChangeRoleSchema),
+        authController.changeRole
     );
 
 export {authRouter};

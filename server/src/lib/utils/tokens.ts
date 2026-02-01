@@ -1,5 +1,13 @@
+import type {StringValue} from "ms";
 import type {CookieOptions} from "express";
 import {generateToken} from "@utils/crypto.js";
+
+/** generate refresh token time with remember flag */
+export function generateTokenTime(remember?: boolean): Date {
+    return remember
+        ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7d
+        : new Date(Date.now() + 6 * 60 * 60 * 1000);     // 6h
+}
 
 interface BaseParms {
     payload: Record<string, unknown>;
@@ -17,35 +25,34 @@ interface TokenParamsAccess extends BaseParms {
 
 type TokenParams = TokenParamsRefresh | TokenParamsAccess;
 
-export function createTokenAndOptions(params: TokenParams) {
+/** create refresh or access token and options */
+export function createTokenAndOptions(
+    params: TokenParams
+) {
     const {tokenType, payload} = params;
 
     const isRefresh: boolean = tokenType === "refresh";
 
-    const remember: boolean | undefined =
-        isRefresh
-            ? params.remember
-            : false;
+    const remember: boolean | undefined = isRefresh ? params.remember : false;
 
-    const expiresIn: "7d" | "24h" | "1h" = isRefresh
+    const expiresIn: StringValue | number = isRefresh
         ? remember
-            ? "7d"
-            : "24h"
+            ? "7d" : "6h"
         : "1h";
 
-    const maxAge: number = isRefresh
+    const maxAge: number | undefined = isRefresh
         ? remember
             ? 1000 * 60 * 60 * 24 * 7
-            : 1000 * 60 * 60 * 24
+            : undefined
         : 1000 * 60 * 60;
 
-    const token: string = generateToken(payload, expiresIn);
+    const token: string = generateToken({...payload, timestamp: Date.now()}, expiresIn);
 
     const options: CookieOptions = {
-        httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        httpOnly: isRefresh,
         signed: isRefresh,
+        sameSite: "lax",
         path: "/",
         maxAge,
     };

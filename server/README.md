@@ -7,7 +7,7 @@ Built with **TypeScript + Express + MongoDB + Zod**, focusing on clarity, struct
 
 ## 🚀 Features
 
-- Course management (create, update, list, delete)
+- Course management (create, update, list, deleteUser)
 - User system ready for authentication (JWT-ready)
 - Modular folder structure for clean architecture
 - Type-safe development with TypeScript
@@ -54,15 +54,58 @@ Built with **TypeScript + Express + MongoDB + Zod**, focusing on clarity, struct
    BASE_URL="/api/v1"
    MONGODB_NAME="devloom"
    MONGO_URI="mongodb://localhost:27017/devloom"
-   PORT="3000
+   PORT="3000"
    JWT_SECRET="your_secret_key"
    ```
 
-4. Run the project:
+4. Run the project in development mode:
 
    ```bash
    npm run dev
    ```
+
+---
+
+## 🏗️ Build (Production)
+
+To compile the TypeScript source code into JavaScript:
+
+```bash
+npm run build
+```
+
+This will generate the `dist/` folder containing the production‑ready code.
+
+---
+
+## 🚀 Start (Production)
+
+After building the project, run the compiled server:
+
+```bash
+npm start
+```
+
+Or directly:
+
+```bash
+node dist/server.js
+```
+
+---
+
+## 🔐 Security Note: Script Folder Access
+
+The `src/scripts` directory contains development‑only utilities such as database seeders (e.g., the **super‑admin creation script**).  
+These scripts are **not part of the production runtime** and must **not** be executable in deployed environments.
+
+### ✔️ Recommended Production Setup
+
+- **Do not grant execution permission** to the `scripts` folder on production servers
+- Or **exclude the folder entirely** during deployment (CI/CD or Docker build)
+- Ensure that only trusted developers can run these scripts locally
+
+This prevents accidental or unauthorized execution of sensitive operations such as creating privileged users.
 
 ---
 

@@ -1,3 +1,4 @@
+import {createHash} from 'crypto';
 import type {StringValue} from "ms";
 import {hash, compare} from "bcrypt";
 import jwt, {type JwtPayload, type SignOptions} from "jsonwebtoken";
@@ -14,6 +15,10 @@ async function compareSecret(
     hashed: string
 ): Promise<boolean> {
     return await compare(value, hashed);
+}
+
+function hashSecretToken(value: string): string {
+    return createHash('sha256').update(value).digest('hex');
 }
 
 function generateToken(
@@ -51,16 +56,10 @@ function verifyToken(
     }
 }
 
-function decodeToken(
-    token: string
-): string | JwtPayload | null {
-    return jwt.decode(token);
-}
-
 export {
     generateToken,
     hashSecret,
     compareSecret,
     verifyToken,
-    decodeToken,
+    hashSecretToken,
 };
