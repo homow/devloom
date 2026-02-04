@@ -39,7 +39,7 @@ Built with **TypeScript + Express + MongoDB + Zod**, focusing on clarity, struct
 1. Clone the project:
 
    ```bash
-   git clone https://github.com/username/devloom.git
+   git clone https://github.com/homow/devloom.git
    ```
 
 2. Install dependencies:
