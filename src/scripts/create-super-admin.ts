@@ -7,7 +7,7 @@ import {UserSchema} from "@validators/user.js";
 import {UserModel} from "@models/User.model.js";
 import {UserRole} from "@src/types/models/auth.js";
 
-dotenv.config({path: "../.env", quiet: true});
+dotenv.config({path: ".env", quiet: true});
 const prompt = promptSync();
 
 /** get prompt and validate in zod */
